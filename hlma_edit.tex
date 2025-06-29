@@ -1,0 +1,237 @@
+\documentclass[12pt]{article}
+
+% Including essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+\usepackage{authblk}
+\usepackage{abstract}
+\usepackage{natbib}
+\usepackage{tocloft}
+\usepackage{lipsum} % For dummy text, remove in actual use
+
+% Configuring fonts (loaded last as per guidelines)
+\usepackage{mathptmx} % Times-compatible math font
+\usepackage{array}
+
+% Beginning the document
+\begin{document}
+
+% Creating the title page
+\begin{center}
+    \huge \textbf{From Projection to Perception: \\ A Mathematical Exploration of \\ Shadow-based Neural Reconstruction} \\[1.5cm]
+    \normalsize
+    \textbf{A research report submitted to the Scientific Committee of the \\ Hang Lung Mathematics Award} \\[1.5cm]
+    \textbf{Team Number} \\[0.1cm]
+    2596873 \\[0.5cm]
+    \textbf{Team Member} \\[0.1cm]
+    Wong Yuk To, Hung Kwong Lam, \\[0.1cm]
+    Cheung Tsz Lung, Chan Ngo Tin, Zhou Lam Ho \\[0.5cm]
+    \textbf{Teacher} \\[0.1cm]
+    Mr. Chan Ping Ho \\[0.5cm]
+    \textbf{School} \\[0.1cm]
+    Po Leung Kuk Celine Ho Yam Tong College\\[0.5cm]
+    \textbf{Date} \\[0.1cm]
+    \today \\[2 cm]
+\end{center}
+
+% Adding the abstract
+\begin{abstract}
+    Reconstructing geometry in $\mathbb{R}^3$ from single-view images in $\mathbb{R}^2$ is an ill-posed inverse problem due to depth and occlusion ambiguities. 
+    This paper will explore ShadowNeuS, a published solution that uses neural Signed Distance Functions (SDFs) and ray tracing with shadow cues from multiple lightings to recover 3D shapes from a single view. 
+    We also explore how neural networks reconstruct higher-diemnsional objects from their projections in lower-dimensions. By generalizing these ideas, we propose a framework for 
+\end{abstract}
+
+% Adding the table of contents
+\newpage
+\tableofcontents
+
+% Starting the main content
+\newpage
+\section{Introduction}
+
+
+
+
+
+
+\section*{References}
+\begin{tabular}{@{}p{0.1\textwidth} p{0.9\textwidth}}
+{[LWX23]} & Jingwang Ling, Zhibo Wang, Feng Xu. \textit{ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}. arXiv: \href{https://arxiv.org/abs/2211.14086}{2211.14086}, 2023.
+\end{tabular}
+
+\end{document}
+
+% % Defining the document structure
+% \documentclass{article}
+% \usepackage{amsmath, amssymb}
+% \usepackage{geometry}
+% \geometry{a4paper, margin=1in}
+% % Including necessary font package
+% \usepackage{noto}
+
+% \begin{document}
+
+% \section{Introduction}
+
+% % Motivation for 3D reconstruction
+% Reconstructing three-dimensional (3D) objects from two-dimensional (2D) images is a fundamental challenge in fields such as computer vision, robotics, and graphics, with applications ranging from autonomous navigation to cultural heritage preservation. The motivation lies in recovering the spatial structure of objects or scenes from images captured by cameras, which inherently project the 3D world onto a 2D plane, losing critical depth information. For instance, in medical imaging, reconstructing a 3D model of an organ from X-ray images enables precise diagnosis, while in archaeology, 3D models of artifacts from photographs aid in digital preservation. This process, however, is mathematically complex because a single 2D image collapses all points along a camera ray to a single pixel, making it impossible to uniquely determine the original 3D coordinates without additional information. Our research aims to formalize this process, understand its limitations, and explore how additional constraints, such as those used in neural models like ShadowNeuS, can address these challenges.
+
+% % Framing as an inverse problem
+% Mathematically, reconstructing a 3D object from a 2D image is an inverse problem. Given a 2D image point, we seek the 3D point that projects to it under a camera model. This is the inverse of the forward projection, which maps a 3D point to a 2D pixel using the camera's position and orientation. The forward projection is well-defined, as it involves a clear geometric transformation, but the inverse problem is ill-posed due to the loss of depth information in the projection process. Our objective is to develop a precise mathematical framework for the forward projection, using minimal variables, and to analyze why the inverse problem is inherently ambiguous, setting the stage for advanced reconstruction techniques.
+
+% % Forward projection pipeline
+% \subsection{Forward Projection: From 3D to 2D}
+
+% % Defining the variables
+% We formalize the perspective projection, which maps a 3D world point \(\mathbf{P} = [X, Y, Z]^T \in \mathbb{R}^3\) to a 2D image point \(\mathbf{p} = [x, y]^T \in \mathbb{R}^2\), using a pinhole camera model defined by three essential variables:
+% \begin{itemize}
+%     \item \(\mathbf{C} = [C_x, C_y, C_z]^T \in \mathbb{R}^3\): The camera center, specifying its position.
+%     \item \(\mathbf{N} = [n_i, n_j, n_k]^T \in \mathbb{R}^3\): The camera normal vector, defining the optical axis, with \(\|\mathbf{N}\| = 1\).
+%     \item \(\mathbf{P} = [X, Y, Z]^T \in \mathbb{R}^3\): The 3D point to be projected.
+% \end{itemize}
+% All camera parameters are derived from \(\mathbf{C}\), \(\mathbf{N}\), and \(\mathbf{P}\) to construct a single projection matrix.
+
+% % Camera parameters
+% \subsubsection*{Camera Parameters}
+
+% % Extrinsic parameters
+% \textbf{Extrinsics (world-to-camera transformation):}
+% \begin{itemize}
+%     \item \emph{Camera center}: \(\mathbf{C} \in \mathbb{R}^3\).
+%     \item \emph{Rotation matrix}: \(R \in SO(3)\), aligning the world so the camera’s z-axis matches \(\mathbf{N}\).
+%     \item \emph{Translation vector}: \(\mathbf{t} = -R \mathbf{C}\).
+% \end{itemize}
+
+% % Intrinsic parameters
+% \textbf{Intrinsics (projection to image plane):}
+% We use a simplified intrinsic matrix:
+% \[
+% K = \begin{bmatrix}
+% f & 0 & 0 \\
+% 0 & f & 0 \\
+% 0 & 0 & 1
+% \end{bmatrix} \in \mathbb{R}^{3 \times 3},
+% \]
+% where \(f\) is the focal length (e.g., \(f = 1\)).
+
+% % Projection pipeline
+% \subsubsection*{Projection Pipeline}
+
+% The projection is:
+% \[
+% \mathbf{p}_h \sim K [R \mid \mathbf{t}] \begin{bmatrix} \mathbf{P} \\ 1 \end{bmatrix},
+% \]
+% where \(\mathbf{P}_h = [X, Y, Z, 1]^T\), \(\mathbf{p}_h = [x', y', z']^T\), and \(P = K [R \mid \mathbf{t}] \in \mathbb{R}^{3 \times 4}\). The steps are:
+
+% % Step 1: World to camera coordinates
+% \textbf{1. World to Camera Coordinates:}
+% Translate to place \(\mathbf{C}\) at the origin:
+% \[
+% \mathbf{P}' = \mathbf{P} - \mathbf{C}.
+% \]
+% Rotate to align \(\mathbf{N}\) with \([0, 0, 1]^T\). Express \(\mathbf{N}\) in spherical coordinates:
+% \[
+% \mathbf{N} = \begin{bmatrix}
+% \sin\theta \cos\phi \\
+% \sin\theta \sin\phi \\
+% \cos\theta
+% \end{bmatrix}, \quad \theta = \arccos(n_k), \quad \phi = \arctan2(n_j, n_i).
+% \]
+% The rotation matrix is:
+% \[
+% R = R_z(-\phi) R_y(-\theta) = \begin{bmatrix}
+% \cos\phi \cos\theta & \sin\phi & -\cos\phi \sin\theta \\
+% -\sin\phi \cos\theta & \cos\phi & \sin\phi \sin\theta \\
+% \sin\theta & 0 & \cos\theta
+% \end{bmatrix},
+% \]
+% where:
+% \[
+% R_z(-\phi) = \begin{bmatrix}
+% \cos\phi & \sin\phi & 0 \\
+% -\sin\phi & \cos\phi & 0 \\
+% 0 & 0 & 1
+% \end{bmatrix}, \quad R_y(-\theta) = \begin{bmatrix}
+% \cos\theta & 0 & -\sin\theta \\
+% 0 & 1 & 0 \\
+% \sin\theta & 0 & \cos\theta
+% \end{bmatrix}.
+% \]
+% The translation is:
+% \[
+% \mathbf{t} = -R \begin{bmatrix} C_x \\ C_y \\ C_z \end{bmatrix}.
+% \]
+% The camera coordinates are:
+% \[
+% \mathbf{P}_c = R (\mathbf{P} - \mathbf{C}).
+% \]
+
+% % Step 2: Perspective projection
+% \textbf{2. Apply Perspective Projection:}
+% \[
+% \mathbf{p}_h = K \mathbf{P}_c = \begin{bmatrix} x' \\ y' \\ z' \end{bmatrix}.
+% \]
+
+% % Step 3: Normalization
+% \textbf{3. Normalize to 2D Pixel Coordinates:}
+% \[
+% \mathbf{p} = \begin{bmatrix} x'/z' \\ y'/z' \end{bmatrix}.
+% \]
+% The projection matrix is:
+% \[
+% P = \begin{bmatrix}
+% f \cos\phi \cos\theta & f \sin\phi & -f \cos\phi \sin\theta & f t_x \\
+% -f \sin\phi \cos\theta & f \cos\phi & f \sin\phi \sin\theta & f t_y \\
+% \sin\theta & 0 & \cos\theta & t_z
+% \end{bmatrix}.
+% \]
+
+% % Missing information and ill-posedness
+% \subsection{The Inverse Problem and Its Challenges}
+
+% % Inverse problem
+% The inverse problem seeks to recover \(\mathbf{P}\) from \(\mathbf{p}\). The image point \(\mathbf{p}_h = [x, y, 1]^T\) defines a ray:
+% \[
+% \mathbf{P}(\lambda) = \mathbf{C} + \lambda R^T K^{-1} \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}, \quad \lambda > 0.
+% \]
+% With:
+% \[
+% K^{-1} = \begin{bmatrix}
+% 1/f & 0 & 0 \\
+% 0 & 1/f & 0 \\
+% 0 & 0 & 1
+% \end{bmatrix}, \quad R^T = \begin{bmatrix}
+% \cos\phi \cos\theta & -\sin\phi \cos\theta & \sin\theta \\
+% \sin\phi & \cos\phi & 0 \\
+% -\cos\phi \sin\theta & \sin\phi \sin\theta & \cos\theta
+% \end{bmatrix},
+% \]
+% the ray direction is computed accordingly, but \(\lambda\) remains unknown.
+
+% % Ill-posedness
+% \subsubsection*{Missing Information: Why the Inverse Problem Is Ill-Posed}
+
+% The inverse problem is ill-posed due to missing depth information:
+% \begin{enumerate}
+%     \item \emph{Depth Ambiguity}: The perspective division (\(x'/z'\), \(y'/z'\)) discards depth, making \(\lambda\) undetermined. Each \(\mathbf{p}\) corresponds to a ray from \(\mathbf{C}\) along a direction defined by \(\mathbf{N}\).
+%     \item \emph{Non-Uniqueness}: Different 3D configurations can produce the same \(\mathbf{p}\), especially under varying lighting or occlusions.
+%     \item \emph{Underdetermined System}: The 2D coordinates \(\mathbf{p}\) provide two constraints, but \(\mathbf{P}\) has three unknowns.
+% \end{enumerate}
+% Additional constraints (e.g., multi-view images or neural priors like ShadowNeuS) are needed for reconstruction.
+
+% % Conclusion of the section
+% \subsection{Conclusion}
+
+% This section introduced the problem of 3D reconstruction from 2D images, framed as an inverse problem. We formalized the forward projection using \(\mathbf{C}\), \(\mathbf{N}\), and \(\mathbf{P}\), and identified the missing depth information as the core challenge. Subsequent sections will explore methods to address this ill-posedness.
+
+% \end{document}
