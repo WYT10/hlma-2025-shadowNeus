@@ -1,0 +1,81 @@
+\documentclass[12pt]{article}
+
+% Essential packages for encoding, math, and formatting
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm, mathtools} % Enhanced math support
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+\usepackage{microtype} % Improved typography, prevents hyphenation issues
+\usepackage{tocloft} % Table of contents customization
+\usepackage{abstract} % For abstract environment
+\usepackage{setspace} % For line spacing control
+\usepackage{mathptmx} % Times-compatible math font (loaded last)
+
+% Prevent hyphenation for specific words
+\hyphenation{ShadowNeuS}
+
+% Customize table of contents
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforesecskip}{0.5em}
+
+% Define theorem environments for mathematical content
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+
+\begin{document}
+
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    {\huge \textbf{From Projection to Perception: A Mathematical Exploration of Shadow-based Neural Reconstruction}\par}
+    \vspace{1.5cm}
+    {\normalsize
+    A research report submitted to the Scientific Committee of the Hang Lung Mathematics Award\par}
+    \vspace{1cm}
+    {\normalsize \textbf{Team Number}\par 2596873\par}
+    \vspace{0.5cm}
+    {\normalsize \textbf{Team Members}\par Wong Yuk To, Hung Kwong Lam, Cheung Tsz Lung, Chan Ngo Tin, Zhou Lam Ho\par}
+    \vspace{0.5cm}
+    {\normalsize \textbf{Teacher}\par Mr. Chan Ping Ho\par}
+    \vspace{0.5cm}
+    {\normalsize \textbf{School}\par Po Leung Kuk Celine Ho Yam Tong College\par}
+    \vspace{0.5cm}
+    {\normalsize \textbf{Date}\par \today\par}
+    \vspace{2cm}
+
+% Abstract
+\begin{abstract}
+\raggedright % Prevent hyphenation in abstract
+This paper explores ShadowNeuS [LWX23], a neural network that reconstructs 3D geometry from single-view camera images using shadow and light cues. Unlike traditional 3D reconstruction methods relying on multi-view cameras or sensors, ShadowNeuS leverages a neural signed distance field (SDF) for accurate 3D geometry reconstruction. Analysis of the training process reveals deep connections to projective geometry, spatial reasoning in $\mathbb{R}^3$, and the network's perception of three-dimensional space.
+\end{abstract}
+
+\end{titlepage}
+% Table of contents
+\tableofcontents
+\newpage
+
+% Main content
+\section{Introduction}
+% Placeholder for introduction content
+% Example mathematical content:
+% \begin{theorem}
+% Let \( f: \mathbb{R}^3 \to \mathbb{R} \) be a signed distance function defined for a surface \( S \). Then, the gradient \( \nabla f \) satisfies...
+% \end{theorem}
+
+% References (retaining original tabular method)
+\section*{References}
+\begin{tabular}{@{}p{0.1\textwidth} p{0.9\textwidth}}
+{[LWX23]} & Jingwang Ling, Zhibo Wang, Feng Xu. \textit{ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}. arXiv: \href{https://arxiv.org/abs/2211.14086}{2211.14086}, 2023.
+\end{tabular}
+
+\end{document}

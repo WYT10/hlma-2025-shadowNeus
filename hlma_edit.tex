@@ -1,9 +1,9 @@
 \documentclass[12pt]{article}
 
-% Including essential packages
+% Essential packages for encoding, math, and formatting
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{amsmath, amssymb, amsthm, mathtools} % Enhanced math support
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
 \usepackage{hyperref}
@@ -13,64 +13,132 @@
     citecolor=blue,
     urlcolor=blue
 }
-\usepackage{authblk}
-\usepackage{abstract}
-\usepackage{natbib}
-\usepackage{tocloft}
-\usepackage{lipsum} % For dummy text, remove in actual use
+\usepackage{microtype} % Improved typography, prevents hyphenation issues
+\usepackage{tocloft} % Table of contents customization
+\usepackage{abstract} % For abstract environment
+\usepackage{setspace} % For line spacing control
+\usepackage{mathptmx} % Times-compatible math font (loaded last)
 
-% Configuring fonts (loaded last as per guidelines)
-\usepackage{mathptmx} % Times-compatible math font
-\usepackage{array}
+% Prevent hyphenation for specific words
+\hyphenation{ShadowNeuS}
 
-% Beginning the document
+% Customize table of contents
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforesecskip}{0.5em}
+
+% Define theorem environments for mathematical content
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{corollary}{Corollary}[section]
+
 \begin{document}
 
-% Creating the title page
-\begin{center}
-    \huge \textbf{From Projection to Perception: \\ A Mathematical Exploration of \\ Shadow-based Neural Reconstruction} \\[1.5cm]
-    \normalsize
-    \textbf{A research report submitted to the Scientific Committee of the \\ Hang Lung Mathematics Award} \\[1.5cm]
-    \textbf{Team Number} \\[0.1cm]
-    2596873 \\[0.5cm]
-    \textbf{Team Member} \\[0.1cm]
-    Wong Yuk To, Hung Kwong Lam, \\[0.1cm]
-    Cheung Tsz Lung, Chan Ngo Tin, Zhou Lam Ho \\[0.5cm]
-    \textbf{Teacher} \\[0.1cm]
-    Mr. Chan Ping Ho \\[0.5cm]
-    \textbf{School} \\[0.1cm]
-    Po Leung Kuk Celine Ho Yam Tong College\\[0.5cm]
-    \textbf{Date} \\[0.1cm]
-    \today \\[2 cm]
-\end{center}
+% Title page
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    {\huge \textbf{From Projection to Perception: A Mathematical Exploration of Shadow-based Neural Reconstruction}\par}
+    \vspace{1.5cm}
+    {\normalsize
+    A research report submitted to the Scientific Committee of the Hang Lung Mathematics Award\par}
+    \vspace{1cm}
+    {\normalsize \textbf{Team Number}\par 2596873\par}
+    \vspace{0.5cm}
+    {\normalsize \textbf{Team Members}\par Wong Yuk To, Hung Kwong Lam \\ Cheung Tsz Lung, Chan Ngo Tin, Zhou Lam Ho\par}
+    \vspace{0.5cm}
+    {\normalsize \textbf{Teacher}\par Mr. Chan Ping Ho\par}
+    \vspace{0.5cm}
+    {\normalsize \textbf{School}\par Po Leung Kuk Celine Ho Yam Tong College\par}
+    \vspace{0.5cm}
+    {\normalsize \textbf{Date}\par \today\par}
+    \vspace{2cm}
 
-% Adding the abstract
+% Abstract
 \begin{abstract}
-    Reconstructing geometry in $\mathbb{R}^3$ from single-view images in $\mathbb{R}^2$ is an ill-posed inverse problem due to depth and occlusion ambiguities. 
-    This paper will explore ShadowNeuS, a published solution that uses neural Signed Distance Functions (SDFs) and ray tracing with shadow cues from multiple lightings to recover 3D shapes from a single view. 
-    We also explore how neural networks reconstruct higher-diemnsional objects from their projections in lower-dimensions. By generalizing these ideas, we propose a framework for 
+\raggedright % Prevent hyphenation in abstract
+This paper explores ShadowNeuS [LWX23], a neural network that reconstructs 3D geometry from single-view camera images using shadow and light cues. Unlike traditional 3D reconstruction methods relying on multi-view cameras or sensors, ShadowNeuS leverages a neural signed distance field (SDF) for accurate 3D geometry reconstruction. Analysis of the training process reveals deep connections to projective geometry, spatial reasoning in $\mathbb{R}^3$, and the network's perception of three-dimensional space.
 \end{abstract}
 
-% Adding the table of contents
-\newpage
+\end{titlepage}
+% Table of contents
 \tableofcontents
 
-% Starting the main content
 \newpage
-\section{Introduction}
+
+\section{Background}
+\subsection{What is 3D reconstruction from images?}
+
+The goal of 3D reconstruction is to recover the structure of a 3D scene using only 2D images.
+Consider a 3D scene represented by a set of points $P \in \mathbb{R}^3$, having coordinates $P(P_x,P_y,P_z)$.
+For each image taken of the 3D scene contains a set of pixel points $p \in \mathbb{R}^2$, having coordinates $p(p_x,p_y)$.
+The process of capturing a 3D point in a 2D image $I_n$ can be modeled as a projection function $\pi_n$
+\[
+\pi_n: \mathbb{R}^3 \to \mathbb{R}^2, \quad (P_x, P_y, P_z) \mapsto (p_x, p_y)
+\]
+This function represents how a camera maps a 3D point to 2D pixel in the $n$-th image.
+To reconstruct the 3D scene, we need to solve the inverse problem $\pi_n^{-1}$.
+\[
+\pi_n^{-1}(p) \to P
+\]
+However, this inverse problem is typically \textbf{ill-posed}, as multiple 3D points may project to the same 2D pixel, leading to ambiguity. We will detail in Section 1.4. 
+
+\subsection{Information Encoded in 2D Images}
+A 2D image $I_n: \mathbb{R}^2 \to [0,1]^3$ can provide multiple information, such as color and texture. 
+\\
+The information available from an image includes:
+\begin{itemize}
+    \item   \textbf{Pixel coordinates}: $p(p_x,p_y) \in \mathbb{R}^2$, represent the location of each pixel in the image
+    \item   \textbf{Color values}: $I_n(p) = [r,g,b] \in [0,1]^3$, represent the RGB color of each pixel in the image
+    \item   \textbf{Image gradient}: 
+                \[
+                \nabla I_n(p) = \left( \nabla r(p), \nabla g(p), \nabla b(p) \right) = \left( \left[ \frac{\partial r}{\partial p_x}, \frac{\partial r}{\partial p_y} \right]^\top, \left[ \frac{\partial g}{\partial p_x}, \frac{\partial g}{\partial p_y} \right]^\top, \left[ \frac{\partial b}{\partial p_x}, \frac{\partial b}{\partial p_y} \right]^\top \right) \in \mathbb{R}^6
+                \]
+            It captures local changes in intensity, indicating edges or texture information in the image
+    \item   \textbf{Learned features}: $\phi(I_n)(p) \in \mathbb{R}^m$, represent a high-dimensional features extracted from the image using methods like convolutional neural networks (CNNs) or other feature extracters
+\end{itemize}
+These data are result from projecting 3D structures through a camera. For example, the color $I_n(p)$ may correspond to the visible surface of a 3D object, while $\nabla I_n(p)$ may hint the edge of the shape of that 3D object, etc.
+
+\newpage
+
+\subsection{The Forward Projection: From 3D world to 2D Image}
+We now try to formalize the perspective projection process that projects a 3D point $P=[P_x,P_y,P_z]^T \in \mathbb{R}^3$ to a pixel point $p=[p_x,p_y]^T \in \mathbb{R}^2$ using the camera parameters:
+\begin{itemize}
+    \item \textbf{Extrinsic} (world-to-camera transformation)
+        \begin{itemize}
+            \item \textbf{Camera center}: $C(C_x, C_y, C_z) \in \mathbb{R}^3$, represent the position of the camera in the world coordinate.
+            \item \textbf{Rotation matrix}: $R = 
+                \begin{bmatrix}
+                    r_{11} & r_{12} & r_{13} \\
+                    r_{21} & r_{22} & r_{23} \\
+                    r_{31} & r_{32} & r_{33}
+                \end{bmatrix}
+                \in SO(3)$, represent a 3x3 matrix that rotate the world to align with the orientation of the camera.
+            \item \textbf{Translation vector}: $t = -RC \in \mathbb{R}^3$, represent the translate to set the camera center be the world origin.
+        \end{itemize}
+    \item \textbf{Intrinsic} (projection to image plane)
+        \begin{itemize}
+            \item \textbf{Intrinsic matrix}: 
+                \[
+                    K = \begin{bmatrix}
+                    f_x & 0 & c_x \\
+                    0 & f_y & c_y \\
+                    0 & 0 & 1
+                    \end{bmatrix} \in \mathbb{R}^{3 \times 3}
+                \]
+            where \(f_x, f_y\) are the focal lengths in (pixels) and \(c_x, c_y\) is the principal point (the pixel coordinate where the camera's lens is optically centered)
+        \end{itemize}
+\end{itemize}
+
+\textbf{Forward Projection Pipeline}
 
 
-
-
-
-
+\newpage
 \section*{References}
 \begin{tabular}{@{}p{0.1\textwidth} p{0.9\textwidth}}
 {[LWX23]} & Jingwang Ling, Zhibo Wang, Feng Xu. \textit{ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}. arXiv: \href{https://arxiv.org/abs/2211.14086}{2211.14086}, 2023.
 \end{tabular}
 
 \end{document}
-
 % % Defining the document structure
 % \documentclass{article}
 % \usepackage{amsmath, amssymb}
