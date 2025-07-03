@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.6)  4 JUL 2025 02:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.6)  4 JUL 2025 03:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -565,16 +565,21 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
                    \relax 
 l.66 \newpage
               [1]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 90.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 89.
  (C:\Users\wongy\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Overfull \hbox (4.75882pt too wide) detected at line 95
+Overfull \hbox (4.10843pt too wide) detected at line 94
 \OMS/ztmcm/m/n/12 r\OML/ztmcm/m/it/12 I[]\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 p\OT1/ztmcm/m/n/12 ) = [] = [] \OMS/ztmcm/m/n/12 2 \U/msb/m/n/12 R[]
  []
 
-[2] [3]
-Overfull \hbox (17.99998pt too wide) in paragraph at lines 137--140
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 143--144
+
+ []
+
+[3]
+Overfull \hbox (17.99998pt too wide) in paragraph at lines 152--155
 [] 
  []
 
@@ -587,17 +592,17 @@ Package rerunfilecheck Info: File `hlma_edit.out' has not changed.
 (rerunfilecheck)             Checksum: ACDA821F8A72BEF7275AF8D3EE4D5761;910.
  ) 
 Here is how much of TeX's memory you used:
- 13825 strings out of 474486
- 218634 string characters out of 5743756
- 1934542 words of memory out of 5000000
- 35703 multiletter control sequences out of 15000+600000
- 620282 words of font info for 224 fonts, out of 8000000 for 9000
+ 13854 strings out of 474486
+ 218956 string characters out of 5743756
+ 1942542 words of memory out of 5000000
+ 35709 multiletter control sequences out of 15000+600000
+ 624218 words of font info for 236 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 75i,8n,79p,1046b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,14n,79p,1046b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on hlma_edit.pdf (5 pages, 109589 bytes).
+Output written on hlma_edit.pdf (5 pages, 114418 bytes).
 PDF statistics:
- 102 PDF objects out of 1000 (max. 8388607)
- 10 named destinations out of 1000 (max. 500000)
- 68641 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 108 PDF objects out of 1000 (max. 8388607)
+ 15 named destinations out of 1000 (max. 500000)
+ 74785 words of extra memory for PDF output out of 89155 (max. 10000000)
 

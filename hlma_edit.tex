@@ -70,7 +70,7 @@ This paper explores ShadowNeuS [LWX23], a neural network that reconstructs 3D ge
 
 The goal of 3D reconstruction is to recover the structure of a 3D scene using only 2D images.
 Consider a 3D scene represented by a set of points $P \in \mathbb{R}^3$, having coordinates $P(P_x,P_y,P_z)$.
-For each image taken of the 3D scene contains a set of pixel points $p \in \mathbb{R}^2$, having coordinates $p(p_x,p_y)$.
+For each image taken for the 3D scene contains a set of pixel points $p \in \mathbb{R}^2$, having coordinates $p(p_x,p_y)$.
 The process of capturing a 3D point in a 2D image $I_n$ can be modeled as a projection function $\pi_n$
 \[
 \pi_n: \mathbb{R}^3 \to \mathbb{R}^2, \quad (P_x, P_y, P_z) \mapsto (p_x, p_y)
@@ -84,24 +84,24 @@ However, this inverse problem is typically \textbf{ill-posed}, as multiple 3D po
 
 \subsection{Information Encoded in 2D Images}
 A 2D image $I_n: \mathbb{R}^2 \to [0,1]^3$ can provide multiple information, such as color and texture. 
-\\
 The information available from an image includes:
 \begin{itemize}
     \item   \textbf{Pixel coordinates}: $p(p_x,p_y) \in \mathbb{R}^2$, represent the location of each pixel in the image
     \item   \textbf{Color values}: $I_n(p) = [r,g,b] \in [0,1]^3$, represent the RGB color of each pixel in the image
     \item   \textbf{Image gradient}: 
                 \[
-                \nabla I_n(p) = \left( \nabla r(p), \nabla g(p), \nabla b(p) \right) = \left( \left[ \frac{\partial r}{\partial p_x}, \frac{\partial r}{\partial p_y} \right]^\top, \left[ \frac{\partial g}{\partial p_x}, \frac{\partial g}{\partial p_y} \right]^\top, \left[ \frac{\partial b}{\partial p_x}, \frac{\partial b}{\partial p_y} \right]^\top \right) \in \mathbb{R}^6
+                \nabla I_n(p) = \left( \nabla r(p), \nabla g(p), \nabla b(p) \right) = \left( \underbrace{\left[ \frac{\partial r}{\partial p_x}, \frac{\partial r}{\partial p_y} \right]^\top}_{\text{red channel}}, \underbrace{\left[ \frac{\partial g}{\partial p_x}, \frac{\partial g}{\partial p_y} \right]^\top}_{\text{green channel}}, \underbrace{\left[ \frac{\partial b}{\partial p_x}, \frac{\partial b}{\partial p_y} \right]^\top}_{\text{blue channel}} \right) \in \mathbb{R}^6
                 \]
             It captures local changes in intensity, indicating edges or texture information in the image
-    \item   \textbf{Learned features}: $\phi(I_n)(p) \in \mathbb{R}^m$, represent a high-dimensional features extracted from the image using methods like convolutional neural networks (CNNs) or other feature extracters
+    \item   \textbf{Learned features}: $\phi(I_n)(p) \in \mathbb{R}^d$, represent a high-dimensional features extracted from the image using methods like convolutional neural networks (CNNs) or other feature extracters
 \end{itemize}
-These data are result from projecting 3D structures through a camera. For example, the color $I_n(p)$ may correspond to the visible surface of a 3D object, while $\nabla I_n(p)$ may hint the edge of the shape of that 3D object, etc.
+These data result from projecting 3D structures through a camera. For example, the color $I_n(p)$ may correspond to the visible surface of a 3D object, while $\nabla I_n(p)$ may hint the edge of the shape of that 3D object, etc.
 
 \newpage
 
 \subsection{The Forward Projection: From 3D world to 2D Image}
-We now try to formalize the perspective projection process that projects a 3D point $P=[P_x,P_y,P_z]^T \in \mathbb{R}^3$ to a pixel point $p=[p_x,p_y]^T \in \mathbb{R}^2$ using the camera parameters:
+We formalize the perspective projection process that projects a 3D point $P=[P_x,P_y,P_z]^T \in \mathbb{R}^3$ to a pixel point $p=[p_x,p_y]^T \in \mathbb{R}^2$ using the camera parameters.
+\subsubsection*{Camera parameters:}
 \begin{itemize}
     \item \textbf{Extrinsic} (world-to-camera transformation)
         \begin{itemize}
@@ -125,11 +125,26 @@ We now try to formalize the perspective projection process that projects a 3D po
                     0 & 0 & 1
                     \end{bmatrix} \in \mathbb{R}^{3 \times 3}
                 \]
-            where \(f_x, f_y\) are the focal lengths in (pixels) and \(c_x, c_y\) is the principal point (the pixel coordinate where the camera's lens is optically centered)
+            where \(f_x, f_y\) are the focal lengths in (pixels) and \(c_x, c_y\) is the principal point (the pixel coordinates where the camera's lens is optically centered)
         \end{itemize}
 \end{itemize}
 
-\textbf{Forward Projection Pipeline}
+\subsubsection*{Forward Projection Pipeline}
+\[
+P_{hom} = \begin{bmatrix} p_x' \\ p_y' \\ z' \end{bmatrix} = K[R|t]\begin{bmatrix} P \\ 1 \end{bmatrix} \quad \& \quad \begin{bmatrix} p_x \\ p_y \end{bmatrix} = \frac{1}{z'}\begin{bmatrix} p_x' \\ p_y' \end{bmatrix}, \qquad z' \neq 0
+\]
+$P_{hom}$ uses homogeneous coordinates that an extra coordinates is added to handle scaling. The process involves:
+\begin{enumerate}
+    \item \textbf{World to camera coordinate}: Transform $P(P_x,P_y,P_z)$ to camera coordinate
+    \[
+        P \to \underbrace{(P-C)}_{\text{set cemera to origin}} \to \underbrace{R(P-C)}_{\text{rotate the world for alignment}} = \underbrace{RP-RC = RP+t}_{\text{simplify}} =\underbrace{ [R|t]\begin{bmatrix} P \\ 1 \end{bmatrix}}_{\text{matrix operation}}
+    \]
+    \item \textbf{Perspective projection}: \(P_{hom} = K[R|t]\begin{bmatrix} P \\ 1 \end{bmatrix} = \begin{bmatrix} p_x' \\ p_y' \\ z' \end{bmatrix}\)
+    \item \textbf{Normalization}: Convert to 2D pixel coordinates by the scaling fator $z'$ \\
+    \[
+    \begin{bmatrix} p_x \\ p_y \end{bmatrix} = \frac{1}{z'}\begin{bmatrix} p_x' \\ p_y' \end{bmatrix}, \qquad z' \neq 0
+    \]
+\end{enumerate}
 
 
 \newpage
