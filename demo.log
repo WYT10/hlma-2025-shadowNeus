@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.6)  4 JUL 2025 22:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.6)  4 JUL 2025 22:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/wongy/Desktop/hlma_2025_shadow/hlma_edit.tex
-(c:/Users/wongy/Desktop/hlma_2025_shadow/hlma_edit.tex
+**c:/Users/wongy/Desktop/hlma_2025_shadow/demo.tex
+(c:/Users/wongy/Desktop/hlma_2025_shadow/demo.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 (C:\Users\wongy\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -388,8 +388,8 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count299
 \l__pdf_internal_box=\box55
-) (hlma_edit.aux)
-\openout1 = `hlma_edit.aux'.
+) (demo.aux)
+\openout1 = `demo.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
 LaTeX Font Info:    ... okay on input line 34.
@@ -485,9 +485,9 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 Package color Info: Driver file: pdftex.def on input line 149.
  (C:\Users\wongy\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx))
 Package hyperref Info: Link coloring ON on input line 34.
- (hlma_edit.out) (hlma_edit.out)
+ (demo.out) (demo.out)
 \@outlinefile=\write3
-\openout3 = `hlma_edit.out'.
+\openout3 = `demo.out'.
 
 LaTeX Info: Redefining \microtypecontext on input line 34.
 Package microtype Info: Applying patch `item' on input line 34.
@@ -548,7 +548,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 59.
  [1
 
-{C:/Users/wongy/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}] (hlma_edit.toc
+{C:/Users/wongy/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}] (demo.toc
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
@@ -557,7 +557,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1.
 )
 \tf@toc=\write4
-\openout4 = `hlma_edit.toc'.
+\openout4 = `demo.toc'.
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
@@ -579,30 +579,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 140--141
  []
 
 [3] [4]
-Overfull \hbox (17.99998pt too wide) in paragraph at lines 158--161
+Overfull \hbox (17.99998pt too wide) in paragraph at lines 165--168
 [] 
  []
 
-[5] (hlma_edit.aux)
+[5] (demo.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-Package rerunfilecheck Info: File `hlma_edit.out' has not changed.
+Package rerunfilecheck Info: File `demo.out' has not changed.
 (rerunfilecheck)             Checksum: 1F312CFD2FBE2B9CB151AB54A2BEBDB5;1221.
  ) 
 Here is how much of TeX's memory you used:
- 13855 strings out of 474486
- 218976 string characters out of 5743756
+ 13854 strings out of 474486
+ 218841 string characters out of 5743756
  1943542 words of memory out of 5000000
  35710 multiletter control sequences out of 15000+600000
  624025 words of font info for 233 fonts, out of 8000000 for 9000
  1142 hyphenation exceptions out of 8191
- 75i,14n,79p,1046b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,14n,79p,1041b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on hlma_edit.pdf (6 pages, 116306 bytes).
+Output written on demo.pdf (6 pages, 116154 bytes).
 PDF statistics:
- 120 PDF objects out of 1000 (max. 8388607)
- 19 named destinations out of 1000 (max. 500000)
+ 118 PDF objects out of 1000 (max. 8388607)
+ 18 named destinations out of 1000 (max. 500000)
  74793 words of extra memory for PDF output out of 89155 (max. 10000000)
 

@@ -83,11 +83,11 @@ To reconstruct the 3D scene, we need to solve the inverse problem $\pi_n^{-1}$.
 However, this inverse problem is typically \textbf{ill-posed}, as multiple 3D points may project to the same 2D pixel, leading to ambiguity. We will detail in Section 1.4. 
 
 \subsection{Information Encoded in 2D Images}
-A 2D image $I_n: \mathbb{R}^2 \to [0,1]^3$ can provide multiple information, such as color and texture. 
-The information available from an image includes:
+A 2D image $I_n$ can provide multiple information, such as color and texture. 
+\subsubsection*{The information available from an image includes:}
 \begin{itemize}
     \item   \textbf{Pixel coordinates}: $p(p_x,p_y) \in \mathbb{R}^2$, represent the location of each pixel in the image
-    \item   \textbf{Color values}: $I_n(p) = [r,g,b] \in [0,1]^3$, represent the RGB color of each pixel in the image
+    \item   \textbf{Color values}: $C_n(p) = [r,g,b] \in [0,1]^3$, represent the RGB color of each pixel in the image
     \item   \textbf{Image gradient}: 
                 \[
                 \nabla I_n(p) = \left( \nabla r(p), \nabla g(p), \nabla b(p) \right) = \left( \underbrace{\left[ \frac{\partial r}{\partial p_x}, \frac{\partial r}{\partial p_y} \right]^\top}_{\text{red channel}}, \underbrace{\left[ \frac{\partial g}{\partial p_x}, \frac{\partial g}{\partial p_y} \right]^\top}_{\text{green channel}}, \underbrace{\left[ \frac{\partial b}{\partial p_x}, \frac{\partial b}{\partial p_y} \right]^\top}_{\text{blue channel}} \right) \in \mathbb{R}^6
@@ -121,7 +121,7 @@ We formalize the perspective projection process that projects a 3D point $P=[P_x
                 \[
                     K = \begin{bmatrix}
                     f_x & 0 & c_x \\
-                    0 & f_y & c_y \\
+                    0 & f_y & c_y \\ 
                     0 & 0 & 1
                     \end{bmatrix} \in \mathbb{R}^{3 \times 3}
                 \]
@@ -129,11 +129,8 @@ We formalize the perspective projection process that projects a 3D point $P=[P_x
         \end{itemize}
 \end{itemize}
 
-\subsubsection*{Forward Projection Pipeline}
-\[
-P_{hom} = \begin{bmatrix} p_x' \\ p_y' \\ z' \end{bmatrix} = K[R|t]\begin{bmatrix} P \\ 1 \end{bmatrix} \quad \& \quad \begin{bmatrix} p_x \\ p_y \end{bmatrix} = \frac{1}{z'}\begin{bmatrix} p_x' \\ p_y' \end{bmatrix}, \qquad z' \neq 0
-\]
-$P_{hom}$ uses homogeneous coordinates that an extra coordinates is added to handle scaling. The process involves:
+\subsubsection*{Forward Projection Pipeline:}
+We uses homogeneous coordinates $P_{hom}$ that an extra coordinates is added to handle scaling. The process involves:
 \begin{enumerate}
     \item \textbf{World to camera coordinate}: Transform $P(P_x,P_y,P_z)$ to camera coordinate
     \[
@@ -145,6 +142,15 @@ $P_{hom}$ uses homogeneous coordinates that an extra coordinates is added to han
     \begin{bmatrix} p_x \\ p_y \end{bmatrix} = \frac{1}{z'}\begin{bmatrix} p_x' \\ p_y' \end{bmatrix}, \qquad z' \neq 0
     \]
 \end{enumerate}
+\subsubsection*{Result:}
+\[
+P_{hom} = \begin{bmatrix} p_x' \\ p_y' \\ z' \end{bmatrix} = K[R|t]\begin{bmatrix} P \\ 1 \end{bmatrix} \quad \& \quad \begin{bmatrix} p_x \\ p_y \end{bmatrix} = \frac{1}{z'}\begin{bmatrix} p_x' \\ p_y' \end{bmatrix}, \qquad z' \neq 0
+\]
+
+\newpage
+
+\subsection{The Inverse Problem: From 2D Image to 3D world}
+
 
 
 \newpage

@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1751638502.98368 "c:/Users/wongy/Desktop/hlma_2025_shadow/hlma_edit.tex" "hlma_edit.pdf" "hlma_edit" 1751638504.11227 0
+["pdflatex"] 1751638080.15389 "c:/Users/wongy/Desktop/hlma_2025_shadow/demo.tex" "demo.pdf" "demo" 1751638081.32016 0
   "C:/Users/wongy/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1751542150 555949 de5ce6c485e39ae5840df44e169d6fe7 ""
   "C:/Users/wongy/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1751554728 688 37338d6ab346c2f1466b29e195316aa4 ""
   "C:/Users/wongy/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1746523628 24225045 8a80169f089ead88ad1a740c1b316be6 ""
@@ -121,15 +121,15 @@
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/tex/latex/tocloft/tocloft.sty" 1578908763 37263 3e78d14f0f4b1a30560fea5e04de805d ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/tex/latex/tools/calc.sty" 1700599895 10214 547fd4d29642cb7c80bf54b49d447f01 ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/wongy/Desktop/hlma_2025_shadow/hlma_edit.tex" 1751638502 16483 5b1f46affd867ea6aafc2afeb01dc01e ""
-  "hlma_edit.aux" 1751638503 862 5d808011a82bf0050dec5517141c26bc "pdflatex"
-  "hlma_edit.out" 1751638503 1221 1f312cfd2fbe2b9cb151ab54a2bebdb5 "pdflatex"
-  "hlma_edit.tex" 1751638502 16483 5b1f46affd867ea6aafc2afeb01dc01e ""
-  "hlma_edit.toc" 1751638503 495 a1ef41e13353e9ff0f2b67e08f19a21a "pdflatex"
+  "c:/Users/wongy/Desktop/hlma_2025_shadow/demo.tex" 1751638079 8443 bdf1329ff187e09fff2d558a66fd9094 ""
+  "demo.aux" 1751638081 862 5d808011a82bf0050dec5517141c26bc "pdflatex"
+  "demo.out" 1751638081 1221 1f312cfd2fbe2b9cb151ab54a2bebdb5 "pdflatex"
+  "demo.tex" 1751638079 8443 bdf1329ff187e09fff2d558a66fd9094 ""
+  "demo.toc" 1751638081 495 a1ef41e13353e9ff0f2b67e08f19a21a "pdflatex"
   (generated)
-  "hlma_edit.aux"
-  "hlma_edit.log"
-  "hlma_edit.out"
-  "hlma_edit.pdf"
-  "hlma_edit.toc"
+  "demo.aux"
+  "demo.log"
+  "demo.out"
+  "demo.pdf"
+  "demo.toc"
   (rewritten before read)
