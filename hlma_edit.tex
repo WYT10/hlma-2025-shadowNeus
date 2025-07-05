@@ -3,7 +3,7 @@
 % Essential packages for encoding, math, and formatting
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath, amssymb, amsthm, mathtools} % Enhanced math support
+\usepackage{amsmath, amssymb, amsthm, mathtools, bm} % Enhanced math support
 \usepackage{geometry}
 \geometry{a4paper, margin=0.8in}
 \usepackage{hyperref}
@@ -13,23 +13,32 @@
     citecolor=blue,
     urlcolor=blue
 }
-\usepackage{microtype} % Improved typography, prevents hyphenation issues
+\usepackage{microtype} % Improved typography
 \usepackage{tocloft} % Table of contents customization
 \usepackage{abstract} % For abstract environment
-% \usepackage{setspace} % For line spacing control
-\usepackage{mathptmx} % Times-compatible math font (loaded last)
+\usepackage{mathptmx} % Times-compatible math font
+\usepackage{xcolor} % For colored text
+\usepackage{tikz} % For mathematical diagrams
+\usepackage{enumitem} % Better list formatting
 
-% % Prevent hyphenation for specific words
-% \hyphenation{ShadowNeuS}
+% Custom math commands for enhanced notation
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\transpose}[1]{#1^{\mathsf{T}}}
+\newcommand{\norm}[1]{\left\|\,#1\,\right\|}
+\newcommand{\abs}[1]{\left|\,#1\,\right|}
+\newcommand{\inner}[2]{\langle\,#1,\,#2\,\rangle}
 
-% % Customize table of contents
-% \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
-% \setlength{\cftbeforesecskip}{0.5em}
-
-% % Define theorem environments for mathematical content
-% \newtheorem{theorem}{Theorem}[section]
-% \newtheorem{lemma}{Lemma}[section]
-% \newtheorem{corollary}{Corollary}[section]
+% Define theorem environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{remark}{Remark}[section]
 
 \begin{document}
 
@@ -37,7 +46,7 @@
 \begin{titlepage}
     \centering
     \vspace*{1cm}
-    {\huge \textbf{From Projection to Perception: A Mathematical Exploration of Shadow-based Neural Reconstruction}\par}
+    {\huge \textbf{From Projection to Perception: \\ A Mathematical Exploration of \\ Shadow-based Neural Reconstruction}\par}
     \vspace{1.5cm}
     {\normalsize
     A research report submitted to the Scientific Committee of the Hang Lung Mathematics Award\par}
@@ -55,130 +64,217 @@
 
 % Abstract
 \begin{abstract}
-\raggedright % Prevent hyphenation in abstract
-This paper explores ShadowNeuS [LWX23], a neural network that reconstructs 3D geometry from single-view camera images using shadow and light cues. Unlike traditional 3D reconstruction methods relying on multi-view cameras or sensors, ShadowNeuS leverages a neural signed distance field (SDF) for accurate 3D geometry reconstruction. Analysis of the training process reveals deep connections to projective geometry, spatial reasoning in $\mathbb{R}^3$, and the network's perception of three-dimensional space.
+\raggedright
+This paper explores \textsc{ShadowNeuS} [LWX23], a neural network that reconstructs 3D geometry from single-view camera images using shadow and light cues. Unlike traditional 3D reconstruction methods relying on multi-view cameras or sensors, \textsc{ShadowNeuS} leverages a neural signed distance field (SDF) for accurate 3D geometry reconstruction. We analyze the training process and uncover its connections to projective geometry, spatial reasoning in $\R^3$, and the neural network's learned geometric representation of space.
 \end{abstract}
 
 \end{titlepage}
+
 % Table of contents
 \tableofcontents
 
 \newpage
 \section{Background}
+
 \subsection{What is 3D Reconstruction from Images?}
+
 The goal of 3D reconstruction is to recover the structure of a 3D scene using only 2D images.
-Consider a 3D scene represented by a set of points \( \mathbf{P} = (P_x, P_y, P_z) \in \mathbb{R}^3 \).
-Each image taken of the 3D scene contains a set of pixel points \( \mathbf{p} = (p_x, p_y) \in \mathbb{R}^2 \).
-The process of capturing a 3D point in a 2D image \( I_n \) can be modeled as a projection function \( \pi_n \)
+
+\begin{definition}[3D Scene Representation] ~\\
+A 3D scene is represented by a set of points $\vect{P} = [P_x, P_y, P_z]^\mathsf{T} \in \R^3$ in Euclidean space.
+\end{definition}
+
+\begin{definition}[Image Projection] ~\\
+Each image $I_n$ of the 3D scene records a set of pixel coordinates $\vect{p} = [p_x, p_y]^\mathsf{T} \in \R^2$.
+\end{definition}
+
+The process of capturing a 3D point in a 2D image $I_n$ can be modeled as a projection function $\pi_n$:
+
+\vspace{0.5em}
 \begin{equation}
-\pi_n: \mathbb{R}^3 \to \mathbb{R}^2, \quad (P_x, P_y, P_z) \mapsto (p_x, p_y) \label{eq:proj}
+\boxed{\pi_n: \R^3 \to \R^2, \quad [P_x, P_y, P_z]^\mathsf{T} \mapsto [p_x, p_y]^\mathsf{T}} \label{eq:proj}
 \end{equation}
-This function represents how a camera maps a 3D point to a 2D pixel in the \( n \)-th image.
-To reconstruct the 3D scene, we need to solve the inverse problem \( \pi_n^{-1} \).
+\vspace{0.5em}
+
+This projection function represents how a camera maps a 3D point to a 2D pixel in the $n$-th image.
+
+To reconstruct the 3D scene, we need to solve the \textbf{inverse problem} $\pi_n^{-1}$:
+
+\vspace{0.5em}
 \begin{equation}
-\pi_n^{-1}(\mathbf{p}) = \left\{ \mathbf{P} \in \mathbb{R}^3 \mid \pi_n(\mathbf{P}) = \mathbf{p} \right\} \label{eq:invproj}
+\boxed{\pi_n^{-1}(\vect{p}) = \left\{ \vect{P} \in \R^3 \mid \pi_n(\vect{P}) = \vect{p} \right\}} \label{eq:invproj}
 \end{equation}
-However, this inverse problem is typically \textbf{ill-posed}, as multiple 3D points may project to the same 2D pixel, leading to ambiguity. We will detail in Section \ref{sec:inverse}.
+\vspace{0.5em}
+
+However, this inverse problem is typically \textbf{ill-posed}, as multiple 3D points may project to the same 2D pixel, leading to ambiguity. We will detail this in Section \ref{sec:inverse}.
 
 \subsection{Information Encoded in 2D Images}
-A 2D image \( I_n \) can provide multiple types of information, such as color and texture.
-\subsubsection*{The information available from an image includes:}
-\begin{itemize}
-    \item \textbf{Pixel coordinates}: \( \mathbf{p} = (p_x, p_y) \in \mathbb{R}^2 \), represents the location of each pixel in the image
-    \item \textbf{Color values}: \( C_n(\mathbf{p}) = [r, g, b] \in [0,1]^3 \), represents the RGB value of each pixel in the image
-    \item \textbf{Image gradient}:
+
+A 2D image $I_n$ can provide multiple types of information encoded as mathematical structures:
+
+\subsubsection*{Information Available from an Image:}
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Pixel coordinates}: $\vect{p} = [p_x, p_y]^\mathsf{T} \in \R^2$, represents the spatial location of each pixel
+    
+    \item \textbf{Color values}: $C_n(\vect{p}) = [r, g, b]^\mathsf{T} \in [0,1]^3$, represents the RGB tristimulus values
+    
+    \item \textbf{RGB gradient matrix}:
     \begin{equation}
-        \nabla I_n(\mathbf{p}) = \left( \nabla r(\mathbf{p}), \nabla g(\mathbf{p}), \nabla b(\mathbf{p}) \right) = \left( \underbrace{\left[ \frac{\partial r}{\partial p_x}, \frac{\partial r}{\partial p_y} \right]^\top}_{\text{red channel}}, \underbrace{\left[ \frac{\partial g}{\partial p_x}, \frac{\partial g}{\partial p_y} \right]^\top}_{\text{green channel}}, \underbrace{\left[ \frac{\partial b}{\partial p_x}, \frac{\partial b}{\partial p_y} \right]^\top}_{\text{blue channel}} \right) \in \mathbb{R}^6 \label{eq:gradient}
+        \nabla I_n(\vect{p}) = \begin{bmatrix}
+            \frac{\partial r}{\partial p_x} & \frac{\partial r}{\partial p_y} \\[0.5em]
+            \frac{\partial g}{\partial p_x} & \frac{\partial g}{\partial p_y} \\[0.5em]
+            \frac{\partial b}{\partial p_x} & \frac{\partial b}{\partial p_y}
+        \end{bmatrix} \in \R^{3 \times 2} \label{eq:gradient}
     \end{equation}
-    It captures local changes in intensity, indicating edges or texture information in the image
-    \item \textbf{Learned features}: \( \phi(I_n)(\mathbf{p}) \in \mathbb{R}^d \), represents high-dimensional features extracted from the image using methods like convolutional neural networks (CNNs) or other feature extractors
-\end{itemize}
-These data result from projecting 3D structures through a camera. For example, the color \( C_n(\mathbf{p}) \) may correspond to the visible surface of a 3D object, while \( \nabla I_n(\mathbf{p}) \) may hint the edge of the shape of that 3D object, etc.
+    This Jacobian matrix captures local intensity variations, indicating edges or texture information.
+    
+    \item \textbf{Learned feature embedding}: $\phi(I_n)(\vect{p}) \in \R^d$, represents high-dimensional features extracted via neural networks
+\end{enumerate}
+
+These data structures result from projecting 3D geometry through camera optics, where $C_n(\vect{p})$ corresponds to visible surface reflectance and $\nabla I_n(\vect{p})$ encodes geometric boundaries.
 
 \newpage
 
 \subsection{The Forward Projection: From 3D World to 2D Image}
-We formalize the perspective projection process that projects a 3D point \( \mathbf{P} = (P_x, P_y, P_z) \) to a pixel point \( \mathbf{p} = (p_x, p_y) \) using the camera parameters.
-\subsubsection*{Camera parameters:}
-\begin{itemize}
-    \item \textbf{Extrinsic} (world-to-camera transformation)
-        \begin{itemize}
-            \item \textbf{Camera center}: \( \mathbf{C} = (C_x, C_y, C_z) \in \mathbb{R}^3 \), represents the position of the camera in the world coordinate.
-            \item \textbf{Rotation matrix}: \( R =
-                \begin{bmatrix}
-                    r_{11} & r_{12} & r_{13} \\
-                    r_{21} & r_{22} & r_{23} \\
-                    r_{31} & r_{32} & r_{33}
-                \end{bmatrix}
-                \in SO(3) \), represents a 3x3 matrix that rotates the world to align with the orientation of the camera.
-            \item \textbf{Translation vector}: \( \mathbf{t} = -R \mathbf{C} \in \mathbb{R}^3 \), represents the translation that aligns the camera center with the world origin.
-            \item \textbf{Homogeneous transformation matrix}:
-                \(T = \begin{bmatrix} R & \mathbf{t} \\ 0 & 1 \end{bmatrix} \in \mathbb{R}^{4 \times 4} \label{eq:extrinsic}\)
-        \end{itemize}
-    \item \textbf{Intrinsic} (projection to image plane)
-        \begin{itemize}
-            \item \textbf{Intrinsic matrix}:
-            \begin{equation}
-                K = \begin{bmatrix}
-                    f_x & 0 & c_x \\
-                    0 & f_y & c_y \\
-                    0 & 0 & 1
-                \end{bmatrix} \in \mathbb{R}^{3 \times 3} \label{eq:intrinsic}
-            \end{equation}
-            where \( f_x, f_y \) are the focal lengths in pixels and \( c_x, c_y \) is the principal point (the pixel coordinates where the camera's lens is optically centered)
-        \end{itemize}
-\end{itemize}
+
+We formalize the perspective projection process using homogeneous coordinates and transformation matrices.
+
+\subsubsection*{Camera Parameter Matrices:}
+
+\begin{definition}[Extrinsic Parameters] ~\\
+The world-to-camera transformation is characterized by:
+\begin{align}
+\text{Camera center: } &\quad \vect{C} = [C_x, C_y, C_z]^\mathsf{T} \in \R^3 \\
+\text{Rotation matrix: } &\quad R = \begin{bmatrix}
+    r_{11} & r_{12} & r_{13} \\
+    r_{21} & r_{22} & r_{23} \\
+    r_{31} & r_{32} & r_{33}
+\end{bmatrix} \in \text{SO}(3) \\
+\text{Translation vector: } &\quad \vect{t} = -R \vect{C} \in \R^3
+\end{align}
+\end{definition}
+
+\begin{definition}[Intrinsic Parameters] ~\\
+The camera's internal geometry is encoded by:
+\begin{equation}
+K = \begin{bmatrix}
+    f_x & 0 & c_x \\
+    0 & f_y & c_y \\
+    0 & 0 & 1
+\end{bmatrix} \in \R^{3 \times 3} \label{eq:intrinsic}
+\end{equation}
+where $(f_x, f_y)$ are focal lengths in pixels and $(c_x, c_y)$ is the principal point.
+\end{definition}
 
 \subsubsection*{Forward Projection Pipeline:}
-We use homogeneous coordinates \( \mathbf{P}_{\text{hom}} \) where an extra variable is added to handle scaling. The process involves:
-\begin{enumerate}
-    \item \textbf{World to camera coordinate}: Transform \( \mathbf{P} = (P_x, P_y, P_z) \) to camera coordinates
-    \begin{equation}
-        \mathbf{P} \to T \begin{bmatrix} \mathbf{P} \\ 1 \end{bmatrix} = \begin{bmatrix} R \mathbf{P} + \mathbf{t} \\ 1 \end{bmatrix} \label{eq:world2cam}
-    \end{equation}
-    \item \textbf{Perspective projection}: 
-    \begin{equation}
-        \mathbf{P}_{\text{hom}} = K [R | \mathbf{t}] \begin{bmatrix} \mathbf{P} \\ 1 \end{bmatrix} = K (R \mathbf{P} + \mathbf{t}) = \begin{bmatrix} p_x' \\ p_y' \\ z' \end{bmatrix} \label{eq:persp}
-    \end{equation}
 
-    \item \textbf{Normalization}: Convert to 2D pixel coordinates by the scaling factor \( z' \)
+\begin{proposition}[Perspective Projection Transform] ~\\
+The complete forward projection involves three sequential transformations:
+\begin{enumerate}[label=\textbf{Step \arabic*:}]
+    \item \textbf{World to camera coordinates}
     \begin{equation}
-        \begin{bmatrix} p_x \\ p_y \end{bmatrix} = \frac{1}{z'} \begin{bmatrix} p_x' \\ p_y' \end{bmatrix}, \quad z' \neq 0 \label{eq:norm}
+        \vect{P}_{\text{cam}} = R \vect{P} + \vect{t}
+    \end{equation}
+    
+    \item \textbf{Camera to image coordinates}
+    \begin{equation}
+        \vect{P}_{\text{hom}} = K \vect{P}_{\text{cam}} = \begin{bmatrix} p_x' \\ p_y' \\ z' \end{bmatrix}
+    \end{equation}
+    
+    \item \textbf{Perspective division}
+    \begin{equation}
+        \vect{p} = \begin{bmatrix} p_x \\ p_y \end{bmatrix} = \frac{1}{z'} \begin{bmatrix} p_x' \\ p_y' \end{bmatrix}, \quad z' \neq 0
     \end{equation}
 \end{enumerate}
-\subsubsection*{Result:}
+\end{proposition}
+
+The complete transformation matrix can be expressed as:
+
+\vspace{0.5em}
 \begin{equation}
-    \mathbf{P}_{\text{hom}} = \begin{bmatrix} p_x' \\ p_y' \\ z' \end{bmatrix} = K [R | \mathbf{t}] \begin{bmatrix} \mathbf{P} \\ 1 \end{bmatrix}, \quad \begin{bmatrix} p_x \\ p_y \end{bmatrix} = \frac{1}{z'} \begin{bmatrix} p_x' \\ p_y' \end{bmatrix}, \quad z' \neq 0 \label{eq:forward}
+\boxed{\vect{P}_{\text{hom}} = K [R \mid \vect{t}] \begin{bmatrix} \vect{P} \\ 1 \end{bmatrix}, \quad \vect{p} = \frac{1}{z'} \begin{bmatrix} p_x' \\ p_y' \end{bmatrix}} \label{eq:forward}
 \end{equation}
+\vspace{0.5em}
 
 \newpage
 
 \subsection{The Inverse Problem: From 2D Image to 3D World} \label{sec:inverse}
-We attempt to invert the forward projection and recover the 3D point \( \mathbf{P} = (P_x, P_y, P_z) \) from its 2D image projection \( \mathbf{p} = (p_x, p_y) \). From Section 1.3, the forward projection is given by (refer to equation \eqref{eq:forward})
+
+We now tackle the fundamental challenge of inverting the projection function.
+
+\begin{lemma}[Camera Ray Parametrization] ~\\
+Given a pixel $\vect{p} = [p_x, p_y]^\mathsf{T}$ and camera parameters $(K, R, \vect{C})$, the corresponding 3D points form a ray:
+
+\vspace{0.25em}
 \begin{equation}
-    \mathbf{P}_{\text{hom}} = \begin{bmatrix} p_x' \\ p_y' \\ 1 \end{bmatrix} z' = K (R \mathbf{P} + \mathbf{t}) \label{eq:invforward}
+\boxed{\vect{P}(\lambda) = \vect{C} + \lambda \cdot \vect{d}, \quad \lambda > 0} \label{eq:camera_ray}
 \end{equation}
-Since \( p_x' = z' p_x \) and \( p_y' = z' p_y \) (refer to equation \eqref{eq:norm}), the homogeneous image coordinates are
+\vspace{0.25em}
+
+where the ray direction is:
+
+\vspace{0.25em}
 \begin{equation}
-    \begin{bmatrix} p_x' \\ p_y' \\ z' \end{bmatrix} = z' \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix} \label{eq:homog}
+\boxed{\vect{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}} \label{eq:ray_direction}
 \end{equation}
-To recover \( \mathbf{P} \), we invert the projection (refer to equation \eqref{eq:invforward}):
+\vspace{0.25em}
+\begin{remark}[Normalization] ~\\
+The direction vector $\vect{d}$ can optionally be normalized to unit length for physical ray tracing but not strictly necessary for the ray parametrization.
+\end{remark}
+\end{lemma}
+
+\begin{proof}
+Starting from the forward projection equation \eqref{eq:forward}:
 \begin{align}
-    R \mathbf{P} + \mathbf{t} &= K^{-1} z' \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix} \label{eq:inv1} \\
-    \mathbf{P} &= R^{-1} \left( z' K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix} - \mathbf{t} \right) \label{eq:inv2}
+K (R \vect{P} + \vect{t}) &= z' \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix} \\
+R \vect{P} + \vect{t} &= z' K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix} \\
+\vect{P} &= R^{-1} \left( z' K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix} - \vect{t} \right)
 \end{align}
-Since \( \mathbf{t} = -R \mathbf{C} \), we have \( -R^{-1} \mathbf{t} = -R^{-1} (-R \mathbf{C}) = \mathbf{C} \). We obtain:
+
+Since $\vect{t} = -R \vect{C}$, we have $-R^{-1} \vect{t} = \vect{C}$. Setting $\lambda = z'$:
 \begin{equation}
-    \mathbf{P}(z') = \mathbf{C} + z' \cdot \left( R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix} \right) \label{eq:invfunc}
+\vect{P}(\lambda) = \vect{C} + \lambda \cdot R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}
 \end{equation}
-This can be reformulated as a camera ray (refer to equation \eqref{eq:invfunc}):
-\begin{equation}
-    \mathbf{P}(\lambda) = \mathbf{C} + \lambda \cdot \mathbf{d}, \quad \lambda > 0, \quad \mathbf{d} = \left( R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix} \right) \label{eq:camera_ray}
-\end{equation}
-Note that \( \mathbf{d}\) is the viewing direction ray in 3D space starting from the camera center \( \mathbf{C} \). \\
-The problem is \textbf{ill-posed} because the depth $\lambda$ is unknown, meaning $p$ defines a ray of possible 3D points rather than an unique $P$. To make the problem well-posed, additional constraints are needed, such as stereo vision or depth sensors, which provide depth information or multiple viewpoints to determine an unique $\lambda$.
+\end{proof}
+
+\begin{proposition}[Ill-posed Nature of Single-View Reconstruction] ~\\
+The inverse projection problem is fundamentally \textbf{ill-posed} because:
+\begin{enumerate}[label=(\alph*)]
+    \item The depth parameter $\lambda$ is undetermined
+    \item Each pixel $\vect{p}$ defines a ray of infinitely many possible 3D points
+    \item Additional constraints are required for unique reconstruction
+\end{enumerate}
+\end{proposition}
+
+\begin{remark}[Toward Well-posed Reconstruction] ~\\
+To achieve unique reconstruction, we require additional information such as:
+\begin{itemize}
+    \item \textbf{Stereo correspondence}: Multiple viewpoints providing triangulation
+    \item \textbf{Depth sensors}: Direct measurement of $\lambda$
+    \item \textbf{Shadow constraints}: Geometric relationships via light ray intersections
+\end{itemize}
+\end{remark}
 
 \newpage
+
+\section{The ShadowNeuS Framework}
+\subsection{Motivation for Shadow-based Learning}
+\subsubsection*{What are Shadows?}
+A shadow is a region of reduced illumination created when an opaque object blocks light from a source. Geometrically, shadows result from the intersection of light rays with surfaces, creating visibility constraints that encode rich 3D information.
+\begin{definition}[Shadow Formation] ~\\
+Given a light source $\mathbf{L}$ and surface $\mathbb{S}$, a point $\mathbf{P}$ is in shadow if there exists a surface point $\mathbf{Q} \in \mathbb{S}$ such that $\mathbf{Q}$ lies on the line segment $\overline{\mathbf{L}\mathbf{P}}$.
+\end{definition}
+
+
+\subsection{Signed Distance Fields (SDFs)}
+\subsection{Shadow Rays and Surface Visibility}
+\subsection{Learning via Shadow Supervision}
+\subsection{Optimization Process}
+\subsection{Geometric Interpretation and Classical Analogs}
+
+
+\newpage
+
 \section*{References}
 \begin{tabular}{@{}p{0.1\textwidth} p{0.9\textwidth}}
 {[LWX23]} & Jingwang Ling, Zhibo Wang, Feng Xu. \textit{ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}. arXiv: \href{https://arxiv.org/abs/2211.14086}{2211.14086}, 2023.

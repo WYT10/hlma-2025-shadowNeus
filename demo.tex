@@ -46,7 +46,7 @@
 \begin{titlepage}
     \centering
     \vspace*{1cm}
-    {\huge \textbf{From Projection to Perception: A Mathematical Exploration of Shadow-based Neural Reconstruction}\par}
+    {\huge \textbf{From Projection to Perception: \\ A Mathematical Exploration of \\ Shadow-based Neural Reconstruction}\par}
     \vspace{1.5cm}
     {\normalsize
     A research report submitted to the Scientific Committee of the Hang Lung Mathematics Award\par}
@@ -120,7 +120,7 @@ A 2D image $I_n$ can provide multiple types of information encoded as mathematic
     
     \item \textbf{RGB gradient matrix}:
     \begin{equation}
-        \nabla I_n(\vect{p}) = \begin{bmatrix}
+        \nabla C_n(\vect{p}) = \begin{bmatrix}
             \frac{\partial r}{\partial p_x} & \frac{\partial r}{\partial p_y} \\[0.5em]
             \frac{\partial g}{\partial p_x} & \frac{\partial g}{\partial p_y} \\[0.5em]
             \frac{\partial b}{\partial p_x} & \frac{\partial b}{\partial p_y}
@@ -128,12 +128,12 @@ A 2D image $I_n$ can provide multiple types of information encoded as mathematic
     \end{equation}
     This Jacobian matrix captures local intensity variations, indicating edges or texture information.
     
-    \item \textbf{Learned feature embedding}: $\phi(I_n)(\vect{p}) \in \R^d$, represents high-dimensional features extracted via neural networks
+    \item \textbf{Learned feature embedding}: $\phi(I_n)(\vect{p}) \in \R^d$, represents high-dimensional features extracted via neural networks like CNNs
 \end{enumerate}
 
-These data structures result from projecting 3D geometry through camera optics, where $C_n(\vect{p})$ corresponds to visible surface reflectance and $\nabla I_n(\vect{p})$ encodes geometric boundaries.
+These data structures result from projecting 3D geometry through camera optics, where $C_n(\vect{p})$ corresponds to visible surface reflectance and $\nabla C_n(\vect{p})$ encodes geometric boundaries.
 
-\newpage
+\newpage    
 
 \subsection{The Forward Projection: From 3D World to 2D Image}
 
@@ -246,24 +246,143 @@ The inverse projection problem is fundamentally \textbf{ill-posed} because:
 \end{enumerate}
 \end{proposition}
 
-\begin{remark}[Toward Well-posed Reconstruction] ~\\
+\newpage
+
+\subsection{Cues for Solving the Inverse Problem}
+
 To achieve unique reconstruction, we require additional information such as:
 \begin{itemize}
     \item \textbf{Stereo correspondence}: Multiple viewpoints providing triangulation
     \item \textbf{Depth sensors}: Direct measurement of $\lambda$
     \item \textbf{Shadow constraints}: Geometric relationships via light ray intersections
 \end{itemize}
+
+\section{Shadows as a Geometric Constraint}
+
+\subsection{Shadow Ray Geometry}
+
+\begin{definition}[Light Ray] ~\\
+For light source $\mathbf{L} \in \mathbb{R}^3$ and 3D point $\mathbf{P} \in \mathbb{R}^3$, the light ray is:
+\begin{equation}
+\boxed{r(t) = \mathbf{L} + t(\mathbf{P} - \mathbf{L}), \quad t \in [0,1]} \label{eq:light_ray}
+\end{equation}
+where $t=0$ corresponds to the light source and $t=1$ to point $\mathbf{P}$.
+\end{definition}
+
+\begin{definition}[Shadow Occlusion] ~\\
+Point $\mathbf{P}$ is shadowed if $r(t) \cap \mathcal{S} \neq \emptyset$ for some $t \in (0,1)$.
+\end{definition}
+
+\begin{remark}[Physical Interpretation] ~\\
+The open interval $(0,1)$ represents points physically blocking light between source and target. The condition $r(t) \cap \mathcal{S} \neq \emptyset$ means there exists at least one parameter value $t \in (0,1)$ where the ray intersects the surface, creating occlusion.
 \end{remark}
 
-\newpage
+\subsection{Shadow Boundary Constraints}
 
-\section{The ShadowNeuS Framework}
-\subsection{Motivation for Shadow-based Learning}
-\subsection{Signed Distance Fields (SDFs)}
-\subsection{Shadow Rays and Surface Visibility}
-\subsection{Learning via Shadow Supervision}
-\subsection{Optimization Process}
-\subsection{Geometric Interpretation and Classical Analogs}
+\begin{theorem}[Tangency Condition] ~\\
+A light ray from $\mathbf{L}$ is tangent to surface $\mathcal{S}$ at point $\mathbf{Q}$ if and only if:
+\begin{equation}
+\boxed{(\mathbf{Q} - \mathbf{L}) \cdot \mathbf{n}(\mathbf{Q}) = 0} \label{eq:tangency}
+\end{equation}
+where $\mathbf{n}(\mathbf{Q})$ is the unit surface normal at $\mathbf{Q}$.
+\end{theorem}
+
+\begin{remark}[Geometric Meaning] ~\\
+The zero dot product indicates orthogonality between ray direction and surface normal, ensuring tangency with exactly one intersection point.
+\end{remark}
+
+\begin{proposition}[3D Shadow Boundary Set] ~\\
+The shadow boundary $\mathcal{B}$ is the set of all tangent points (not necessarily continuous):
+\begin{equation}
+\boxed{\mathcal{B} = \{\mathbf{Q} \in \mathcal{S} : (\mathbf{Q} - \mathbf{L}) \cdot \mathbf{n}(\mathbf{Q}) = 0\}} \label{eq:boundary_set}
+\end{equation}
+\end{proposition}
+
+\subsection{Image Projection}
+
+\begin{definition}[2D Shadow Region] ~\\
+The complete projected shadow region:
+\begin{equation}
+\boxed{\Omega_{\text{shadow}} = \pi(\{\mathbf{P} \in \mathbb{R}^3 : \mathbf{P} \text{ is shadowed}\})} \label{eq:full_shadow}
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Shadow Boundary Projection] ~\\
+The 2D shadow boundary is the projection of the boundary set $\mathcal{B}$:
+\begin{equation}
+\boxed{\partial\Omega_{\text{shadow}} = \pi(\mathcal{B})} \label{eq:boundary_proj}
+\end{equation}
+\end{theorem}
+
+\subsection{Depth Recovery via Ray Intersection}
+
+\begin{proposition}[Combined Ray System] ~\\
+For pixel $\mathbf{p}$ on shadow boundary, combine camera ray \eqref{eq:camera_ray} with tangency constraint \eqref{eq:tangency}:
+
+\vspace{0.25em}
+\begin{equation}
+\boxed{
+\begin{aligned}
+\mathbf{P}(\lambda) &= \mathbf{C} + \lambda \mathbf{d} \\
+(\mathbf{P}(\lambda) - \mathbf{L}) \cdot \mathbf{n}(\mathbf{P}(\lambda)) &= 0
+\end{aligned}
+} \label{eq:combined_system}
+\end{equation}
+\vspace{0.25em}
+
+where both equations share the same 3D point $\mathbf{P}(\lambda) \in \mathbb{R}^3$ with known parameters $\mathbf{C}$, $\mathbf{d}$, and $\mathbf{L}$.
+\end{proposition}
+
+\begin{remark}[Constraint Fusion] ~\\
+This system combines geometric camera projection with shadow tangency, enabling depth $\lambda$ recovery from single-view shadow boundaries.
+\end{remark}
+% \section{Shadows as a Geometric Constraint}
+
+% \subsection{Shadow Formation and Visibility}
+
+% % Content to be filled
+
+% \subsection{Types of Shadows and Their Geometric Significance}
+
+% % Content to be filled
+
+% \subsection{Information Encoded in Shadow Boundaries}
+
+% % Content to be filled
+
+% \subsection{Shadow Visibility Constraints}
+
+% % Content to be filled
+
+% \subsection{Strengths and Limitations Compared to Other Cues}
+
+% % Content to be filled
+
+% \section{The ShadowNeuS Framework}
+
+% \subsection{Motivation for Shadow-based Learning}
+
+% % Content to be filled
+
+% \subsection{Signed Distance Fields (SDFs)}
+
+% % Content to be filled
+
+% \subsection{Shadow Rays and Surface Visibility}
+
+% % Content to be filled
+
+% \subsection{Learning via Shadow Supervision}
+
+% % Content to be filled
+
+% \subsection{Optimization Process}
+
+% % Content to be filled
+
+% \subsection{Geometric Interpretation and Classical Analogs}
+
+% % Content to be filled
 
 
 \newpage

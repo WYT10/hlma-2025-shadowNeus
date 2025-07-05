@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.6)  5 JUL 2025 21:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.6)  6 JUL 2025 04:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -768,35 +768,35 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [2] [3]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 252.
+ [2] [3] [4]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 255.
  (C:\Users\wongy\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [4] [5]
-Overfull \hbox (17.99998pt too wide) in paragraph at lines 272--275
+) [5] [6]
+Overfull \hbox (17.99998pt too wide) in paragraph at lines 391--394
 [] 
  []
 
-[6] (demo.aux)
+[7] (demo.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `demo.out' has not changed.
-(rerunfilecheck)             Checksum: 9269C61279DBA84B9F6C523423513CEB;2775.
+(rerunfilecheck)             Checksum: 4D4D23C2A42BF10691EB20E3F07F2614;2435.
  ) 
 Here is how much of TeX's memory you used:
- 24804 strings out of 474486
- 454454 string characters out of 5743756
+ 24831 strings out of 474486
+ 454863 string characters out of 5743756
  1940542 words of memory out of 5000000
- 46397 multiletter control sequences out of 15000+600000
- 636868 words of font info for 248 fonts, out of 8000000 for 9000
+ 46406 multiletter control sequences out of 15000+600000
+ 636998 words of font info for 250 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,15n,107p,1041b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss9.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on demo.pdf (7 pages, 147693 bytes).
+ 102i,15n,107p,1041b,606s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss9.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/rsfs/rsfs10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on demo.pdf (8 pages, 157412 bytes).
 PDF statistics:
- 216 PDF objects out of 1000 (max. 8388607)
- 59 named destinations out of 1000 (max. 500000)
- 88173 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 241 PDF objects out of 1000 (max. 8388607)
+ 74 named destinations out of 1000 (max. 500000)
+ 88165 words of extra memory for PDF output out of 89155 (max. 10000000)
 
