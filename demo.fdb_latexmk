@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1751746100.00433 "c:/Users/wongy/Desktop/hlma_2025_shadow/demo.tex" "demo.pdf" "demo" 1751746101.62853 0
+["pdflatex"] 1751805289.81657 "c:/Users/wongy/Desktop/hlma_2025_shadow/demo.tex" "demo.pdf" "demo" 1751805291.37828 0
   "C:/Users/wongy/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1751717929 555949 de5ce6c485e39ae5840df44e169d6fe7 ""
   "C:/Users/wongy/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1751554728 688 37338d6ab346c2f1466b29e195316aa4 ""
   "C:/Users/wongy/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1746523628 24225045 8a80169f089ead88ad1a740c1b316be6 ""
@@ -59,7 +59,6 @@
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb" 1136824548 44729 fea0975e20ec51c992338362f05f1146 ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb" 1136824548 46026 687528a208fbfc1f00832bb96cccebbb ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb" 1136824548 45458 504e2b06fa82109d168c7a0afb09e145 ""
-  "C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmb7t.vf" 1136743454 1372 788387fea833ef5963f4c5bffe33eb89 ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmb8t.vf" 1136743454 2340 df9c920cc5688ebbf16a93f45ce7bdd3 ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmr8c.vf" 1136743454 3556 8a9a6dcbcd146ef985683f677f4758a6 ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmr8t.vf" 1136743454 2348 91706c542228501c410c266421fbe30c ""
@@ -211,11 +210,11 @@
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/tex/latex/tools/calc.sty" 1700599895 10214 547fd4d29642cb7c80bf54b49d447f01 ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/wongy/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "c:/Users/wongy/Desktop/hlma_2025_shadow/demo.tex" 1751746097 15090 161ff9298300f15282f479856fd5e36f ""
-  "demo.aux" 1751746101 2758 f5da6329bb65188539fe5ffa0e662b65 "pdflatex"
-  "demo.out" 1751746101 2435 4d4d23c2a42bf10691eb20e3f07f2614 "pdflatex"
-  "demo.tex" 1751746097 15090 161ff9298300f15282f479856fd5e36f ""
-  "demo.toc" 1751746101 1047 d9c15d265561743c949409f76254994d "pdflatex"
+  "c:/Users/wongy/Desktop/hlma_2025_shadow/demo.tex" 1751805287 16991 702ef404eda1b5f0e4de41853bda08bb ""
+  "demo.aux" 1751805291 2678 67bbbf5f1455846952dc97bd5a8ca544 "pdflatex"
+  "demo.out" 1751805291 2674 090a21f9b75f96eea4570671147e7b9f "pdflatex"
+  "demo.tex" 1751805287 16991 702ef404eda1b5f0e4de41853bda08bb ""
+  "demo.toc" 1751805291 1090 677d8e4e0984501c2f038e9cffabfc32 "pdflatex"
   (generated)
   "demo.aux"
   "demo.log"

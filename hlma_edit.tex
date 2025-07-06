@@ -120,7 +120,7 @@ A 2D image $I_n$ can provide multiple types of information encoded as mathematic
     
     \item \textbf{RGB gradient matrix}:
     \begin{equation}
-        \nabla I_n(\vect{p}) = \begin{bmatrix}
+        \nabla C_n(\vect{p}) = \begin{bmatrix}
             \frac{\partial r}{\partial p_x} & \frac{\partial r}{\partial p_y} \\[0.5em]
             \frac{\partial g}{\partial p_x} & \frac{\partial g}{\partial p_y} \\[0.5em]
             \frac{\partial b}{\partial p_x} & \frac{\partial b}{\partial p_y}
@@ -128,12 +128,12 @@ A 2D image $I_n$ can provide multiple types of information encoded as mathematic
     \end{equation}
     This Jacobian matrix captures local intensity variations, indicating edges or texture information.
     
-    \item \textbf{Learned feature embedding}: $\phi(I_n)(\vect{p}) \in \R^d$, represents high-dimensional features extracted via neural networks
+    \item \textbf{Learned feature embedding}: $\phi(I_n)(\vect{p}) \in \R^d$, represents high-dimensional features extracted via neural networks like CNNs
 \end{enumerate}
 
-These data structures result from projecting 3D geometry through camera optics, where $C_n(\vect{p})$ corresponds to visible surface reflectance and $\nabla I_n(\vect{p})$ encodes geometric boundaries.
+These data structures result from projecting 3D geometry through camera optics, where $C_n(\vect{p})$ corresponds to visible surface reflectance and $\nabla C_n(\vect{p})$ encodes geometric boundaries.
 
-\newpage
+\newpage    
 
 \subsection{The Forward Projection: From 3D World to 2D Image}
 
@@ -192,7 +192,7 @@ The complete transformation matrix can be expressed as:
 
 \vspace{0.5em}
 \begin{equation}
-\boxed{\vect{P}_{\text{hom}} = K [R \mid \vect{t}] \begin{bmatrix} \vect{P} \\ 1 \end{bmatrix}, \quad \vect{p} = \frac{1}{z'} \begin{bmatrix} p_x' \\ p_y' \end{bmatrix}} \label{eq:forward}
+\boxed{\vect{P}_{\text{hom}} = K [R \mid \vect{t}] \begin{bmatrix} \vect{P} \\ 1 \end{bmatrix} , \quad \vect{p} = \frac{1}{z'} \begin{bmatrix} p_x' \\ p_y' \end{bmatrix}} \label{eq:forward}
 \end{equation}
 \vspace{0.5em}
 
@@ -246,31 +246,158 @@ The inverse projection problem is fundamentally \textbf{ill-posed} because:
 \end{enumerate}
 \end{proposition}
 
-\begin{remark}[Toward Well-posed Reconstruction] ~\\
+\newpage
+
+\subsection{Cues for Solving the Inverse Problem}
+
 To achieve unique reconstruction, we require additional information such as:
 \begin{itemize}
     \item \textbf{Stereo correspondence}: Multiple viewpoints providing triangulation
     \item \textbf{Depth sensors}: Direct measurement of $\lambda$
     \item \textbf{Shadow constraints}: Geometric relationships via light ray intersections
 \end{itemize}
+
+\section{Shadows as a Geometric Constraint}
+
+We now introduce how shadows, often considered a nuisance in image understanding, can instead be leveraged as powerful geometric constraints. By formalizing light transport and occlusion, we derive conditions that allow recovery of 3D structure from single images.
+
+\subsection{Light Ray and Shadow Geometry}
+
+\begin{definition}[Light Ray] ~\\
+Given a light source $\vect{L} \in \mathbb{R}^3$ and a point $\vect{P} \in \mathbb{R}^3$, the light ray from $\vect{L}$ to $\vect{P}$ is the segment:
+\begin{equation}
+\boxed{r(t) = \vect{L} + t(\vect{P} - \vect{L}), \quad t \in [0,1]} \label{eq:light_ray}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Shadow Occlusion] ~\\
+A point $\vect{P}$ is in shadow if there exists some $t \in (0,1)$ such that $r(t)$ intersects a surface $\mathcal{S}$:
+\begin{equation}
+\boxed{\exists t \in (0,1): r(t) \cap \mathcal{S} \neq \emptyset}
+\end{equation}
+\end{definition}
+
+\begin{remark}[Physical Interpretation] ~\\
+The open interval $(0,1)$ corresponds to obstructions between the light source and the point. Intersection in this interval implies occlusion and shadowing.
+\end{remark}
+
+\subsection{Shadow Boundary and Surface Partitioning}
+
+\begin{theorem}[Tangency Condition] ~\\
+A point $\vect{Q} \in \mathcal{S}$ lies on the shadow boundary if and only if the light ray is tangent to the surface at that point:
+\begin{equation}
+\boxed{(\vect{Q} - \vect{L}) \cdot \vect{n}(\vect{Q}) = 0} \label{eq:tangency}
+\end{equation}
+where $\vect{n}(\vect{Q})$ is the unit surface normal at $\vect{Q}$.
+\end{theorem}
+
+\begin{remark}
+The dot product condition expresses that the vector from the light source to the point is orthogonal to the surface normal—indicating grazing incidence.
+\end{remark}
+
+\begin{proposition}[Shadow Boundary Set] ~\\
+The 3D shadow boundary is defined as:
+\begin{equation}
+\boxed{\mathcal{B} = \{\vect{Q} \in \mathcal{S} \mid (\vect{Q} - \vect{L}) \cdot \vect{n}(\vect{Q}) = 0\}} \label{eq:boundary_set}
+\end{equation}
+\end{proposition}
+
+\begin{proposition}[Surface Illumination Partition] ~\\
+The surface $\mathcal{S}$ is partitioned into:
+\begin{align}
+\mathcal{S}_{\text{lit}} &= \left\{ \vect{P} \in \mathcal{S} \mid (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) > 0 \right\} && \text{(illuminated)} \\
+\mathcal{A} &= \left\{ \vect{P} \in \mathcal{S} \mid (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) < 0 \right\} && \text{(attached shadow)} \\
+\mathcal{B} &= \left\{ \vect{P} \in \mathcal{S} \mid (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) = 0 \right\} && \text{(shadow boundary)}
+\end{align}
+\end{proposition}
+
+\begin{remark}
+This partition reflects the angular relationship between the surface normal and the light direction, encoding geometric visibility information.
 \end{remark}
 
 \newpage
 
-\section{The ShadowNeuS Framework}
-\subsection{Motivation for Shadow-based Learning}
-\subsubsection*{What are Shadows?}
-A shadow is a region of reduced illumination created when an opaque object blocks light from a source. Geometrically, shadows result from the intersection of light rays with surfaces, creating visibility constraints that encode rich 3D information.
-\begin{definition}[Shadow Formation] ~\\
-Given a light source $\mathbf{L}$ and surface $\mathbb{S}$, a point $\mathbf{P}$ is in shadow if there exists a surface point $\mathbf{Q} \in \mathbb{S}$ such that $\mathbf{Q}$ lies on the line segment $\overline{\mathbf{L}\mathbf{P}}$.
+\subsection{Cast Shadows on Secondary Surfaces}
+
+\begin{definition}[Cast Shadow Region] ~\\
+Given an occluding surface $\mathcal{S}_1$ and a receiving surface $\mathcal{S}_2$, the cast shadow region is:
+\begin{equation}
+\boxed{
+\mathcal{C}_{1 \to 2} = \left\{ \vect{P} \in \mathcal{S}_2 \mid \exists t \in (0,1) \text{ such that } \vect{L} + t(\vect{P} - \vect{L}) \in \mathcal{S}_1
+\right\}
+}
+\end{equation}
 \end{definition}
 
+\begin{definition}[Cast Shadow Boundary] ~\\
+The boundary of the cast shadow on $\mathcal{S}_2$ is given by:
+\begin{equation}
+\boxed{
+\partial\mathcal{C}_{1 \to 2} = \left\{ \vect{P} = \vect{Q} + s(\vect{Q} - \vect{L}) \mid \vect{Q} \in \mathcal{B}_1, s > 0 \right\}
+}
+\end{equation}
+where $\mathcal{B}_1$ is the shadow boundary on the occluding surface $\mathcal{S}_1$.
+\end{definition}
 
-\subsection{Signed Distance Fields (SDFs)}
-\subsection{Shadow Rays and Surface Visibility}
-\subsection{Learning via Shadow Supervision}
-\subsection{Optimization Process}
-\subsection{Geometric Interpretation and Classical Analogs}
+\begin{remark}
+Cast shadow boundaries are formed by rays tangent to the occluder, extending toward the receiver.
+\end{remark}
+
+\subsection{Shadows as Cues for 3D Reconstruction}
+
+Shadows, especially their boundaries, encode constraints that can be leveraged to resolve ambiguities in monocular depth estimation.
+
+\begin{proposition}[Geometric Information Encoded in Shadows] ~\\
+Shadows provide four types of geometric cues:
+\begin{enumerate}[label=(\roman*)]
+\item \textbf{Surface orientation}: Attached shadows satisfy $(\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) < 0$
+\item \textbf{Boundary tangency}: Shadow boundaries satisfy $(\vect{Q} - \vect{L}) \cdot \vect{n}(\vect{Q}) = 0$
+\item \textbf{Relative depth}: Cast shadows reveal spatial relationships between objects
+\item \textbf{Occluded structure}: Shadowed areas imply presence of obstructing geometry
+\end{enumerate}
+\end{proposition}
+
+\begin{theorem}[Single-View Depth Recovery via Shadow Constraints] ~\\
+Let a pixel $\vect{p}$ on the image lie on the projected shadow boundary. Its corresponding 3D point must lie on the camera ray:
+\begin{equation}
+\vect{P} = \vect{C} + \lambda \vect{d}
+\end{equation}
+Imposing the tangency condition from equation~\eqref{eq:tangency} gives:
+\begin{equation}
+\boxed{(\vect{C} + \lambda \vect{d} - \vect{L}) \cdot \vect{n}(\vect{C} + \lambda \vect{d}) = 0} \label{eq:shadow_constraint}
+\end{equation}
+\end{theorem}
+
+This equation expresses that the unknown 3D point lies on both the shadow boundary and the camera ray, enforcing a tangency condition that geometrically constrains its depth. By solving this nonlinear equation, we can obtain a unique value $\lambda^*$ that determines the 3D point $\vect{P}^*$.
+
+\begin{proposition}[Cast Shadow Consistency Check] ~\\
+To validate the reconstruction $\vect{P}^*$, extend the light ray from $\vect{P}^*$ and check whether its shadow projection matches the observed image:
+\begin{equation}
+\boxed{
+\pi(\vect{P}^* + s(\vect{P}^* - \vect{L})) \in \Omega_{\text{shadow}}^{\text{obs}}, \quad s > 0
+}
+\end{equation}
+where $\Omega_{\text{shadow}}^{\text{obs}} \subset \R^2$ denotes the observed shadow region in the image.
+\end{proposition}
+
+\begin{remark}[Geometric Paradigm Shift] ~\\
+This framework reinterprets shadows not as photometric noise, but as reliable geometric constraints—enabling single-view 3D reconstruction without requiring texture, stereo pairs, or depth sensors.
+\end{remark}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \newpage

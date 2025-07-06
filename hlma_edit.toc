@@ -3,10 +3,9 @@
 \contentsline {subsection}{\numberline {1.2}Information Encoded in 2D Images}{2}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.3}The Forward Projection: From 3D World to 2D Image}{3}{subsection.1.3}%
 \contentsline {subsection}{\numberline {1.4}The Inverse Problem: From 2D Image to 3D World}{4}{subsection.1.4}%
-\contentsline {section}{\numberline {2}The ShadowNeuS Framework}{5}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Motivation for Shadow-based Learning}{5}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Signed Distance Fields (SDFs)}{5}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Shadow Rays and Surface Visibility}{5}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Learning via Shadow Supervision}{5}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Optimization Process}{5}{subsection.2.5}%
-\contentsline {subsection}{\numberline {2.6}Geometric Interpretation and Classical Analogs}{5}{subsection.2.6}%
+\contentsline {subsection}{\numberline {1.5}Cues for Solving the Inverse Problem}{5}{subsection.1.5}%
+\contentsline {section}{\numberline {2}Shadows as a Geometric Constraint}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Light Ray and Shadow Geometry}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Shadow Boundary and Surface Partitioning}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Cast Shadows on Secondary Surfaces}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Shadows as Cues for 3D Reconstruction}{6}{subsection.2.4}%

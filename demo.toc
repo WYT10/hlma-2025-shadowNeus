@@ -5,7 +5,7 @@
 \contentsline {subsection}{\numberline {1.4}The Inverse Problem: From 2D Image to 3D World}{4}{subsection.1.4}%
 \contentsline {subsection}{\numberline {1.5}Cues for Solving the Inverse Problem}{5}{subsection.1.5}%
 \contentsline {section}{\numberline {2}Shadows as a Geometric Constraint}{5}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Shadow Ray Geometry}{5}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2}Shadow Boundary Constraints}{5}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Image Projection}{5}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Depth Recovery via Ray Intersection}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.1}Light Ray and Shadow Geometry}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Shadow Boundary and Surface Partitioning}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Cast Shadows on Secondary Surfaces}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Shadows as Cues for 3D Reconstruction}{6}{subsection.2.4}%
