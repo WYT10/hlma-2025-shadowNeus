@@ -65,7 +65,7 @@
 % Abstract
 \begin{abstract}
 \raggedright
-This paper explores \textsc{ShadowNeuS} [LWX23], a neural network that reconstructs 3D geometry from single-view camera images using shadow and light cues. Unlike traditional 3D reconstruction methods relying on multi-view cameras or sensors, \textsc{ShadowNeuS} leverages a neural signed distance field (SDF) for accurate 3D geometry reconstruction. We analyze the training process and uncover its connections to projective geometry, spatial reasoning in $\R^3$, and the neural network's learned geometric representation of space.
+This paper explores \textsc{ShadowNeuS} \hyperlink{[LWX23]}{[LWX23]}, a neural network that reconstructs 3D geometry from single-view camera images using shadow and light cues. Unlike traditional 3D reconstruction methods relying on multi-view cameras or sensors, \textsc{ShadowNeuS} leverages a neural signed distance field (SDF) for accurate 3D geometry reconstruction. We analyze the training process and uncover its connections to projective geometry, spatial reasoning in $\R^3$, and the neural network's learned geometric representation of space.
 \end{abstract}
 
 \end{titlepage}
@@ -384,9 +384,37 @@ where $\Omega_{\text{shadow}}^{\text{obs}} \subset \R^2$ denotes the observed sh
 This framework reinterprets shadows not as photometric noise, but as reliable geometric constraints—enabling single-view 3D reconstruction without requiring texture, stereo pairs, or depth sensors.
 \end{remark}
 
+\newpage
 
+\subsection{Limitations of Shadow-Based Reconstruction}
 
+Shadows provide valuable geometric constraints but face challenges in certain scenarios. We suggest some key limitations below.
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Diffuse Lighting}: Diffuse or ambient light eliminates distinct shadow boundaries. The tangency condition $(\vect{Q} - \vect{L}) \cdot \vect{n}(\vect{Q}) = 0$ (equation~\eqref{eq:tangency}) requires a point light source $\vect{L}$. Without it, the boundary set $\mathcal{B}$ is undefined, making equation~\eqref{eq:shadow_constraint} unsolvable.
+    
+    \item \textbf{Self-Shadowing}: In complex scenes, multiple occluders $\mathcal{S}_1, \mathcal{S}_2$ create overlapping shadows. For a point $\vect{P} \in \mathcal{S}_2$, the light ray $r(t) = \vect{L} + t(\vect{P} - \vect{L})$ may have multiple intersections $t_1, t_2 \in (0,1)$, leading to ambiguous cast shadow regions $\mathcal{C}_{1 \to 2}$ and under-constrained depth $\lambda$ in equation~\eqref{eq:shadow_constraint}.
+    
+    \item \textbf{Unknown Light Position}: Accurate $\vect{L}$ is critical. An error $\Delta \vect{L}$ shifts the tangency condition to:
+    \[
+    (\vect{Q} - (\vect{L} + \Delta \vect{L})) \cdot \vect{n}(\vect{Q}) = 0,
+    \]
+    yielding incorrect $\mathcal{B}$ and erroneous $\vect{P}^* = \vect{C} + \lambda^* \vect{d}$. Estimating $\vect{L}$ from a single image is ill-posed.
+    
+    \item \textbf{Non-Lambertian Surfaces}: Specular surfaces distort shadow boundaries, misaligning observed $C_n(\vect{p})$ with geometric boundaries. Errors in $\nabla C_n(\vect{p})$ (equation~\eqref{eq:gradient}) invalidate the shadow constraint:
+    \[
+    (\vect{C} + \lambda \vect{d} - \vect{L}) \cdot \vect{n}(\vect{C} + \lambda \vect{d}) = 0.
+    \]
+    
+    \item \textbf{Computational Complexity}: Solving equation~\eqref{eq:shadow_constraint} requires minimizing:
+        \[\abs{(\vect{C} + \lambda \vect{d} - \vect{L}) \cdot \vect{n}(\vect{C} + \lambda \vect{d})}\]
+        which is computationally intensive. Noisy shadow edges lead to local minima, producing incorrect $\vect{P}^*$.
+\end{enumerate}
 
+\begin{remark}
+Shadow-based reconstruction remains challenging due to the above limitations. However, exploring and extracting information encoded by shadows is highly useful for 3D reconstruction.
+\end{remark}
+
+\section{}
 
 
 
@@ -404,7 +432,7 @@ This framework reinterprets shadows not as photometric noise, but as reliable ge
 
 \section*{References}
 \begin{tabular}{@{}p{0.1\textwidth} p{0.9\textwidth}}
-{[LWX23]} & Jingwang Ling, Zhibo Wang, Feng Xu. \textit{ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}. arXiv: \href{https://arxiv.org/abs/2211.14086}{2211.14086}, 2023.
+\hypertarget{[LWX23]}{[LWX23]} & Jingwang Ling, Zhibo Wang, Feng Xu. \textit{ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}. arXiv: \href{https://arxiv.org/abs/2211.14086}{2211.14086}, 2023.
 \end{tabular}
 
 \end{document}
