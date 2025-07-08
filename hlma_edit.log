@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.6)  7 JUL 2025 03:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.5.6)  8 JUL 2025 23:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -772,36 +772,44 @@ Package microtype Info: Loading generic protrusion settings for font family
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 255.
  (C:\Users\wongy\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [5]
-Overfull \hbox (30.61446pt too wide) in paragraph at lines 383--385
-\T1/ptm/m/n/12 (-20) This frame-work rein-ter-prets shad-ows not as pho-to-met-ric noise, but as re-li-able ge-o-met-ric con-straints^^Venabling
+) [5] [6] [7]
+
+LaTeX Warning: Reference `eq:shadow_depth_constraint' on page 8 undefined on input line 444.
+
+
+Overfull \hbox (4.33824pt too wide) in paragraph at lines 446--447
+[]\T1/ptm/b/n/12 (-20) Non-Differentiable Oc-clu-sion Tests: \T1/ptm/m/n/12 (-20) The con-di-tion $\OML/ztmcm/m/it/12 r\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 t\OT1/ztmcm/m/n/12 ) \OMS/ztmcm/m/n/12 \ S 6\OT1/ztmcm/m/n/12 = \OMS/ztmcm/m/n/12 ;$ \T1/ptm/m/n/12 (-20) is in-her-ently non-differentiable,
  []
 
-[6] [7]
-Overfull \hbox (17.99998pt too wide) in paragraph at lines 434--437
+[8]
+Overfull \hbox (17.99998pt too wide) in paragraph at lines 477--480
 [] 
  []
 
-[8] (hlma_edit.aux)
+[9] (hlma_edit.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `hlma_edit.out' has not changed.
-(rerunfilecheck)             Checksum: 1A6CC0E98526F491FAD35811D2E356CF;2987.
+(rerunfilecheck)             Checksum: 320B3BC3AEEE00B259C4060B8FAA7590;2780.
  ) 
 Here is how much of TeX's memory you used:
- 24892 strings out of 474486
- 455535 string characters out of 5743756
- 1940542 words of memory out of 5000000
- 46406 multiletter control sequences out of 15000+600000
- 638543 words of font info for 274 fonts, out of 8000000 for 9000
+ 24930 strings out of 474486
+ 456039 string characters out of 5743756
+ 1943542 words of memory out of 5000000
+ 46415 multiletter control sequences out of 15000+600000
+ 639386 words of font info for 287 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  102i,15n,107p,1046b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss9.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/public/rsfs/rsfs10.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/symbol/usyr.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/wongy/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on hlma_edit.pdf (9 pages, 171683 bytes).
+Output written on hlma_edit.pdf (10 pages, 177593 bytes).
 PDF statistics:
- 286 PDF objects out of 1000 (max. 8388607)
- 99 named destinations out of 1000 (max. 500000)
- 88181 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 303 PDF objects out of 1000 (max. 8388607)
+ 109 named destinations out of 1000 (max. 500000)
+ 88173 words of extra memory for PDF output out of 89155 (max. 10000000)
 

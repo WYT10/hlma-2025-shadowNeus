@@ -7,7 +7,6 @@
 \contentsline {section}{\numberline {2}Shadows as a Geometric Constraint}{5}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Light Ray and Shadow Geometry}{5}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Shadow Boundary and Surface Partitioning}{5}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3}Cast Shadows on Secondary Surfaces}{6}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Shadows as Cues for 3D Reconstruction}{6}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5}Limitations of Shadow-Based Reconstruction}{7}{subsection.2.5}%
-\contentsline {section}{\numberline {3}}{7}{section.3}%
+\contentsline {subsection}{\numberline {2.3}Cast Shadow Regions}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Shadow Regions in Images}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Shadows as Cues for 3D Reconstruction}{7}{subsection.2.5}%
