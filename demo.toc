@@ -10,3 +10,12 @@
 \contentsline {subsection}{\numberline {2.3}Cast Shadow Regions}{6}{subsection.2.3}%
 \contentsline {subsection}{\numberline {2.4}Shadow Regions in Images}{6}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Shadows as Cues for 3D Reconstruction}{7}{subsection.2.5}%
+\contentsline {paragraph}{Fundamental Challenges}{8}{section*.7}%
+\contentsline {paragraph}{Computational Challenges}{8}{section*.8}%
+\contentsline {paragraph}{Practical Issues}{8}{section*.9}%
+\contentsline {section}{\numberline {3}ShadowNeuS: Neural Shadow-Based 3D Reconstruction}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Classical vs Neural Approaches: Method Comparison}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}From Classical Shadow Analysis to Neural Methods}{10}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}ShadowNeuS Pipeline}{10}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Addressing Classical Limitations}{11}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Shadow Consistency Loss}{12}{subsubsection.3.2.3}%
