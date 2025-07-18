@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  11 JUL 2025 02:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  18 JUL 2025 13:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -860,12 +860,12 @@ Underfull \hbox (badness 5787) in paragraph at lines 489--490
  []
 
 
-Overfull \hbox (9.30885pt too wide) in paragraph at lines 582--583
+Overfull \hbox (9.30885pt too wide) in paragraph at lines 583--584
  [][] 
  []
 
 
-Overfull \hbox (26.24225pt too wide) in paragraph at lines 624--625
+Overfull \hbox (26.24225pt too wide) in paragraph at lines 625--626
  [][] 
  []
 
@@ -875,36 +875,59 @@ Overfull \hbox (26.24225pt too wide) in paragraph at lines 624--625
 
 [10]
 
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 717.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\to' on input line 717.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 717.
+
+
+
 [11]
 
+LaTeX Warning: Reference `def:shadow_loss' on page 12 undefined on input line 769.
+
+
+
 [12]
-Overfull \hbox (17.99998pt too wide) in paragraph at lines 827--830
+
+[13]
+Overfull \hbox (17.99998pt too wide) in paragraph at lines 1086--1089
 [] 
  []
 
 
 
-[13] (./demo.aux)
+[14] (./demo.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `demo.out' has not changed.
-(rerunfilecheck)             Checksum: 1DA215E354C2C993336AEDB96ED8F9B7;4304.
+(rerunfilecheck)             Checksum: 7E49C7C90F1A741559C4AF8079BA55BD;4451.
  ) 
 Here is how much of TeX's memory you used:
- 27829 strings out of 473207
- 529385 string characters out of 5720461
- 988868 words of memory out of 5000000
- 50120 multiletter control sequences out of 15000+600000
- 646802 words of font info for 324 fonts, out of 8000000 for 9000
+ 27854 strings out of 473207
+ 529705 string characters out of 5720461
+ 989536 words of memory out of 5000000
+ 50127 multiletter control sequences out of 15000+600000
+ 652178 words of font info for 341 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 102i,15n,107p,1052b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 102i,16n,107p,1052b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on demo.pdf (14 pages, 172504 bytes).
+Output written on demo.pdf (15 pages, 176575 bytes).
 PDF statistics:
- 437 PDF objects out of 1000 (max. 8388607)
- 375 compressed objects within 4 object streams
- 157 named destinations out of 1000 (max. 500000)
- 96509 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 424 PDF objects out of 1000 (max. 8388607)
+ 361 compressed objects within 4 object streams
+ 150 named destinations out of 1000 (max. 500000)
+ 102653 words of extra memory for PDF output out of 106986 (max. 10000000)
 

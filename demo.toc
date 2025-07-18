@@ -15,7 +15,11 @@
 \contentsline {paragraph}{Practical Issues}{8}{section*.9}%
 \contentsline {section}{\numberline {3}ShadowNeuS: Neural Shadow-Based 3D Reconstruction}{9}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Classical vs Neural Approaches: Method Comparison}{9}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}From Classical Shadow Analysis to Neural Methods}{10}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}ShadowNeuS Pipeline}{10}{subsubsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.2}Addressing Classical Limitations}{11}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Shadow Consistency Loss}{12}{subsubsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2}ShadowNeuS Pipeline}{10}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Neural Signed Distance Fields (SDF)}{10}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Epoch 1: Neural SDF Initialization and MLP Design}{11}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{11}{subsubsection.3.2.3}%
+\contentsline {paragraph}{Camera Rays:}{12}{section*.12}%
+\contentsline {paragraph}{Shadow Evaluation via Shadow Rays:}{13}{section*.13}%
+\contentsline {paragraph}{Opacity Accumulation:}{13}{section*.14}%
+\contentsline {paragraph}{Shadow Rendering:}{13}{section*.15}%

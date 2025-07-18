@@ -65,24 +65,21 @@
 \newlabel{eq:image_shadow}{{30}{6}{Image Shadow and Lit Regions}{equation.30}{}}
 \newlabel{eq:image_boundary}{{31}{6}{Image Shadow and Lit Regions}{equation.31}{}}
 \newlabel{rmk:shadow_projection}{{2.4.1}{7}{Relation between shadow region and image region}{remark.2.4.1}{}}
-\newlabel{def:shadow_loss}{{2.4.2}{7}{Shadow Consistency Loss}{definition.2.4.2}{}}
-\newlabel{rmk:shadow_loss_purpose}{{2.4.2}{7}{Purpose of Shadow Consistency Loss}{remark.2.4.2}{}}
+\newlabel{def:shadow_accuracy}{{2.4.2}{7}{Shadow Region Classification Accuracy}{definition.2.4.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Shadows as Cues for 3D Reconstruction}{7}{subsection.2.5}\protected@file@percent }
 \newlabel{sec:shadow_cues}{{2.5}{7}{Shadows as Cues for 3D Reconstruction}{subsection.2.5}{}}
 \newlabel{sec:shadow_geom_info}{{2.5}{7}{Geometric Information Encoded in Shadows}{section*.4}{}}
 \newlabel{prop:shadow_cues}{{2.5.1}{7}{Shadow-Derived Geometric Cues}{proposition.2.5.1}{}}
 \newlabel{rmk:depth_order}{{2.5.1}{7}{Depth Ordering via Cast Shadows}{remark.2.5.1}{}}
-\newlabel{sec:shadow_depth}{{2.5}{8}{Shadow Boundary Depth Recovery}{section*.5}{}}
-\newlabel{eq:shadow_depth_system}{{33}{8}{Shadow Boundary Depth Recovery}{equation.33}{}}
-\newlabel{thm:shadow_depth}{{2.5.1}{8}{Depth from Shadow Boundary}{theorem.2.5.1}{}}
-\newlabel{eq:lambda_solution}{{34}{8}{Depth from Shadow Boundary}{equation.34}{}}
-\newlabel{rmk:multiple_boundaries}{{2.5.2}{8}{Multiple Boundaries}{remark.2.5.2}{}}
-\newlabel{eq:multiple_depths}{{35}{8}{Multiple Boundaries}{equation.35}{}}
+\newlabel{sec:shadow_depth}{{2.5}{8}{Shadow Depth Recovery}{section*.5}{}}
+\newlabel{eq:shadow_depth_system}{{33}{8}{Shadow Depth Recovery}{equation.33}{}}
+\newlabel{thm:shadow_depth}{{2.5.1}{8}{Depth from Shadow}{theorem.2.5.1}{}}
+\newlabel{eq:lambda_solution}{{34}{8}{Depth from Shadow}{equation.34}{}}
 \newlabel{sec:shadow_limitations}{{2.5}{8}{Limitations and Computational Challenges}{section*.6}{}}
 \@writefile{toc}{\contentsline {paragraph}{Fundamental Challenges}{8}{section*.7}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Computational Challenges}{8}{section*.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Practical Issues}{8}{section*.9}\protected@file@percent }
-\newlabel{rmk:neural_solutions}{{2.5.3}{9}{Neural Solutions}{remark.2.5.3}{}}
+\newlabel{rmk:neural_solutions}{{2.5.2}{9}{Neural Solutions}{remark.2.5.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}ShadowNeuS: Neural Shadow-Based 3D Reconstruction}{9}{section.3}\protected@file@percent }
 \newlabel{sec:shadowneus}{{3}{9}{ShadowNeuS: Neural Shadow-Based 3D Reconstruction}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Classical vs Neural Approaches: Method Comparison}{9}{subsection.3.1}\protected@file@percent }
@@ -91,16 +88,23 @@
 \newlabel{fig:classical_method}{{1}{9}{Classical method (Sequential processing pipeline)}{figure.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces ShadowNeuS (End-to-end neural optimization pipeline)}}{10}{figure.2}\protected@file@percent }
 \newlabel{fig:neural_method}{{2}{10}{ShadowNeuS (End-to-end neural optimization pipeline)}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}From Classical Shadow Analysis to Neural Methods}{10}{subsection.3.2}\protected@file@percent }
-\newlabel{sec:classical_to_neural}{{3.2}{10}{From Classical Shadow Analysis to Neural Methods}{subsection.3.2}{}}
-\newlabel{def:neural_sdf}{{3.2.1}{10}{Neural Signed Distance Function}{definition.3.2.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}ShadowNeuS Pipeline}{10}{subsubsection.3.2.1}\protected@file@percent }
-\newlabel{sec:shadowneus_pipeline}{{3.2.1}{10}{ShadowNeuS Pipeline}{subsubsection.3.2.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Addressing Classical Limitations}{11}{subsubsection.3.2.2}\protected@file@percent }
-\newlabel{sec:address_limitations}{{3.2.2}{11}{Addressing Classical Limitations}{subsubsection.3.2.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Shadow Consistency Loss}{12}{subsubsection.3.2.3}\protected@file@percent }
-\newlabel{sec:shadowneus_loss}{{3.2.3}{12}{Shadow Consistency Loss}{subsubsection.3.2.3}{}}
-\newlabel{def:shadowneus_loss}{{3.2.2}{12}{Shadow Consistency Loss}{definition.3.2.2}{}}
-\newlabel{eq:shadowneus_loss}{{36}{12}{Shadow Consistency Loss}{equation.36}{}}
-\newlabel{eq:shadowneus_depth}{{37}{12}{Depth Recovery in ShadowNeuS}{equation.37}{}}
-\gdef \@abspage@last{14}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}ShadowNeuS Pipeline}{10}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:classical_to_neural}{{3.2}{10}{ShadowNeuS Pipeline}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Neural Signed Distance Fields (SDF)}{10}{subsubsection.3.2.1}\protected@file@percent }
+\newlabel{sec:neural_sdf}{{3.2.1}{10}{Neural Signed Distance Fields (SDF)}{subsubsection.3.2.1}{}}
+\newlabel{def:neural_sdf}{{3.2.1}{10}{Neural Signed Distance Field}{definition.3.2.1}{}}
+\newlabel{rmk:gradient_properties}{{3.2.1}{10}{Key Mathematical Properties of Neural SDF}{remark.3.2.1}{}}
+\newlabel{eq:sdf_normal}{{35}{10}{Key Mathematical Properties of Neural SDF}{equation.35}{}}
+\newlabel{eq:eikonal_constraint}{{36}{10}{Key Mathematical Properties of Neural SDF}{equation.36}{}}
+\newlabel{eq:taylor_sdf_property}{{37}{10}{Key Mathematical Properties of Neural SDF}{equation.37}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Epoch 1: Neural SDF Initialization and MLP Design}{11}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{sec:epoch1_neural_sdf}{{3.2.2}{11}{Epoch 1: Neural SDF Initialization and MLP Design}{subsubsection.3.2.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{11}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{sec:epoch2_ray_sampling}{{3.2.3}{11}{Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{subsubsection.3.2.3}{}}
+\newlabel{eq:eikonal_loss}{{40}{12}{Loss Functions Tailored for Shadow Supervision}{equation.40}{}}
+\newlabel{sec:differentiable_rendering}{{3.2.3}{12}{Differentiable Ray Sampling and Shadow Rendering}{section*.11}{}}
+\@writefile{toc}{\contentsline {paragraph}{Camera Rays:}{12}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Shadow Evaluation via Shadow Rays:}{13}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Opacity Accumulation:}{13}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Shadow Rendering:}{13}{section*.15}\protected@file@percent }
+\gdef \@abspage@last{15}

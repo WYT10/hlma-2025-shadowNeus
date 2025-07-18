@@ -255,12 +255,12 @@ To achieve unique reconstruction, we require additional information such as:
 \begin{itemize}
     \item \textbf{Stereo correspondence}: Multiple viewpoints providing triangulation
     \item \textbf{Depth sensors}: Direct measurement of $\lambda$
-    \item \textbf{Shadow constraints}: Geometric relationships via light-surface interactions
+    \item \textbf{Shadow constraints}: Geometric relationships via light ray intersections
 \end{itemize}
 
 \section{Shadows as a Geometric Constraint} \label{sec:shadows}
 
-To what extent can shadows constrain 3D geometry from a single image? In this section, we formalize shadow formation, analyze the geometric information it provides, discuss its limitations and set up the motivation for neural solutions.
+We formalize how shadows encode geometric information to constrain 3D reconstruction. By analyzing light transport and occlusion, we derive conditions enabling depth recovery from single-view images, leveraging shadows as powerful geometric cues.
 
 \subsection{Light Ray and Shadow Geometry} \label{sec:light_ray_geometry}
 
@@ -293,7 +293,7 @@ where $\vect{n}(\vect{Q})$ is the outward unit normal at $\vect{Q}$.
 \end{theorem}
 
 \begin{proof}
-At the shadow boundary, the light ray $r(t)$ grazes the surface $\mathcal{S}$ at $\vect{Q}$, meaning the direction $\vect{Q} - \vect{L}$ lies in the tangent plane. Thus, it is perpendicular to the surface normal $\vect{n}(\vect{Q})$,  $(\vect{Q} - \vect{L}) \cdot \vect{n}(\vect{Q}) = 0$.
+At the shadow boundary, the light ray $r(t)$ grazes the surface $\mathcal{S}$ at $\vect{Q}$, meaning the direction $\vect{Q} - \vect{L}$ lies in the tangent plane. Thus, it is perpendicular to the surface normal $\vect{n}(\vect{Q})$, yielding $(\vect{Q} - \vect{L}) \cdot \vect{n}(\vect{Q}) = 0$.
 \end{proof}
 
 \begin{definition}[Shadow Boundary Set] \label{def:boundary_set} ~\\
@@ -368,12 +368,17 @@ where $\mathcal{S}_{\text{lit}}$, $\mathcal{S}_{\text{shadow}}$, $\mathcal{B}$, 
 The forward projection $\pi$ maps 3D surface points to 2D image pixels. For example, a 3D point $\vect{P}$ on a lit surface projects to pixel $\vect{p} = \pi(\vect{P})$ in the bright image region $\Omega_{\text{lit}}^{\text{obs}}$. Similarly, shadowed 3D points project to dark pixels in $\Omega_{\text{shadow}}^{\text{obs}}$. This creates a direct correspondence between 3D geometry and what we observe in the image.
 \end{remark}
 
-\begin{definition}[Shadow Region Classification Accuracy] \label{def:shadow_accuracy} ~\\
-This accuracy metric evaluates how well the reconstructed 3D geometry correctly predicts the image regions classified as lit or shadow:
+\begin{definition}[Shadow Consistency Loss] \label{def:shadow_loss} ~\\
+The shadow consistency loss measures how well our reconstructed 3D geometry matches the observed shadows:
 \begin{equation}
-\text{Accuracy} = \frac{\text{Number of correctly predicted pixels}}{\text{Total number of pixels}} = \frac{N_{\text{correct}}}{N_{\text{total}}}
+\mathcal{L}_{\text{shadow}} = w_1 \cdot \mathcal{L}_{\text{lit-mismatch}} + w_2 \cdot \mathcal{L}_{\text{shadow-mismatch}} + w_3 \cdot \mathcal{L}_{\text{boundary-mismatch}}
 \end{equation}
+where $\mathcal{L}_{\text{lit-mismatch}}$, $\mathcal{L}_{\text{shadow-mismatch}}$, and $\mathcal{L}_{\text{boundary-mismatch}}$ penalize pixels that are misclassified as lit, shadow, or boundary regions respectively, and $w_1, w_2, w_3$ are weighting coefficients.
 \end{definition}
+
+\begin{remark}[Purpose of Shadow Consistency Loss] \label{rmk:shadow_loss_purpose} ~\\
+This loss acts as a geometric constraint: if we observe a shadow at pixel $\vect{p}$, then the 3D point $\pi^{-1}(\vect{p})$ must be occluded by some surface. The loss penalizes inconsistencies, forcing the reconstruction to respect shadow boundaries and create geometrically reasonable surfaces.
+\end{remark}
 
 \subsection{Shadows as Cues for 3D Reconstruction} \label{sec:shadow_cues}
 
@@ -408,44 +413,39 @@ Cast shadows provide explicit ordering information. If a point $\vect{P}$ on sur
 
 \newpage
 
-\subsubsection*{Shadow Depth Recovery} \label{sec:shadow_depth}
+\subsubsection*{Shadow Boundary Depth Recovery} \label{sec:shadow_depth}
 
-For a pixel $\vect{p}$ on the shadow boundary, depth recovery combines the camera ray (\ref{eq:camera_ray}) with the Surface Illumination Partition (\ref{prop:illumination_partition}):
+For a pixel $\vect{p}$ on the shadow boundary, depth recovery combines the camera ray with the tangency condition:
 
 \begin{equation}
 \boxed{
 \begin{aligned}
-\vect{P}(\lambda) &= \vect{C} + \lambda \vect{d} \quad \text{and} \quad
-\begin{cases}
-(\vect{P}(\lambda) - \vect{L}) \cdot \hat{\vect{n}} > 0 \\[6pt]
-(\vect{P}(\lambda) - \vect{L}) \cdot \hat{\vect{n}} = 0 \\[6pt]
-(\vect{P}(\lambda) - \vect{L}) \cdot \hat{\vect{n}} < 0
-\end{cases}
+\vect{P}(\lambda) &= \vect{C} + \lambda \vect{d} \\
+(\vect{P}(\lambda) - \vect{L}) \cdot \vect{n}(\vect{P}(\lambda)) &= 0
 \end{aligned}
-}
-\label{eq:shadow_depth_system}
+} \label{eq:shadow_depth_system}
 \end{equation}
 
-\begin{theorem}[Depth from Shadow] \label{thm:shadow_depth} ~\\
-Given surface normal estimate \(\hat{\vect{n}}\), the depth parameter \(\lambda\) satisfies:
+\begin{theorem}[Depth from Shadow Boundary] \label{thm:shadow_depth} ~\\
+Given surface normal estimate $\hat{\vect{n}}$, the depth parameter solves to:
 \begin{equation}
-\boxed{
-\begin{cases}
-\lambda > \displaystyle \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}} & \text{(point is illuminated)} \\[8pt]
-\lambda = \displaystyle \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}} & \text{(on shadow boundary)} \\[8pt]
-\lambda < \displaystyle \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}} & \text{(in attached shadow region)}
-\end{cases}
-}
-\label{eq:lambda_solution}
+\boxed{\lambda = \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}}} \label{eq:lambda_solution}
 \end{equation}
-provided \(\vect{d} \cdot \hat{\vect{n}} \neq 0\).
+provided $\vect{d} \cdot \hat{\vect{n}} \neq 0$.
 \end{theorem}
+
+\begin{remark}[Multiple Boundaries] \label{rmk:multiple_boundaries} ~\\
+For $m$ boundary pixels $\{\vect{p}_i\}$ with normals $\{\hat{\vect{n}}_i\}$:
+\begin{equation}
+\boxed{\lambda_i = \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}_i}{\vect{d}_i \cdot \hat{\vect{n}}_i}, \quad i = 1, \ldots, m} \label{eq:multiple_depths}
+\end{equation}
+\end{remark}
 
 \subsubsection*{Limitations and Computational Challenges} \label{sec:shadow_limitations}
 
 \paragraph{Fundamental Challenges}
 \begin{enumerate}[label=\arabic*.]
-    \item \textbf{Circular Dependency:} Equation~\eqref{eq:lambda_solution} requires surface normals $\hat{\vect{n}}$ at point $P(\lambda)$ to find the value of $\lambda$.
+    \item \textbf{Circular Dependency:} Equation~\eqref{eq:lambda_solution} requires surface normals $\hat{\vect{n}}$, which depend on unknown surface geometry.
     
     \item \textbf{Singular Cases:} Solution undefined when $\vect{d} \cdot \hat{\vect{n}} = 0$ (grazing angles).
     
@@ -465,7 +465,7 @@ provided \(\vect{d} \cdot \hat{\vect{n}} \neq 0\).
 \begin{enumerate}[label=\arabic*., resume]
     \item \textbf{Light Localization:} Unknown light position $\vect{L}$ must be estimated, introducing error propagation.
     
-    \item \textbf{Shadow Detection:} Real images have soft shadows, noise, and ambient lighting that blur the shadow information.
+    \item \textbf{Shadow Detection:} Real images have soft shadows, noise, and ambient lighting that blur boundaries.
     
     \item \textbf{Multi-Object Complexity:} Overlapping shadows from multiple objects complicate the total cast region $\mathcal{C}_{\text{total}}$.
 \end{enumerate}
@@ -535,14 +535,14 @@ These methods transform geometric constraints into trainable optimization object
 ShadowNeuS addresses single-view 3D reconstruction under specific controlled conditions:
 
 \begin{itemize}
-    \item \textbf{Single camera viewpoint}: Fixed camera position and orientation.
-    \item \textbf{Multiple lighting conditions}: Images captured under a set of known light source positions $\{\mathbf{L}_i\}$.
-    \item \textbf{Calibrated light positions}: Light source locations are known or pre-calibrated.
-    \item \textbf{Static scene}: No object movement between lighting conditions.
-    \item \textbf{Observable shadows}: Clear and distinguishable shadow boundaries in the captured images.
+    \item \textbf{Single camera viewpoint}: Fixed camera position and orientation
+    \item \textbf{Multiple lighting conditions}: Images captured under various known light source positions $\{\mathbf{L}_i\}$
+    \item \textbf{Known light positions}: Light source locations are calibrated or estimated
+    \item \textbf{Static scene}: No object movement between lighting conditions
+    \item \textbf{Observable shadows}: Clear shadow boundaries and regions in captured images
 \end{itemize}
 
-This setup allows ShadowNeuS to leverage shadow cues to recover complete 3D geometry, including occluded or non-visible regions, by combining classical geometric reasoning with neural optimization.
+This setup enables ShadowNeuS to use shadow information to recover complete 3D geometry, including occluded regions, by combining classical geometric insights with neural optimization.
 
 \subsection{Classical vs Neural Approaches: Method Comparison} \label{sec:method_comparison}
 
@@ -570,7 +570,6 @@ Figures~\ref{fig:classical_method} and~\ref{fig:neural_method} illustrate the pr
 \draw[arrow] (boundary_det) -- (normal_est);
 \draw[arrow] (normal_est) -- (depth_solve);
 \draw[arrow] (depth_solve) -- (surface_recon);
-
 
 % Timeline
 \node[above=0.3cm of input] {Step 1};
@@ -627,396 +626,175 @@ Figures~\ref{fig:classical_method} and~\ref{fig:neural_method} illustrate the pr
 \label{fig:neural_method}
 \end{figure}
 
-\subsection{ShadowNeuS Pipeline} \label{sec:classical_to_neural}
+\subsection{From Classical Shadow Analysis to Neural Methods} \label{sec:classical_to_neural}
 
-In this section, we outline the complete pipeline of ShadowNeuS, from the initialization of neural SDFs to optimization using shadow supervision.
+Classical shadow-based 3D reconstruction (Figure~\ref{fig:classical_method}) uses a sequential pipeline: segmenting shadows, detecting boundaries, estimating normals, solving for depth, and reconstructing surfaces. This approach faces challenges like non-differentiable occlusion tests and circular dependencies between normals and depth, as detailed in Section~\ref{sec:shadow_limitations}.
 
-\subsubsection{Neural Signed Distance Fields (SDF)} \label{sec:neural_sdf}
+ShadowNeuS (Figure~\ref{fig:neural_method}) overcomes these by representing the 3D scene as a neural Signed Distance Function (SDF) parameterized by a Multi-Layer Perceptron (MLP). It employs differentiable ray tracing and optimization to learn geometry from shadow or RGB images under multiple lighting conditions, resolving single-view ambiguities.
 
-\begin{definition}[Neural Signed Distance Field] \label{def:neural_sdf} ~\\
-A \textbf{Neural Signed Distance Field} (Neural SDF) is a function $f(\mathbf{P}; \theta): \mathbb{R}^3 \to \mathbb{R}$ parameterized by a multi-layer perceptron (MLP) with trainable weights $\theta$. It implicitly represents a 3D scene by outputting the signed distance of any spatial point $\mathbf{P} = (p_x, p_y, p_z)^\top$ to the nearest surface:
-\[
-f(\mathbf{P}) =
-\begin{cases}
-< 0 & \text{if } \mathbf{P} \text{ is inside the object}, \\
-= 0 & \text{if } \mathbf{P} \text{ lies on the surface}, \\
-> 0 & \text{if } \mathbf{P} \text{ is outside the object}.
-\end{cases}
-\]
+\begin{definition}[Neural Signed Distance Function] \label{def:neural_sdf}
+A neural SDF \( f(\mathbf{x}; \theta): \mathbb{R}^3 \to \mathbb{R} \), parameterized by an MLP with weights \(\theta\), represents a 3D scene as follows:
+\begin{itemize}
+    \item \textbf{Surface}: \( f(\mathbf{x}) = 0 \) defines the surface \( \mathcal{S} \).
+    \item \textbf{Outside}: \( f(\mathbf{x}) > 0 \), where \( f(\mathbf{x}) \) is the distance to the nearest surface point.
+    \item \textbf{Inside}: \( f(\mathbf{x}) < 0 \), where \( |f(\mathbf{x})| \) is the distance to the surface.
+    \item \textbf{Normal}: \( \nabla f(\mathbf{x}) \) is the surface normal at \( \mathbf{x} \in \mathcal{S} \), with \( \|\nabla f(\mathbf{x})\|_2 = 1 \).
+\end{itemize}
 \end{definition}
 
-\begin{remark}[Key Mathematical Properties of Neural SDF] \label{rmk:gradient_properties} ~\\
-Neural SDFs encode geometric and differential properties useful for 3D reconstruction from shadow cues:
 \begin{itemize}
-
-    \item \textbf{Differentiability}: $f(\mathbf{P}; \theta)$ is differentiable with respect to both spatial coordinates $\mathbf{P}$ and neural parameters $\theta$, enabling end-to-end gradient-based optimization:
-    \[
-    \nabla_{\mathbf{P}} f(\mathbf{P}; \theta), \quad \nabla_{\theta} f(\mathbf{P}; \theta).
-    \]
-    
-    \item \textbf{Surface Normals}: At the zero-level set $f(\mathbf{P}) = 0$, the unit surface normal vector is computed via normalized spatial gradients:
-    \begin{equation}
-    \hat{\mathbf{n}}(\mathbf{P}) = \frac{\nabla_{\mathbf{P}} f(\mathbf{P})}{\|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2}. \label{eq:sdf_normal}
-    \end{equation}
-    This facilitates shadow-based light visibility computations via the angle between $\hat{\mathbf{n}}$ and the light direction $\mathbf{L} - \mathbf{P}$.
-
-    \item \textbf{Eikonal Regularization (Distance Consistency)}: For $f(\mathbf{P})$ to represent a valid distance function locally, it must satisfy the \textit{Eikonal equation}:
-    \begin{equation}
-    \|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 = 1, \quad \forall \mathbf{P} \in \mathbb{R}^3. \label{eq:eikonal_constraint}
-    \end{equation}
-    A first-order Taylor approximation confirms this property:
-    \begin{equation}
-    f(\mathbf{P} + \sigma \mathbf{u}) \approx f(\mathbf{P}) + \sigma \cdot \left( \nabla_{\mathbf{P}} f(\mathbf{P}) \cdot \mathbf{u} \right), \quad \|\mathbf{u}\|_2 = 1, |\sigma| \ll 1. \label{eq:taylor_sdf_property}
-    \end{equation}
-
-    \item \textbf{Geometric Stability}: Deviations from $\|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 = 1$ indicate distortion:
-    \[
-    \|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2
-    \begin{cases}
-    > 1 & \text{implies local stretching (distance overestimation)}, \\
-    < 1 & \text{implies local compression (distance underestimation)}.
-    \end{cases}
-    \]
-    Enforcing the Eikonal constraint regularizes the SDF, ensuring stable and consistent geometry during optimization.
-    
+    \item \textbf{SDF Use Cases in ShadowNeuS}:
+        \begin{itemize}
+            \item \textbf{If \( f(\mathbf{x}) = 0 \)}: The point \(\mathbf{x}\) lies on the surface. Used in camera ray marching to find surface points for rendering or shadow ray starting points.
+                \begin{itemize}
+                    \item \textit{Example}: A ray hits a surface point \(\hat{\mathbf{x}}\) where \( f(\hat{\mathbf{x}}) \approx 0 \), used to compute shadows or colors.
+                \end{itemize}
+            \item \textbf{If \( f(\mathbf{x}) > 0 \)}: The point is outside the object. The SDF value indicates how far \(\mathbf{x}\) is from the surface, guiding ray marching to approach the surface.
+                \begin{itemize}
+                    \item \textit{Example}: During ray marching, if \( f(\mathbf{x}) = 0.1 \), move 0.1 units toward the surface along the ray.
+                \end{itemize}
+            \item \textbf{If \( f(\mathbf{x}) < 0 \)}: The point is inside the object. The negative value helps identify occlusion in shadow rays.
+                \begin{itemize}
+                    \item \textit{Example}: A shadow ray passing through a point with \( f(\mathbf{x}) < 0 \) indicates occlusion, reducing radiance.
+                \end{itemize}
+        \end{itemize}
+    \item \textbf{Gradient \( \nabla f(\mathbf{x}) \)}:
+        \begin{itemize}
+            \item \textbf{Definition}: \( \nabla f(\mathbf{x}) = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}, \frac{\partial f}{\partial z} \right) \) points toward the nearest surface and indicates the rate of SDF
+            \item \textit{Example}: If a shadow ray hits a surface \(f(\hat{\mathbf{x})=0\), \( \nabla f(\hat{\mathbf{x}}) \) is the surface normal that determines if the point is lit or shadowed based on the tangency condition (Equation~\eqref{eq:tangency}).
+        \end{itemize}
+    \newpage
+    \item \textbf{Norm-2 of Gradient \( \|\nabla f(\mathbf{x})\|_2 = 1 \)}:
+        \begin{itemize}
+            \item \textbf{True Distance Function}: An SDF is a \textit{true distance function} if \( f(\mathbf{x}) \) equals the Euclidean distance to the nearest surface, ensured by \( \|\nabla f(\mathbf{x})\|_2 = 1 \). This means moving a distance \( \delta \) in the gradient direction changes \( f(\mathbf{x}) \) by exactly \( \delta \).
+            \item \textbf{Taylor Series Insight}: The first-degree Taylor approximation of \( f(\mathbf{x} + \delta \mathbf{u}) \) near \(\mathbf{x}\):
+                \[
+                f(\mathbf{x} + \delta \mathbf{u}) \approx f(\mathbf{x}) + \delta \nabla f(\mathbf{x}) \cdot \mathbf{u}
+                \]
+                If \( \mathbf{u} = \nabla f(\mathbf{x}) / \|\nabla f(\mathbf{x})\|_2 \) (unit direction) and \( \|\nabla f(\mathbf{x})\|_2 = 1 \), then:
+                \[
+                f(\mathbf{x} + \delta \nabla f(\mathbf{x})) \approx f(\mathbf{x}) + \delta
+                \]
+                This constant rate of change (factor of 1) ensures predictable updates in gradient descent and accurate ray marching steps.
+            \item \textbf{Use Case}: The Eikonal constraint \( \|\nabla f\|_2 = 1 \) ensures:
+                \begin{itemize}
+                    \item \textit{Ray Marching}: Consistent step sizes to reach \( f(\mathbf{x}) = 0 \).
+                    \item \textit{Gradient Descent}: Stable optimization by providing a constant scaling factor for MLP weight updates.
+                    \item \textit{Normals}: Correctly scaled normals for shadow and RGB rendering.
+                \end{itemize}
+            \item \textit{Example}: If \( \|\nabla f\|_2 = 2 \), a step of 0.1 units in the gradient direction changes \( f(\mathbf{x}) \) by 0.2, causing ray marching to overshoot the surface and distorting shadows.
+        \end{itemize}
 \end{itemize}
+    \item \textbf{Norm-2 of Gradient \( \|\nabla f(\mathbf{x})\|_2 = 1 \)}:
+        \begin{itemize}
+            \item \textbf{True Distance Function}: An SDF is a \textit{true distance function} if \( f(\mathbf{x}) \) equals the Euclidean distance to the nearest surface, ensured by \( \|\nabla f(\mathbf{x})\|_2 = 1 \). This means moving a distance \( \delta \) in the gradient direction changes \( f(\mathbf{x}) \) by exactly \( \delta \).
+            \item \textbf{Taylor Series Insight}: The first-degree Taylor approximation of \( f(\mathbf{x} + \delta \mathbf{u}) \) near \(\mathbf{x}\):
+                \[
+                f(\mathbf{x} + \delta \mathbf{u}) \approx f(\mathbf{x}) + \delta \nabla f(\mathbf{x}) \cdot \mathbf{u}
+                \]
+                If \( \mathbf{u} = \nabla f(\mathbf{x}) / \|\nabla f(\mathbf{x})\|_2 \) (unit direction) and \( \|\nabla f(\mathbf{x})\|_2 = 1 \), then:
+                \[
+                f(\mathbf{x} + \delta \nabla f(\mathbf{x})) \approx f(\mathbf{x}) + \delta
+                \]
+                This constant rate of change (factor of 1) ensures predictable updates in gradient descent and accurate ray marching steps.
+            \item \textbf{Use Case}: The Eikonal constraint \( \|\nabla f\|_2 = 1 \) ensures:
+                \begin{itemize}
+                    \item \textit{Ray Marching}: Consistent step sizes to reach \( f(\mathbf{x}) = 0 \).
+                    \item \textit{Gradient Descent}: Stable optimization by providing a constant scaling factor for MLP weight updates.
+                    \item \textit{Normals}: Correctly scaled normals for shadow and RGB rendering.
+                \end{itemize}
+            \item \textit{Example}: If \( \|\nabla f\|_2 = 2 \), a step of 0.1 units in the gradient direction changes \( f(\mathbf{x}) \) by 0.2, causing ray marching to overshoot the surface and distorting shadows.
+        \end{itemize}
+\end{itemize}
+        \alpha_i = \max \left( 1 - \frac{\Phi_s(f(\mathbf{p}(t_{i+1}); \theta))}{\Phi_s(f(\mathbf{p}(t_i); \theta))}, 0 \right), \quad \Phi_s(z) = \frac{1}{1 + e^{-sz}}
+        \]
+        Compute radiance:
+        \[
+        \hat{C}_{\text{in}}(\hat{\mathbf{x}}, \mathbf{L}_i) = L \prod_{i=1}^N (1 - \alpha_i)
+        \]
+        where \(L\) is the light intensity (assumed constant).
+    \item \textbf{RGB Rendering (Optional)}: For RGB images, compute color at \(\hat{\mathbf{x}}\):
+        \[
+        \hat{C} = (\rho_d + \rho_s) \hat{C}_{\text{in}} (\mathbf{L}_i - \hat{\mathbf{x}}) \cdot \nabla f(\hat{\mathbf{x}})
+        \]
+        where \(\rho_d\) and \(\rho_s\) are diffuse and specular reflectance coefficients.
+    \item \textbf{Loss Computation}: Compute the shadow or RGB loss to enforce consistency with input images:
+        \[
+        \mathcal{L}_{\text{shadow}} = \|\hat{C}_{\text{in}} - I_s\|_1, \quad \mathcal{L}_{\text{rgb}} = \|\hat{C} - I_r\|_1
+        \]
+        where \(I_s\) is the binary shadow image and \(I_r\) is the RGB image. Add the Eikonal loss to ensure a valid SDF:
+        \[
+        \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \|\nabla f(\mathbf{p}_i; \theta)\|_2 - 1 \right)^2
+        \]
+        Combine losses:
+        \[
+        \mathcal{L} = \mathcal{L}_{\text{shadow/rgb}} + 0.01 \cdot \mathcal{L}_{\text{eik}}
+        \]
+    \item \textbf{Gradient Update}: Use the Adam optimizer to update MLP weights \(\theta\) by minimizing \(\mathcal{L}\) over 150,000 iterations, with a coarse-to-fine strategy (100x100 to 800x800 image resolution).
+\end{enumerate}
+
+\begin{remark}[Differentiable Pipeline]
+The neural SDF and ray tracing are fully differentiable, allowing gradients to flow from the loss to \(\theta\), enabling end-to-end optimization of geometry and appearance.
 \end{remark}
 
-\subsubsection{Epoch 1: Neural SDF Initialization and MLP Design} \label{sec:epoch1_neural_sdf}
+\subsubsection{Addressing Classical Limitations} \label{sec:address_limitations}
 
-The training begins by constructing a neural signed distance field (SDF), modeled by an eight-layer multi-layer perceptron (MLP) to implicitly represent 3D geometry from shadow cues.
+ShadowNeuS overcomes the challenges listed in Section~\ref{sec:shadow_limitations} as follows:
 
-\begin{itemize}
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Circular Dependency}: The neural SDF provides both geometry (\(f(\mathbf{x})\)) and normals (\(\nabla f(\mathbf{x})\)) simultaneously, resolving the need for separate normal estimation.
+    \item \textbf{Singular Cases}: The Eikonal loss ensures \(\|\nabla f\|_2 = 1\), stabilizing normals near grazing angles.
+    \item \textbf{Non-Unique Solutions}: Multiple lighting conditions (\(\{\mathbf{L}_i\}\)) provide diverse shadow cues, reducing ambiguity in depth recovery.
+    \item \textbf{Non-Differentiable Occlusion}: The continuous SDF and sigmoid-based opacity \(\Phi_s\) enable differentiable shadow ray tracing, replacing discrete intersection tests.
+    \item \textbf{Nonlinear Systems}: The shadow loss \(\mathcal{L}_{\text{shadow}}\) implicitly enforces tangency constraints (Equation~\eqref{eq:tangency}) through optimization, avoiding explicit solvers.
+    \item \textbf{Ray Tracing Complexity}: GPU-based parallel processing and batched ray sampling reduce computational cost compared to classical \(O(n^2)\) methods.
+    \item \textbf{Light Localization}: Known light positions \(\{\mathbf{L}_i\}\) eliminate estimation errors, though robust loss functions can mitigate minor inaccuracies.
+    \item \textbf{Shadow Detection}: The L1 loss is robust to soft shadows and noise, as it compares entire shadow maps rather than relying on precise boundary detection.
+    \item \textbf{Multi-Object Complexity}: The neural SDF implicitly represents all surfaces, handling self-shadowing and multiple occluders by evaluating \(f(\mathbf{x})\) along rays.
+\end{enumerate}
 
-    \item \textbf{Network Structure}: ShadowNeuS uses an 8-layer fully-connected MLP with ReLU activation functions, a single output head producing scalar signed distances $f(\mathbf{P}; \theta) \in \mathbb{R}$.
+\begin{remark}[Shadow Cues in ShadowNeuS]
+Shadows provide geometric cues (surface orientation, tangency, depth ordering, occlusion) that constrain the SDF to match observed shadow boundaries and cast shadows across multiple lighting conditions, enabling reconstruction of complex geometries.
+\end{remark}
 
-    \begin{remark}[Why MLP Architecture?] ~\\
-    The MLP design offers several advantages:
-    \begin{itemize}
-        \item \textbf{Universal Approximation}: By the universal approximation theorem, MLPs can approximate any continuous function on compact subsets of $\mathbb{R}^3$.
-        \item \textbf{End-to-End Differentiability}: Gradients $\nabla_{\mathbf{P}} f$, $\nabla_{\theta} f$ can be computed throughout the pipeline, enabling training directly from shadow observations.
-        \item \textbf{Joint Integrative Learning}: Both surface positions ($f(\mathbf{P}) = 0$) and surface normals ($\nabla_{\mathbf{P}} f$) are jointly encoded in $f$, simplifying the learning process compared to classical pipelines which handle these separately.
-        \item \textbf{Circular Dependency Resolution}: Neural SDF jointly models geometry and visibility, avoiding the iterative or circular inversion problems faced by classical shadow methods.
-    \end{itemize}
-    \end{remark}
+\subsubsection{Shadow Consistency Loss} \label{sec:shadowneus_loss}
 
-    \item \textbf{Input Encoding}: To enhance the ability of the MLP to capture high-frequency geometric features, ShadowNeuS applies a sinusoidal positional encoding $\gamma(\mathbf{P})$ to the input 3D coordinates:
-    \begin{equation}
-    \gamma(\mathbf{P}) = \left( \sin(2^0 \pi p_x), \cos(2^0 \pi p_x), \ldots, \sin(2^{k-1} \pi p_z), \cos(2^{k-1} \pi p_z) \right).
-    \end{equation}
-
-    \begin{remark}[Why Positional Encoding?] ~\\
-    Raw coordinates $\mathbf{P} = (p_x, p_y, p_z)$ do not provide sufficient high-frequency variation for MLPs, leading to overly smooth approximations (spectral bias). Positional encoding introduces multiple Fourier frequency bands, allowing the network to represent both coarse and fine geometric structures revealed by shadows.
-    \end{remark}
-
-    \item \textbf{Output}: A scalar SDF value $f(\mathbf{P})$ per point.
-
-    \item \textbf{Random Initialization}: The MLP weights $\theta$ are initialized using standard techniques such as Xavier initialization, ensuring well-scaled activations in early epochs.
-\end{itemize}
-
-\subsubsection{Epoch 2$\to$N: Ray Sampling and Shadow Rendering} \label{sec:epoch2_ray_sampling}
-
-From the second epoch onward, ShadowNeuS iteratively performs \textbf{ray sampling} to locate surface points and \textbf{shadow rendering} to predict shadow values at image pixels. The procedure proceeds as follows:
-
-\begin{itemize}
-
-    \item \textbf{Camera Ray Sampling}: \\
-    For each pixel $\mathbf{p}$, a camera ray is constructed:
-    \[
-    \mathbf{r}(t) = \mathbf{C} + t \mathbf{d}, \quad \mathbf{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}.
-    \]
-    The intersection point $\mathbf{P}$ is found by sphere tracing along $\mathbf{r}(t)$ to locate $t^*$ satisfying
-    \[
-    f_\theta(\mathbf{r}(t^*)) = 0, \quad \mathbf{P} = \mathbf{r}(t^*).
-    \]
-
-    \item \textbf{Light Ray Sampling and Visibility Estimation}: \\
-    For each $\mathbf{P}$, a light ray towards the light source $\mathbf{L}$ is defined:
-    \[
-    \mathbf{l}(s) = \mathbf{P} + s (\mathbf{L} - \mathbf{P}), \quad s \in [0, 1].
-    \]
-    The \textbf{opacity} along $\mathbf{l}(s)$ is computed at discrete points $\mathbf{l}(s_j)$ using:
-    \[
-    a_j = \max\left( 1 - \frac{ \phi(f_\theta(\mathbf{l}(s_{j+1})) ) }{ \phi(f_\theta(\mathbf{l}(s_j))) }, 0 \right)
-    \]
-    where $\phi(\cdot)$ is a active function, and $a_j \in [0,1]$ represents the \textbf{local opacity} between adjacent samples.
-
-    The accumulated transmittance (incoming light intensity) is then:
-    \[
-    C_{\mathrm{in}}(\mathbf{P}) = \prod_{j=1}^N (1 - a_j)
-    \]
-
-    \item \textbf{Shadow Supervision Loss}: \\
-    Let $S(\mathbf{p}) \in [0,1]$ denote the observed shadow value at pixel $\mathbf{p}$, extracted from the input shadow map. Let $C_{\mathrm{in}}(\mathbf{p})$ denote the predicted incoming light intensity at the corresponding 3D point $\mathbf{P} = \mathbf{r}(t^*)$.
-
-    The \textbf{shadow supervision loss} is computed by directly measuring the discrepancy between the predicted transmittance and the observed shadow value:
-    \[
-    \mathcal{L}_{\mathrm{shadow}} = \sum_{\mathbf{p}} \left| C_{\mathrm{in}}(\mathbf{p}) - S(\mathbf{p}) \right|
-    \]
-
-\end{itemize}
-
-
-
-%%%%%%%%%%%%%%%
-\subsubsection*{Loss Functions Tailored for Shadow Supervision}
-
-ShadowNeuS is supervised solely by shadow observations without depth or surface labels. To stabilize training, three complementary loss terms are introduced:
+\begin{definition}[Shadow Consistency Loss] \label{def:shadowneus_loss}
+The shadow consistency loss in ShadowNeuS is:
 \begin{equation}
-\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{shadow}} + w_{\text{eik}} \mathcal{L}_{\text{eik}} + w_{\text{appearance}} \mathcal{L}_{\text{appearance}}.
+\boxed{\mathcal{L}_{\text{shadow}} = \|\hat{C}_{\text{in}} - I_s\|_1} \label{eq:shadowneus_loss}
 \end{equation}
+where \(\hat{C}_{\text{in}}\) is the predicted radiance from shadow ray tracing, and \(I_s\) is the observed binary shadow image.
+\end{definition}
+
+\begin{remark}[Comparison to Classical Loss]
+Unlike the classical shadow consistency loss (Equation~\ref{def:shadow_loss}), which uses weighted terms for lit, shadow, and boundary mismatches, ShadowNeuS simplifies to a single L1 loss over all pixels. This leverages the neural SDF’s ability to implicitly handle boundaries and regions through differentiable rendering.
+\end{remark}
+
+\begin{proposition}[Geometric Constraints via Shadows]
+The shadow loss enforces:
 \begin{itemize}
-    \item \textbf{Shadow Loss $\mathcal{L}_{\text{shadow}}$}: Enforces consistency between projected shadows and the observed shadow mask (see Definition~\ref{def:shadow_loss}).
-    \item \textbf{Eikonal Loss $\mathcal{L}_{\text{eik}}$}: Encourages $f(\mathbf{P})$ to behave like a true distance function:
-    \begin{equation}
-    \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \|\nabla f(\mathbf{P}_i)\|_2 - 1 \right)^2, \label{eq:eikonal_loss}
-    \end{equation}
-    where $\mathbf{P}_i$ are sampled points, enforcing unit gradient norm for stability and regularization.
-    \item \textbf{Appearance/Consistency Loss $\mathcal{L}_{\text{appearance}}$}: Optionally included for datasets with texture or photometric data, promoting alignment between rendered appearance and observations.
+    \item \textbf{Surface Orientation}: Points in \(\Omega_{\text{shadow}}^{\text{obs}}\) correspond to \(\mathcal{S}_{\text{shadow}}\) or \(\mathcal{C}_{\text{total}}\), constraining \(\nabla f(\mathbf{x})\).
+    \item \textbf{Tangency}: Pixels in \(\partial\Omega_{\text{shadow}}^{\text{obs}}\) satisfy Equation~\eqref{eq:tangency} implicitly through optimization.
+    \item \textbf{Depth Ordering}: Cast shadows in \(\mathcal{C}_{\text{total}}\) ensure correct relative positioning of surfaces.
 \end{itemize}
+\end{proposition}
 
-\subsubsection*{Differentiable Ray Sampling and Shadow Rendering} \label{sec:differentiable_rendering}
-
-To connect the MLP-based SDF to observable shadows, ShadowNeuS employs a fully differentiable rendering method based on ray tracing.
-
-\paragraph{Camera Rays:} For each pixel, a camera ray is defined as
+\begin{theorem}[Depth Recovery in ShadowNeuS]
+For a pixel \(\vect{p} \in \partial\Omega_{\text{shadow}}^{\text{obs}}\), the depth \(\lambda\) is constrained by:
 \begin{equation}
-\mathbf{R}(t) = \mathbf{C} + t \mathbf{d},
+\boxed{(\mathbf{C} + \lambda \mathbf{d} - \mathbf{L}_i) \cdot \nabla f(\mathbf{C} + \lambda \mathbf{d}) = 0} \label{eq:shadowneus_depth}
 \end{equation}
-where $\mathbf{C}$ is the camera center and $\mathbf{d}$ is the viewing direction.
+ShadowNeuS solves this implicitly by optimizing the SDF to match shadow images across multiple lights \(\{\mathbf{L}_i\}\).
+\end{theorem}
 
-\paragraph{Shadow Evaluation via Shadow Rays:} For a point along the camera ray $\mathbf{P}(t)$, we compute whether it is occluded from the light source $\mathbf{L}$ by evaluating:
-\[
-(\mathbf{P}(t) - \mathbf{L}) \cdot \hat{\mathbf{n}}(\mathbf{P}(t)),
-\]
-where $\hat{\mathbf{n}}$ is computed from $\nabla f(\mathbf{P}(t))$.
+\begin{proof}
+For \(\vect{p} \in \partial\Omega_{\text{shadow}}^{\text{obs}}\), the 3D point \(\mathbf{P} = \mathbf{C} + \lambda \mathbf{d}\) lies on the shadow boundary \(\mathcal{B}\). The tangency condition (Equation~\eqref{eq:tangency}) applies, with \(\vect{n}(\mathbf{P}) = \nabla f(\mathbf{P})\), yielding Equation~\eqref{eq:shadowneus_depth}.
+\end{proof}
 
-\paragraph{Opacity Accumulation:} Differentiable occlusion is estimated by a smooth opacity function:
-\[
-\alpha_i = \max \left( 1 - \frac{\Phi_s \left( f(\mathbf{P}(t_{i+1})) \right)}{\Phi_s \left( f(\mathbf{P}(t_i)) \right)}, 0 \right),
-\]
-where $\Phi_s(x)$ is a smooth activation function (e.g., sigmoid or $\tanh$) promoting differentiability.
-
-\paragraph{Shadow Rendering:} The predicted shadow intensity is accumulated as
-\begin{equation}
-\hat{C}_{\text{in}} = L \prod_{i=1}^{N} (1 - \alpha_i),
-\end{equation}
-providing a differentiable approximation of shadow visibility.
-
-\subsubsection*{Optimization with Adam Optimizer}
-
-All parameters $\theta$ of the MLP are optimized end-to-end via Adam, a momentum-based optimizer:
-\begin{equation}
-\theta_{t+1} = \theta_t - \eta \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon},
-\end{equation}
-where $\hat{m}_t$ and $\hat{v}_t$ are bias-corrected first and second moment estimates of the gradients. Adam efficiently handles the diverse gradient magnitudes arising from the joint supervision of shadows and SDF constraints.
-
-\subsubsection*{Summary and Transition}
-
-By combining the expressiveness of MLPs, the regularization of SDF properties, and the differentiability of shadow-based rendering, ShadowNeuS establishes a unified framework to learn 3D geometry from shadows alone. This raises key questions:
-
-\begin{itemize}
-    \item How accurate is shadow-only supervision under varying light positions?
-    \item Can this framework generalize to minimal setups, such as 2D scenes?
-    \item What are the practical limitations when handling real-world shadow data?
-\end{itemize}
-
-To begin answering these, we next investigate a simplified 2D version of ShadowNeuS to isolate core geometric effects before scaling to full 3D scenes.
-
-
-
-% \subsubsection{Training the MLP and Handling Discontinuities} \label{sec:mlp_training}
-
-% ShadowNeuS trains the MLP using loss functions that enforce SDF properties and handle discontinuous input data (e.g., binary data).
-
-% \begin{itemize}
-%     \item \textbf{Eikonal Loss}: Ensures \( \|\nabla f(\mathbf{x})\|_2 = 1 \), making \( f(\mathbf{x}) \) a true distance function:
-%         \[
-%         \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \|\nabla f(\mathbf{p}_i; \theta)\|_2 - 1 \right)^2
-%         \]
-%         This stabilizes ray marching and gradient descent by maintaining consistent distance scaling.
-
-%     \item \textbf{Handling Discontinuities}: The SDF’s continuous representation smooths noisy or soft shadow boundaries, unlike classical methods reliant on discrete edge detection. The MLP learns a unified geometry, reducing errors from imperfect data.
-
-%     \item \textbf{Differentiable Backpropagation}: The SDF and ray tracing are fully differentiable, enabling backpropagation through:
-%         \[
-%         \nabla_\theta \mathcal{L} = \frac{\partial \mathcal{L}}{\partial f} \cdot \frac{\partial f}{\partial \theta}
-%         \]
-%         The shadow loss \( \mathcal{L}_{\text{shadow}} = \|\hat{C}_{\text{in}} - I_s\|_1 \) enforces consistency with observed shadows, where:
-%         \[
-%         \hat{C}_{\text{in}} = L \prod_{i=1}^N (1 - \alpha_i), \quad \alpha_i = \max \left( 1 - \frac{\Phi_s(f(\mathbf{p}(t_{i+1}); \theta))}{\Phi_s(f(\mathbf{p}(t_i); \theta))}, 0 \right)
-%         \]
-%         The continuous SDF ensures smooth gradients, unlike classical binary occlusion tests.
-% \end{itemize}
-
-% \begin{table}[htbp]
-% \centering
-% \caption{Classical Limitations vs. ShadowNeuS Solutions}
-% \label{tab:classical_vs_neural}
-% \begin{tabular}{|p{3.5cm}|p{4.5cm}|p{4.5cm}|}
-% \hline
-% \textbf{Limitation} & \textbf{Classical Challenge} & \textbf{ShadowNeuS Solution} \\
-% \hline
-% Circular Dependency & Normals and depth interdependence & SDF provides \( f(\mathbf{x}) \), \( \nabla f(\mathbf{x}) \) jointly \\
-% \hline
-% Non-Differentiable Occlusion & Binary tests block gradients & Differentiable opacity \( \alpha_i \) \\
-% \hline
-% Ray Tracing Complexity & \( O(n^2) \) scaling & GPU-parallel sampling \\
-% \hline
-% Shadow Detection & Noise, soft shadows & Continuous SDF, L1 loss \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-% \begin{itemize}
-%     \item \textbf{ShadowNeuS Pipeline}:
-%         \begin{enumerate}[label=\arabic*.]
-%             \item \textbf{MLP}: Models SDF with positional encoding.
-%             \item \textbf{Ray Marching}: Finds \( f(\mathbf{x}) \approx 0 \) on camera rays.
-%             \item \textbf{Shadow Rays}: Computes occlusion via \( \hat{C}_{\text{in}} \).
-%             \item \textbf{Loss}: Combines \( \mathcal{L}_{\text{shadow}} \), \( \mathcal{L}_{\text{eik}} \).
-%             \item \textbf{Optimization}: Adam updates \(\theta\) using multiple lights.
-%         \end{enumerate}
-%     \item \textbf{Advantages}: Resolves dependencies, handles discontinuities, robust to noise.
-% \end{itemize}
-
-% \begin{remark}[Shadow Cues]
-% Shadows constrain the SDF to match boundaries and occlusions, enabling robust 3D reconstruction with multiple lighting conditions.
-% \end{remark}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Classical shadow-based 3D reconstruction, as depicted in Figure~\ref{fig:classical_method}, relies on a sequential pipeline: segmenting shadows, detecting boundaries, estimating normals, solving for depth, and reconstructing surfaces. This approach faces significant limitations, as outlined in Section~\ref{sec:shadow_limitations}, including non-differentiable occlusion tests, circular dependencies between normals and depth, and computational complexity for multi-surface scenes.
-
-% ShadowNeuS, illustrated in Figure~\ref{fig:neural_method}, overcomes these challenges by representing the 3D scene as a neural Signed Distance Function (SDF) parameterized by a Multi-Layer Perceptron (MLP). It uses differentiable ray tracing and optimization to jointly learn geometry and enforce shadow consistency, leveraging multiple lighting conditions to resolve ambiguities in single-view reconstruction.
-
-% \begin{definition}[Neural Signed Distance Function] \label{def:neural_sdf}
-% A neural SDF is a function \(f(\mathbf{x}; \theta): \mathbb{R}^3 \to \mathbb{R}\), parameterized by an MLP with weights \(\theta\), where:
-% \begin{itemize}
-%     \item \(f(\mathbf{x}) = 0\): Defines the surface \(\mathcal{S}\).
-%     \item \(f(\mathbf{x}) > 0\): Outside the object, distance to the nearest surface.
-%     \item \(f(\mathbf{x}) < 0\): Inside the object, negative distance to the surface.
-%     \item \(\nabla f(\mathbf{x})\): Surface normal at \(\mathbf{x} \in \mathcal{S}\).
-% \end{itemize}
-% \end{definition}
-
-% \begin{remark}[Role of Neural SDF] ~\\
-% The neural SDF implicitly represents the entire 3D geometry, enabling differentiable evaluation of surface points and normals, which is critical for ray tracing and shadow computation in ShadowNeuS.
-% \end{remark}
-
-% \subsubsection{ShadowNeuS Pipeline} \label{sec:shadowneus_pipeline}
-
-% ShadowNeuS operates through the following steps, executed iteratively during optimization:
-
-% \begin{enumerate}[label=\arabic*.]
-%     \item \textbf{MLP Initialization}: Initialize an MLP with 8 layers and 256 hidden units to represent the SDF \(f(\mathbf{x}; \theta)\). Positional encoding \(\gamma(\mathbf{x})\) is applied to the input \(\mathbf{x}\) to capture high-frequency details:
-%         \[
-%         \gamma(\mathbf{x}) = [\mathbf{x}, \sin(2^0 \pi \mathbf{x}), \cos(2^0 \pi \mathbf{x}), \dots]^T
-%         \]
-%     \item \textbf{Camera Ray Marching}: For each pixel \(\vect{p} = [p_x, p_y]^T\) in the input image, trace a camera ray:
-%         \[
-%         \mathbf{p}(t) = \mathbf{C} + t \mathbf{d}, \quad \mathbf{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}
-%         \]
-%         Find the surface point \(\hat{\mathbf{x}}\) where \(f(\hat{\mathbf{x}}; \theta) \approx 0\) using numerical root-finding. Compute a differentiable surface point:
-%         \[
-%         \hat{\mathbf{x}} = \mathbf{x} - \frac{\mathbf{d}}{\nabla f(\mathbf{x}) \cdot \mathbf{d}} f(\mathbf{x}), \quad \mathbf{x} = \mathbf{p}(t)
-%         \]
-%     \item \textbf{Shadow Ray Supervision}: For each surface point \(\hat{\mathbf{x}}\), trace a shadow ray toward the light source \(\mathbf{L}_i\):
-%         \[
-%         \mathbf{p}(t) = \hat{\mathbf{x}} + t (\mathbf{L}_i - \hat{\mathbf{x}}), \quad t \in [0,1]
-%         \]
-%         Sample points along the ray and evaluate the SDF to compute opacity:
-%         \[
-%         \alpha_i = \max \left( 1 - \frac{\Phi_s(f(\mathbf{p}(t_{i+1}); \theta))}{\Phi_s(f(\mathbf{p}(t_i); \theta))}, 0 \right), \quad \Phi_s(z) = \frac{1}{1 + e^{-sz}}
-%         \]
-%         Compute radiance:
-%         \[
-%         \hat{C}_{\text{in}}(\hat{\mathbf{x}}, \mathbf{L}_i) = L \prod_{i=1}^N (1 - \alpha_i)
-%         \]
-%         where \(L\) is the light intensity (assumed constant).
-%     \item \textbf{RGB Rendering (Optional)}: For RGB images, compute color at \(\hat{\mathbf{x}}\):
-%         \[
-%         \hat{C} = (\rho_d + \rho_s) \hat{C}_{\text{in}} (\mathbf{L}_i - \hat{\mathbf{x}}) \cdot \nabla f(\hat{\mathbf{x}})
-%         \]
-%         where \(\rho_d\) and \(\rho_s\) are diffuse and specular reflectance coefficients.
-%     \item \textbf{Loss Computation}: Compute the shadow or RGB loss to enforce consistency with input images:
-%         \[
-%         \mathcal{L}_{\text{shadow}} = \|\hat{C}_{\text{in}} - I_s\|_1, \quad \mathcal{L}_{\text{rgb}} = \|\hat{C} - I_r\|_1
-%         \]
-%         where \(I_s\) is the binary shadow image and \(I_r\) is the RGB image. Add the Eikonal loss to ensure a valid SDF:
-%         \[
-%         \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \|\nabla f(\mathbf{p}_i; \theta)\|_2 - 1 \right)^2
-%         \]
-%         Combine losses:
-%         \[
-%         \mathcal{L} = \mathcal{L}_{\text{shadow/rgb}} + 0.01 \cdot \mathcal{L}_{\text{eik}}
-%         \]
-%     \item \textbf{Gradient Update}: Use the Adam optimizer to update MLP weights \(\theta\) by minimizing \(\mathcal{L}\) over 150,000 iterations, with a coarse-to-fine strategy (100x100 to 800x800 image resolution).
-% \end{enumerate}
-
-% \begin{remark}[Differentiable Pipeline]
-% The neural SDF and ray tracing are fully differentiable, allowing gradients to flow from the loss to \(\theta\), enabling end-to-end optimization of geometry and appearance.
-% \end{remark}
-
-% \subsubsection{Addressing Classical Limitations} \label{sec:address_limitations}
-
-% ShadowNeuS overcomes the challenges listed in Section~\ref{sec:shadow_limitations} as follows:
-
-% \begin{enumerate}[label=\arabic*.]
-%     \item \textbf{Circular Dependency}: The neural SDF provides both geometry (\(f(\mathbf{x})\)) and normals (\(\nabla f(\mathbf{x})\)) simultaneously, resolving the need for separate normal estimation.
-%     \item \textbf{Singular Cases}: The Eikonal loss ensures \(\|\nabla f\|_2 = 1\), stabilizing normals near grazing angles.
-%     \item \textbf{Non-Unique Solutions}: Multiple lighting conditions (\(\{\mathbf{L}_i\}\)) provide diverse shadow cues, reducing ambiguity in depth recovery.
-%     \item \textbf{Non-Differentiable Occlusion}: The continuous SDF and sigmoid-based opacity \(\Phi_s\) enable differentiable shadow ray tracing, replacing discrete intersection tests.
-%     \item \textbf{Nonlinear Systems}: The shadow loss \(\mathcal{L}_{\text{shadow}}\) implicitly enforces tangency constraints (Equation~\eqref{eq:tangency}) through optimization, avoiding explicit solvers.
-%     \item \textbf{Ray Tracing Complexity}: GPU-based parallel processing and batched ray sampling reduce computational cost compared to classical \(O(n^2)\) methods.
-%     \item \textbf{Light Localization}: Known light positions \(\{\mathbf{L}_i\}\) eliminate estimation errors, though robust loss functions can mitigate minor inaccuracies.
-%     \item \textbf{Shadow Detection}: The L1 loss is robust to soft shadows and noise, as it compares entire shadow maps rather than relying on precise boundary detection.
-%     \item \textbf{Multi-Object Complexity}: The neural SDF implicitly represents all surfaces, handling self-shadowing and multiple occluders by evaluating \(f(\mathbf{x})\) along rays.
-% \end{enumerate}
-
-% \begin{remark}[Shadow Cues in ShadowNeuS]
-% Shadows provide geometric cues (surface orientation, tangency, depth ordering, occlusion) that constrain the SDF to match observed shadow boundaries and cast shadows across multiple lighting conditions, enabling reconstruction of complex geometries.
-% \end{remark}
-
-% \subsubsection{Shadow Consistency Loss} \label{sec:shadowneus_loss}
-
-% \begin{definition}[Shadow Consistency Loss] \label{def:shadowneus_loss}
-% The shadow consistency loss in ShadowNeuS is:
-% \begin{equation}
-% \boxed{\mathcal{L}_{\text{shadow}} = \|\hat{C}_{\text{in}} - I_s\|_1} \label{eq:shadowneus_loss}
-% \end{equation}
-% where \(\hat{C}_{\text{in}}\) is the predicted radiance from shadow ray tracing, and \(I_s\) is the observed binary shadow image.
-% \end{definition}
-
-% \begin{remark}[Comparison to Classical Loss]
-% Unlike the classical shadow consistency loss (Equation~\ref{def:shadow_loss}), which uses weighted terms for lit, shadow, and boundary mismatches, ShadowNeuS simplifies to a single L1 loss over all pixels. This leverages the neural SDF’s ability to implicitly handle boundaries and regions through differentiable rendering.
-% \end{remark}
-
-% \begin{proposition}[Geometric Constraints via Shadows]
-% The shadow loss enforces:
-% \begin{itemize}
-%     \item \textbf{Surface Orientation}: Points in \(\Omega_{\text{shadow}}^{\text{obs}}\) correspond to \(\mathcal{S}_{\text{shadow}}\) or \(\mathcal{C}_{\text{total}}\), constraining \(\nabla f(\mathbf{x})\).
-%     \item \textbf{Tangency}: Pixels in \(\partial\Omega_{\text{shadow}}^{\text{obs}}\) satisfy Equation~\eqref{eq:tangency} implicitly through optimization.
-%     \item \textbf{Depth Ordering}: Cast shadows in \(\mathcal{C}_{\text{total}}\) ensure correct relative positioning of surfaces.
-% \end{itemize}
-% \end{proposition}
-
-% \begin{theorem}[Depth Recovery in ShadowNeuS]
-% For a pixel \(\vect{p} \in \partial\Omega_{\text{shadow}}^{\text{obs}}\), the depth \(\lambda\) is constrained by:
-% \begin{equation}
-% \boxed{(\mathbf{C} + \lambda \mathbf{d} - \mathbf{L}_i) \cdot \nabla f(\mathbf{C} + \lambda \mathbf{d}) = 0} \label{eq:shadowneus_depth}
-% \end{equation}
-% ShadowNeuS solves this implicitly by optimizing the SDF to match shadow images across multiple lights \(\{\mathbf{L}_i\}\).
-% \end{theorem}
-
-% \begin{proof}
-% For \(\vect{p} \in \partial\Omega_{\text{shadow}}^{\text{obs}}\), the 3D point \(\mathbf{P} = \mathbf{C} + \lambda \mathbf{d}\) lies on the shadow boundary \(\mathcal{B}\). The tangency condition (Equation~\eqref{eq:tangency}) applies, with \(\vect{n}(\mathbf{P}) = \nabla f(\mathbf{P})\), yielding Equation~\eqref{eq:shadowneus_depth}.
-% \end{proof}
-
-% \begin{remark}[Neural Optimization Advantage]
-% By optimizing \(\mathcal{L}_{\text{shadow}} + 0.01 \cdot \mathcal{L}_{\text{eik}}\) over multiple lighting conditions, ShadowNeuS resolves depth ambiguities without explicit normal estimation or iterative solvers, leveraging the MLP’s expressive power and gradient-based optimization.
-% \end{remark}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[Neural Optimization Advantage]
+By optimizing \(\mathcal{L}_{\text{shadow}} + 0.01 \cdot \mathcal{L}_{\text{eik}}\) over multiple lighting conditions, ShadowNeuS resolves depth ambiguities without explicit normal estimation or iterative solvers, leveraging the MLP’s expressive power and gradient-based optimization.
+\end{remark}
 
 % \section{1D Shadow-Based Reconstruction Experiment} \label{sec:1d_experiment}
 
