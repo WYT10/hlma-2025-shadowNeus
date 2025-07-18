@@ -3,36 +3,106 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Background}{2}{section.1}\protected@file@percent }
+\newlabel{sec:background}{{1}{2}{Background}{section.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}What is 3D Reconstruction from Images?}{2}{subsection.1.1}\protected@file@percent }
-\newlabel{eq:proj}{{1}{2}{What is 3D Reconstruction from Images?}{equation.1.1}{}}
-\newlabel{eq:invproj}{{2}{2}{What is 3D Reconstruction from Images?}{equation.1.2}{}}
+\newlabel{sec:reconstruction_intro}{{1.1}{2}{What is 3D Reconstruction from Images?}{subsection.1.1}{}}
+\newlabel{def:scene_repr}{{1.1.1}{2}{3D Scene Representation}{definition.1.1.1}{}}
+\newlabel{def:image_proj}{{1.1.2}{2}{Image Projection}{definition.1.1.2}{}}
+\newlabel{eq:proj}{{1}{2}{What is 3D Reconstruction from Images?}{equation.1}{}}
+\newlabel{eq:invproj}{{2}{2}{What is 3D Reconstruction from Images?}{equation.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Information Encoded in 2D Images}{2}{subsection.1.2}\protected@file@percent }
-\newlabel{eq:gradient}{{3}{2}{Information Available from an Image:}{equation.1.3}{}}
+\newlabel{sec:image_info}{{1.2}{2}{Information Encoded in 2D Images}{subsection.1.2}{}}
+\newlabel{eq:gradient}{{3}{2}{Information Available from an Image:}{equation.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}The Forward Projection: From 3D World to 2D Image}{3}{subsection.1.3}\protected@file@percent }
-\newlabel{eq:intrinsic}{{7}{3}{Intrinsic Parameters}{equation.1.7}{}}
-\newlabel{eq:forward}{{11}{3}{Forward Projection Pipeline:}{equation.1.11}{}}
+\newlabel{sec:forward_projection}{{1.3}{3}{The Forward Projection: From 3D World to 2D Image}{subsection.1.3}{}}
+\newlabel{def:extrinsic}{{1.3.1}{3}{Extrinsic Parameters}{definition.1.3.1}{}}
+\newlabel{def:intrinsic}{{1.3.2}{3}{Intrinsic Parameters}{definition.1.3.2}{}}
+\newlabel{eq:intrinsic}{{7}{3}{Intrinsic Parameters}{equation.7}{}}
+\newlabel{prop:projection_pipeline}{{1.3.1}{3}{Perspective Projection Transform}{proposition.1.3.1}{}}
+\newlabel{eq:forward}{{11}{3}{Forward Projection Pipeline:}{equation.11}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4}The Inverse Problem: From 2D Image to 3D World}{4}{subsection.1.4}\protected@file@percent }
-\newlabel{sec:inverse}{{1.4}{4}{The Inverse Problem: From 2D Image to 3D World}{subsection.1.4}{}}
-\newlabel{eq:camera_ray}{{12}{4}{Camera Ray Parametrization}{equation.1.12}{}}
-\newlabel{eq:ray_direction}{{13}{4}{Camera Ray Parametrization}{equation.1.13}{}}
+\newlabel{sec:inverse_problem}{{1.4}{4}{The Inverse Problem: From 2D Image to 3D World}{subsection.1.4}{}}
+\newlabel{lem:camera_ray}{{1.4.1}{4}{Camera Ray Parametrization}{lemma.1.4.1}{}}
+\newlabel{eq:camera_ray}{{12}{4}{Camera Ray Parametrization}{equation.12}{}}
+\newlabel{eq:ray_direction}{{13}{4}{Camera Ray Parametrization}{equation.13}{}}
+\newlabel{rmk:normalization}{{1.4.1}{4}{Normalization}{remark.1.4.1}{}}
+\newlabel{prop:illposed}{{1.4.1}{4}{Ill-posed Nature of Single-View Reconstruction}{proposition.1.4.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.5}Cues for Solving the Inverse Problem}{5}{subsection.1.5}\protected@file@percent }
+\newlabel{sec:cues}{{1.5}{5}{Cues for Solving the Inverse Problem}{subsection.1.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Shadows as a Geometric Constraint}{5}{section.2}\protected@file@percent }
+\newlabel{sec:shadows}{{2}{5}{Shadows as a Geometric Constraint}{section.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Light Ray and Shadow Geometry}{5}{subsection.2.1}\protected@file@percent }
-\newlabel{eq:light_ray}{{18}{5}{Light Ray}{equation.2.18}{}}
+\newlabel{sec:light_ray_geometry}{{2.1}{5}{Light Ray and Shadow Geometry}{subsection.2.1}{}}
+\newlabel{def:light_ray}{{2.1.1}{5}{Light Ray}{definition.2.1.1}{}}
+\newlabel{eq:light_ray}{{18}{5}{Light Ray}{equation.18}{}}
+\newlabel{def:shadow_occlusion}{{2.1.2}{5}{Shadow Occlusion Test}{definition.2.1.2}{}}
+\newlabel{rmk:occlusion_physics}{{2.1.1}{5}{Physical Interpretation}{remark.2.1.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Shadow Boundary and Surface Partitioning}{5}{subsection.2.2}\protected@file@percent }
-\newlabel{eq:tangency}{{20}{5}{Tangency Condition}{equation.2.20}{}}
-\newlabel{eq:boundary_set}{{21}{5}{Shadow Boundary Set}{equation.2.21}{}}
-\newlabel{eq:lit_region}{{22}{6}{Surface Illumination Partition}{equation.2.22}{}}
-\newlabel{eq:shadow_region}{{23}{6}{Surface Illumination Partition}{equation.2.23}{}}
-\newlabel{eq:boundary_region}{{24}{6}{Surface Illumination Partition}{equation.2.24}{}}
+\newlabel{sec:shadow_boundary}{{2.2}{5}{Shadow Boundary and Surface Partitioning}{subsection.2.2}{}}
+\newlabel{thm:tangency}{{2.2.1}{5}{Tangency Condition}{theorem.2.2.1}{}}
+\newlabel{eq:tangency}{{20}{5}{Tangency Condition}{equation.20}{}}
+\newlabel{def:boundary_set}{{2.2.1}{5}{Shadow Boundary Set}{definition.2.2.1}{}}
+\newlabel{eq:boundary_set}{{21}{5}{Shadow Boundary Set}{equation.21}{}}
+\newlabel{prop:illumination_partition}{{2.2.1}{6}{Surface Illumination Partition}{proposition.2.2.1}{}}
+\newlabel{eq:lit_region}{{22}{6}{Surface Illumination Partition}{equation.22}{}}
+\newlabel{eq:shadow_region}{{23}{6}{Surface Illumination Partition}{equation.23}{}}
+\newlabel{eq:boundary_region}{{24}{6}{Surface Illumination Partition}{equation.24}{}}
+\newlabel{rmk:illum_sign}{{2.2.1}{6}{Geometric Interpretation}{remark.2.2.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Cast Shadow Regions}{6}{subsection.2.3}\protected@file@percent }
-\newlabel{eq:cast_shadow}{{25}{6}{Cast Shadow Region}{equation.2.25}{}}
-\newlabel{eq:cast_boundary}{{26}{6}{Cast Shadow Boundary}{equation.2.26}{}}
-\newlabel{eq:total_cast_region}{{27}{6}{Multi-Surface Cast Shadows and Boundaries}{equation.2.27}{}}
-\newlabel{eq:total_cast_boundary}{{28}{6}{Multi-Surface Cast Shadows and Boundaries}{equation.2.28}{}}
+\newlabel{sec:cast_shadow}{{2.3}{6}{Cast Shadow Regions}{subsection.2.3}{}}
+\newlabel{def:cast_shadow}{{2.3.1}{6}{Cast Shadow Region}{definition.2.3.1}{}}
+\newlabel{eq:cast_shadow}{{25}{6}{Cast Shadow Region}{equation.25}{}}
+\newlabel{rmk:cast_shadow_formation}{{2.3.1}{6}{Cast Shadow Formation}{remark.2.3.1}{}}
+\newlabel{def:cast_boundary}{{2.3.2}{6}{Cast Shadow Boundary}{definition.2.3.2}{}}
+\newlabel{eq:cast_boundary}{{26}{6}{Cast Shadow Boundary}{equation.26}{}}
+\newlabel{prop:multi_cast}{{2.3.1}{6}{Multi-Surface Cast Shadows and Boundaries}{proposition.2.3.1}{}}
+\newlabel{eq:total_cast_region}{{27}{6}{Multi-Surface Cast Shadows and Boundaries}{equation.27}{}}
+\newlabel{eq:total_cast_boundary}{{28}{6}{Multi-Surface Cast Shadows and Boundaries}{equation.28}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Shadow Regions in Images}{6}{subsection.2.4}\protected@file@percent }
-\newlabel{eq:image_lit}{{29}{6}{Image Shadow and Lit Regions}{equation.2.29}{}}
-\newlabel{eq:image_shadow}{{30}{6}{Image Shadow and Lit Regions}{equation.2.30}{}}
-\newlabel{eq:image_boundary}{{31}{6}{Image Shadow and Lit Regions}{equation.2.31}{}}
+\newlabel{sec:shadow_in_image}{{2.4}{6}{Shadow Regions in Images}{subsection.2.4}{}}
+\newlabel{def:image_shadow_regions}{{2.4.1}{6}{Image Shadow and Lit Regions}{definition.2.4.1}{}}
+\newlabel{eq:image_lit}{{29}{6}{Image Shadow and Lit Regions}{equation.29}{}}
+\newlabel{eq:image_shadow}{{30}{6}{Image Shadow and Lit Regions}{equation.30}{}}
+\newlabel{eq:image_boundary}{{31}{6}{Image Shadow and Lit Regions}{equation.31}{}}
+\newlabel{rmk:shadow_projection}{{2.4.1}{7}{Relation between shadow region and image region}{remark.2.4.1}{}}
+\newlabel{def:shadow_accuracy}{{2.4.2}{7}{Shadow Region Classification Accuracy}{definition.2.4.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Shadows as Cues for 3D Reconstruction}{7}{subsection.2.5}\protected@file@percent }
-\gdef \@abspage@last{10}
+\newlabel{sec:shadow_cues}{{2.5}{7}{Shadows as Cues for 3D Reconstruction}{subsection.2.5}{}}
+\newlabel{sec:shadow_geom_info}{{2.5}{7}{Geometric Information Encoded in Shadows}{section*.4}{}}
+\newlabel{prop:shadow_cues}{{2.5.1}{7}{Shadow-Derived Geometric Cues}{proposition.2.5.1}{}}
+\newlabel{rmk:depth_order}{{2.5.1}{7}{Depth Ordering via Cast Shadows}{remark.2.5.1}{}}
+\newlabel{sec:shadow_depth}{{2.5}{8}{Shadow Depth Recovery}{section*.5}{}}
+\newlabel{eq:shadow_depth_system}{{33}{8}{Shadow Depth Recovery}{equation.33}{}}
+\newlabel{thm:shadow_depth}{{2.5.1}{8}{Depth from Shadow}{theorem.2.5.1}{}}
+\newlabel{eq:lambda_solution}{{34}{8}{Depth from Shadow}{equation.34}{}}
+\newlabel{sec:shadow_limitations}{{2.5}{8}{Limitations and Computational Challenges}{section*.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{Fundamental Challenges}{8}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Computational Challenges}{8}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Practical Issues}{8}{section*.9}\protected@file@percent }
+\newlabel{rmk:neural_solutions}{{2.5.2}{9}{Neural Solutions}{remark.2.5.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}ShadowNeuS: Neural Shadow-Based 3D Reconstruction}{9}{section.3}\protected@file@percent }
+\newlabel{sec:shadowneus}{{3}{9}{ShadowNeuS: Neural Shadow-Based 3D Reconstruction}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Classical vs Neural Approaches: Method Comparison}{9}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:method_comparison}{{3.1}{9}{Classical vs Neural Approaches: Method Comparison}{subsection.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Classical method (Sequential processing pipeline)}}{9}{figure.1}\protected@file@percent }
+\newlabel{fig:classical_method}{{1}{9}{Classical method (Sequential processing pipeline)}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces ShadowNeuS (End-to-end neural optimization pipeline)}}{10}{figure.2}\protected@file@percent }
+\newlabel{fig:neural_method}{{2}{10}{ShadowNeuS (End-to-end neural optimization pipeline)}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}ShadowNeuS Pipeline}{10}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:classical_to_neural}{{3.2}{10}{ShadowNeuS Pipeline}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Neural Signed Distance Fields (SDF)}{10}{subsubsection.3.2.1}\protected@file@percent }
+\newlabel{sec:neural_sdf}{{3.2.1}{10}{Neural Signed Distance Fields (SDF)}{subsubsection.3.2.1}{}}
+\newlabel{def:neural_sdf}{{3.2.1}{10}{Neural Signed Distance Field}{definition.3.2.1}{}}
+\newlabel{rmk:gradient_properties}{{3.2.1}{10}{Key Mathematical Properties of Neural SDF}{remark.3.2.1}{}}
+\newlabel{eq:sdf_normal}{{35}{10}{Key Mathematical Properties of Neural SDF}{equation.35}{}}
+\newlabel{eq:eikonal_constraint}{{36}{10}{Key Mathematical Properties of Neural SDF}{equation.36}{}}
+\newlabel{eq:taylor_sdf_property}{{37}{10}{Key Mathematical Properties of Neural SDF}{equation.37}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Epoch 1: Neural SDF Initialization and MLP Design}{11}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{sec:epoch1_neural_sdf}{{3.2.2}{11}{Epoch 1: Neural SDF Initialization and MLP Design}{subsubsection.3.2.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{11}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{sec:epoch2_ray_sampling}{{3.2.3}{11}{Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{subsubsection.3.2.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Converge: Loss Functions}{12}{subsubsection.3.2.4}\protected@file@percent }
+\newlabel{sec:loss_functions}{{3.2.4}{12}{Converge: Loss Functions}{subsubsection.3.2.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.5}Gradient Descent and Adam Optimizer}{13}{subsubsection.3.2.5}\protected@file@percent }
+\newlabel{sec:adam_optimizer}{{3.2.5}{13}{Gradient Descent and Adam Optimizer}{subsubsection.3.2.5}{}}
+\gdef \@abspage@last{15}

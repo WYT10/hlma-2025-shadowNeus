@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  18 JUL 2025 13:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  19 JUL 2025 04:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -763,7 +763,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (c:/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 69.
+LaTeX Font Info:    Trying to load font information for OT1+ztmcm on input line 68.
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
@@ -771,15 +771,15 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `ztmcm' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 69.
+LaTeX Font Info:    Trying to load font information for OML+ztmcm on input line 68.
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 69.
+LaTeX Font Info:    Trying to load font information for OMS+ztmcm on input line 68.
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 69.
+LaTeX Font Info:    Trying to load font information for OMX+ztmcm on input line 68.
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 ) (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-msa.cfg
@@ -789,16 +789,16 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 ) (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 69.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 68.
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 68.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 68.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 68.
 
 
 [1
@@ -820,7 +820,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.77 \newpage
+l.76 \newpage
               [1]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: OT1).
@@ -833,7 +833,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 [3]
 
 [4]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 256.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 255.
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
@@ -845,27 +845,27 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 [7]
 
 [8]
-Underfull \hbox (badness 1728) in paragraph at lines 485--486
+Underfull \hbox (badness 1728) in paragraph at lines 484--485
 []\T1/ptm/m/n/12 (+20) Implicit sur-faces (SDF/NeRF)
  []
 
 
-Underfull \hbox (badness 1286) in paragraph at lines 489--489
+Underfull \hbox (badness 1286) in paragraph at lines 488--488
 []\T1/ptm/m/n/12 (+20) Fails on soft shad-ows, noise,
  []
 
 
-Underfull \hbox (badness 5787) in paragraph at lines 489--490
+Underfull \hbox (badness 5787) in paragraph at lines 488--489
 []\T1/ptm/m/n/12 (+20) Handles real-world im-per-fec-
  []
 
 
-Overfull \hbox (9.30885pt too wide) in paragraph at lines 583--584
+Overfull \hbox (9.30885pt too wide) in paragraph at lines 548--549
  [][] 
  []
 
 
-Overfull \hbox (26.24225pt too wide) in paragraph at lines 625--626
+Overfull \hbox (26.24225pt too wide) in paragraph at lines 590--591
  [][] 
  []
 
@@ -876,28 +876,24 @@ Overfull \hbox (26.24225pt too wide) in paragraph at lines 625--626
 [10]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 717.
+(hyperref)                removing `math shift' on input line 682.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\to' on input line 717.
+(hyperref)                removing `\to' on input line 682.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 717.
+(hyperref)                removing `math shift' on input line 682.
 
 
 
 [11]
 
-LaTeX Warning: Reference `def:shadow_loss' on page 12 undefined on input line 769.
-
-
-
 [12]
 
 [13]
-Overfull \hbox (17.99998pt too wide) in paragraph at lines 1086--1089
+Overfull \hbox (17.99998pt too wide) in paragraph at lines 869--877
 [] 
  []
 
@@ -908,26 +904,22 @@ Overfull \hbox (17.99998pt too wide) in paragraph at lines 1086--1089
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `demo.out' has not changed.
-(rerunfilecheck)             Checksum: 7E49C7C90F1A741559C4AF8079BA55BD;4451.
+(rerunfilecheck)             Checksum: B86B794A58AB6763D1C2817724224482;4900.
  ) 
 Here is how much of TeX's memory you used:
- 27854 strings out of 473207
- 529705 string characters out of 5720461
- 989536 words of memory out of 5000000
- 50127 multiletter control sequences out of 15000+600000
- 652178 words of font info for 341 fonts, out of 8000000 for 9000
+ 27858 strings out of 473207
+ 529715 string characters out of 5720461
+ 989617 words of memory out of 5000000
+ 50123 multiletter control sequences out of 15000+600000
+ 647370 words of font info for 349 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  102i,16n,107p,1052b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on demo.pdf (15 pages, 176575 bytes).
+Output written on demo.pdf (15 pages, 179674 bytes).
 PDF statistics:
- 424 PDF objects out of 1000 (max. 8388607)
- 361 compressed objects within 4 object streams
- 150 named destinations out of 1000 (max. 500000)
- 102653 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 438 PDF objects out of 1000 (max. 8388607)
+ 375 compressed objects within 4 object streams
+ 148 named destinations out of 1000 (max. 500000)
+ 98573 words of extra memory for PDF output out of 106986 (max. 10000000)
 

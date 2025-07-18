@@ -19,7 +19,5 @@
 \contentsline {subsubsection}{\numberline {3.2.1}Neural Signed Distance Fields (SDF)}{10}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}Epoch 1: Neural SDF Initialization and MLP Design}{11}{subsubsection.3.2.2}%
 \contentsline {subsubsection}{\numberline {3.2.3}Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{11}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Camera Rays:}{12}{section*.12}%
-\contentsline {paragraph}{Shadow Evaluation via Shadow Rays:}{13}{section*.13}%
-\contentsline {paragraph}{Opacity Accumulation:}{13}{section*.14}%
-\contentsline {paragraph}{Shadow Rendering:}{13}{section*.15}%
+\contentsline {subsubsection}{\numberline {3.2.4}Converge: Loss Functions}{12}{subsubsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.5}Gradient Descent and Adam Optimizer}{13}{subsubsection.3.2.5}%
