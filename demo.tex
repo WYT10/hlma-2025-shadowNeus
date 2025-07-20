@@ -71,7 +71,7 @@ This paper explores \textit{ShadowNeuS} \hyperlink{[LWX23]}{[LWX23]}, a neural n
 \end{titlepage}
 
 % Table of contents
-\tableofcontents
+\tableofcontents 
 
 \newpage
 \section{Background} \label{sec:background}
@@ -116,7 +116,7 @@ A 2D image $I_n$ can provide multiple types of information encoded as mathematic
 \begin{enumerate}[label=(\roman*)]
     \item \textbf{Pixel coordinates}: $\vect{p} = [p_x, p_y]^\mathsf{T} \in \R^2$, represents the spatial location of each pixel
     
-    \item \textbf{Color values}: $C_n(\vect{p}) = [r, g, b]^\mathsf{T} \in [0,1]^3$, represents the RGB tristimulus values
+    \item \textbf{Color values}: $C_n(\vect{p}) = [r, g, b]^\mathsf{T} \in [0,1]^3$, represents the RGB values
     
     \item \textbf{RGB gradient matrix}:
     \begin{equation}
@@ -128,10 +128,10 @@ A 2D image $I_n$ can provide multiple types of information encoded as mathematic
     \end{equation}
     This Jacobian matrix captures local intensity variations, indicating edges or texture information.
     
-    \item \textbf{Learned feature embedding}: $\phi(I_n)(\vect{p}) \in \R^d$, represents high-dimensional features extracted via neural networks like CNNs
+    \item \textbf{Learned feature embedding}: $\phi(I_n)(\vect{p}) \in \R^d$, represents high-dimensional features extracted via neural networks like CNNs, MLPs
 \end{enumerate}
 
-These data structures result from projecting 3D geometry through camera optics, where $C_n(\vect{p})$ corresponds to visible surface reflectance and $\nabla C_n(\vect{p})$ encodes geometric boundaries.
+These data structures result from projecting 3D geometry through camera optics, where $C_n(\vect{p})$ corresponds to visible surface and $\nabla C_n(\vect{p})$ encodes geometric boundaries.
 
 \newpage
 
@@ -163,17 +163,17 @@ K = \begin{bmatrix}
     0 & 0 & 1
 \end{bmatrix} \in \R^{3 \times 3} \label{eq:intrinsic}
 \end{equation}
-where $(f_x, f_y)$ are focal lengths in pixels and $(c_x, c_y)$ is the principal point.
+where $(f_x, f_y)$ are focal lengths in pixels and $(c_x, c_y)$ is the principal point
 \end{definition}
 
 \subsubsection*{Forward Projection Pipeline:}
 
 \begin{proposition}[Perspective Projection Transform] \label{prop:projection_pipeline} ~\\
-The complete forward projection involves three sequential transformations:
+The forward projection involves three sequential transformations of the 3D point $\vect{P}$ to pixel point $\vect{p}$:
 \begin{enumerate}[label=\textbf{Step \arabic*:}]
     \item \textbf{World to camera coordinates}
     \begin{equation}
-        \vect{P}_{\text{cam}} = R \vect{P} + \vect{t}
+        \vect{P}_{\text{cam}} = R (\vect{P} - \vect{C}) = R \vect{P} + \vect{t}
     \end{equation}
     
     \item \textbf{Camera to image coordinates}
@@ -307,8 +307,8 @@ The 3D shadow boundary is:
 \begin{proposition}[Surface Illumination Partition] \label{prop:illumination_partition} ~\\
 The surface $\mathcal{S}$ is partitioned into three disjoint regions based on the light direction:
 \begin{align}
-\mathcal{S}_{\text{lit}} &= \{\vect{P} \in \mathcal{S} \mid (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) > 0\} && \text{(illuminated)} \label{eq:lit_region} \\
-\mathcal{S}_{\text{shadow}} &= \{\vect{P} \in \mathcal{S} \mid (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) < 0\} && \text{(attached shadow)} \label{eq:shadow_region} \\
+\mathcal{S}_{\text{lit}} &= \{\vect{P} \in \mathcal{S} \mid (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) < 0\} && \text{(illuminated)} \label{eq:lit_region} \\
+\mathcal{S}_{\text{shadow}} &= \{\vect{P} \in \mathcal{S} \mid (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) > 0\} && \text{(attached shadow)} \label{eq:shadow_region} \\
 \mathcal{B} &= \{\vect{P} \in \mathcal{S} \mid (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) = 0\} && \text{(shadow boundary)} \label{eq:boundary_region}
 \end{align}
 \end{proposition}
@@ -352,23 +352,21 @@ where $\mathcal{C}_{i \to \text{target}}$ is the cast shadow region from $\mathc
 \subsection{Shadow Regions in Images} \label{sec:shadow_in_image}
 
 \begin{definition}[Image Shadow and Lit Regions] \label{def:image_shadow_regions} ~\\
-Given the projection function $\pi: \R^3 \to \R^2$ (Equation \eqref{eq:proj}), the image $I$ partitions into:
+Given the projection function $\pi: \mathbb{R}^3 \to \mathbb{R}^2$ (Equation \eqref{eq:proj}), the image $I$ is partitioned as:
 \begin{align}
-\Omega_{\text{lit}}^{\text{obs}} &= \{\pi(\vect{P}) \mid \vect{P} \in \mathcal{S}_{\text{lit}}\} && \text{(lit region)} \label{eq:image_lit} \\
-\Omega_{\text{shadow}}^{\text{obs}} &= \{\pi(\vect{P}) \mid \vect{P} \in \mathcal{S}_{\text{shadow}} \cup \mathcal{C}_{\text{total}}\} && \text{(shadow region)} \label{eq:image_shadow} \\
-\partial\Omega_{\text{shadow}}^{\text{obs}} &= \{\pi(\vect{P}) \mid \vect{P} \in \mathcal{B} \cup \partial\mathcal{C}_{\text{total}}\} && \text{(shadow boundary)} \label{eq:image_boundary}
+\Omega_{\text{lit}}^{\text{obs}} &= \{\pi(\vect{P}) \mid \vect{P} \in \mathcal{S}_{\text{lit}}, \pi(\vect{P}) \text{ not occluded}\} && \text{(lit region)} \label{eq:image_lit} \\
+\Omega_{\text{shadow}}^{\text{obs}} &= \{\pi(\vect{P}) \mid \vect{P} \in \mathcal{S}_{\text{shadow}} \cup \mathcal{C}_{\text{total}}, \pi(\vect{P}) \text{ not occluded}\} && \text{(shadow region)} \label{eq:image_shadow} \\
+\partial\Omega_{\text{shadow}}^{\text{obs}} &= \{\pi(\vect{P}) \mid \vect{P} \in \mathcal{B} \cup \partial\mathcal{C}_{\text{total}}, \pi(\vect{P}) \text{ not occluded}\} && \text{(shadow boundary)} \label{eq:image_boundary}
 \end{align}
-where $\mathcal{S}_{\text{lit}}$, $\mathcal{S}_{\text{shadow}}$, $\mathcal{B}$, and $\mathcal{C}_{\text{total}}$ are defined in Equations \eqref{eq:lit_region}, \eqref{eq:shadow_region}, \eqref{eq:boundary_region}, and \eqref{eq:total_cast_region}.
+where $\mathcal{S}_{\text{lit}}$, $\mathcal{S}_{\text{shadow}}$, $\mathcal{B}$, and $\mathcal{C}_{\text{total}}$ are defined in Equations \eqref{eq:lit_region}, \eqref{eq:shadow_region}, \eqref{eq:boundary_region}, and \eqref{eq:total_cast_region}. Only points not occluded by the object contribute to $\Omega_{\text{shadow}}^{\text{obs}}$, as shadows may be blocked by the object itself.
 \end{definition}
 
-\newpage
-
-\begin{remark}[Relation between shadow region and image region] \label{rmk:shadow_projection} ~\\
-The forward projection $\pi$ maps 3D surface points to 2D image pixels. For example, a 3D point $\vect{P}$ on a lit surface projects to pixel $\vect{p} = \pi(\vect{P})$ in the bright image region $\Omega_{\text{lit}}^{\text{obs}}$. Similarly, shadowed 3D points project to dark pixels in $\Omega_{\text{shadow}}^{\text{obs}}$. This creates a direct correspondence between 3D geometry and what we observe in the image.
+\begin{remark}[Shadow Projection and Occlusion] \label{rmk:shadow_projection} ~\\
+The projection $\pi$ maps 3D points to 2D image pixels. A lit point $\vect{P} \in \mathcal{S}_{\text{lit}}$ projects to a bright pixel $\pi(\vect{P}) \in \Omega_{\text{lit}}^{\text{obs}}$ if not occluded by the object. Similarly, a shadowed point $\vect{P} \in \mathcal{S}_{\text{shadow}} \cup \mathcal{C}_{\text{total}}$ projects to a dark pixel in $\Omega_{\text{shadow}}^{\text{obs}}$ only if not occluded. Shadows cast by the object may be hidden, so not all shadowed points appear in the image.
 \end{remark}
 
 \begin{definition}[Shadow Region Classification Accuracy] \label{def:shadow_accuracy} ~\\
-This accuracy metric evaluates how well the reconstructed 3D geometry correctly predicts the image regions classified as lit or shadow:
+This accuracy metric evaluates how well the reconstructed 3D geometry correctly predicts the image regions classified as lit, shadowed, or the boundary:
 \begin{equation}
 \text{Accuracy} = \frac{\text{Number of correctly predicted pixels}}{\text{Total number of pixels}} = \frac{N_{\text{correct}}}{N_{\text{total}}}
 \end{equation}
@@ -379,13 +377,13 @@ This accuracy metric evaluates how well the reconstructed 3D geometry correctly 
 \subsubsection*{Geometric Information Encoded in Shadows} \label{sec:shadow_geom_info}
 
 Shadows provide critical geometric constraints for single-view 3D reconstruction, leveraging light-surface interactions.
-
+= 
 \begin{proposition}[Shadow-Derived Geometric Cues] \label{prop:shadow_cues} ~\\
 From observed shadows, we can infer:
 \begin{enumerate}[label=(\roman*)]
     \item \textbf{Surface Orientation:} Points in attached shadows satisfy
     \[
-    (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) < 0
+    (\vect{P} - \vect{L}) \cdot \vect{n}(\vect{P}) > 0
     \]
     as in Equation~\eqref{eq:shadow_region}, indicating that the surface at $\vect{P}$ is facing away from the light source.
 
@@ -430,9 +428,9 @@ Given surface normal estimate \(\hat{\vect{n}}\), the depth parameter \(\lambda\
 \begin{equation}
 \boxed{
 \begin{cases}
-\lambda > \displaystyle \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}} & \text{(point is illuminated)} \\[8pt]
+\lambda > \displaystyle \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}} & \text{(in attached shadow region)} \\[8pt]
 \lambda = \displaystyle \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}} & \text{(on shadow boundary)} \\[8pt]
-\lambda < \displaystyle \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}} & \text{(in attached shadow region)}
+\lambda < \displaystyle \frac{(\vect{L} - \vect{C}) \cdot \hat{\vect{n}}}{\vect{d} \cdot \hat{\vect{n}}} & \text{(point is illuminated)}
 \end{cases}
 }
 \label{eq:lambda_solution}
@@ -868,9 +866,9 @@ To minimize the total loss $\mathcal{L}_{\text{total}}(\theta)$, neural networks
 \section*{References}
 \begin{tabular}{@{}p{0.15\textwidth} p{0.85\textwidth}}
 \hypertarget{[LWX23]}{[LWX23]} & Jingwang Ling, Zhibo Wang, Feng Xu. \textit{ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}. arXiv: \href{https://arxiv.org/abs/2211.14086}{2211.14086}, 2023. \\
-\hypertarget{[MST20]}{[MST20]} & Ben Mildenhall, Pratul P. Srinivasan, Matthew Tancik, Jonathan T. Barron, Ravi Ramamoorthi, Ren Ng. \textit{NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis}. arXiv: \href{https://arxiv.org/abs/2003.08934}{2003.08934}, 2020. \\
 \hypertarget{[PFS19]}{[PFS19]} & Jeong Joon Park, Peter Florence, Julian Straub, Richard Newcombe, Steven Lovegrove. \textit{DeepSDF: Learning Continuous Signed Distance Functions for Shape Representation}. arXiv: \href{https://arxiv.org/abs/1901.05103}{1901.05103}, 2019. \\
 \hypertarget{[TSS20]}{[TSS20]} & Matthew Tancik, Pratul P. Srinivasan, Ben Mildenhall, Sara Fridovich-Keil, Nithin Raghavan, Utkarsh Singhal, Ravi Ramamoorthi, Jonathan T. Barron, Ren Ng. \textit{Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains}. arXiv: \href{https://arxiv.org/abs/2006.10739}{2006.10739}, 2020. \\
+\hypertarget{[MST20]}{[MST20]} & Ben Mildenhall, Pratul P. Srinivasan, Matthew Tancik, Jonathan T. Barron, Ravi Ramamoorthi, Ren Ng. \textit{NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis}. arXiv: \href{https://arxiv.org/abs/2003.08934}{2003.08934}, 2020. \\
 \hypertarget{[KB14]}{[KB14]} & Diederik P. Kingma, Jimmy Ba. \textit{Adam: A Method for Stochastic Optimization}. arXiv: \href{https://arxiv.org/abs/1412.6980}{1412.6980}, 2014.
 
 \end{tabular}

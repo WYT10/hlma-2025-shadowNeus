@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  19 JUL 2025 04:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  20 JUL 2025 18:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -845,27 +845,27 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 [7]
 
 [8]
-Underfull \hbox (badness 1728) in paragraph at lines 484--485
+Underfull \hbox (badness 1728) in paragraph at lines 482--483
 []\T1/ptm/m/n/12 (+20) Implicit sur-faces (SDF/NeRF)
  []
 
 
-Underfull \hbox (badness 1286) in paragraph at lines 488--488
+Underfull \hbox (badness 1286) in paragraph at lines 486--486
 []\T1/ptm/m/n/12 (+20) Fails on soft shad-ows, noise,
  []
 
 
-Underfull \hbox (badness 5787) in paragraph at lines 488--489
+Underfull \hbox (badness 5787) in paragraph at lines 486--487
 []\T1/ptm/m/n/12 (+20) Handles real-world im-per-fec-
  []
 
 
-Overfull \hbox (9.30885pt too wide) in paragraph at lines 548--549
+Overfull \hbox (9.30885pt too wide) in paragraph at lines 546--547
  [][] 
  []
 
 
-Overfull \hbox (26.24225pt too wide) in paragraph at lines 590--591
+Overfull \hbox (26.24225pt too wide) in paragraph at lines 588--589
  [][] 
  []
 
@@ -876,15 +876,15 @@ Overfull \hbox (26.24225pt too wide) in paragraph at lines 590--591
 [10]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 682.
+(hyperref)                removing `math shift' on input line 680.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\to' on input line 682.
+(hyperref)                removing `\to' on input line 680.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 682.
+(hyperref)                removing `math shift' on input line 680.
 
 
 
@@ -893,7 +893,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 [12]
 
 [13]
-Overfull \hbox (17.99998pt too wide) in paragraph at lines 869--877
+Overfull \hbox (17.99998pt too wide) in paragraph at lines 867--875
 [] 
  []
 
@@ -910,13 +910,13 @@ Package rerunfilecheck Info: File `demo.out' has not changed.
 Here is how much of TeX's memory you used:
  27858 strings out of 473207
  529715 string characters out of 5720461
- 989617 words of memory out of 5000000
+ 989681 words of memory out of 5000000
  50123 multiletter control sequences out of 15000+600000
  647370 words of font info for 349 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  102i,16n,107p,1052b,912s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on demo.pdf (15 pages, 179674 bytes).
+Output written on demo.pdf (15 pages, 180042 bytes).
 PDF statistics:
  438 PDF objects out of 1000 (max. 8388607)
  375 compressed objects within 4 object streams
