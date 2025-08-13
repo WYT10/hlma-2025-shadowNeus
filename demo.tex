@@ -599,7 +599,7 @@ In this section, we outline the complete pipeline of ShadowNeuS, from the initia
 \begin{definition}[Neural Signed Distance Field] \label{def:neural_sdf} ~\\
 A \textbf{Neural Signed Distance Field} (Neural SDF), as introduced in \hyperlink{[PFS19]}{[PFS19]}, is a function $f(\mathbf{P}; \theta): \mathbb{R}^3 \to \mathbb{R}$ parameterized by a multi-layer perceptron (MLP) with trainable weights $\theta$. It implicitly represents a 3D scene by outputting the signed distance of any spatial point $\mathbf{P} = (p_x, p_y, p_z)^\top$ to the nearest surface:
 \[
-f(\mathbf{P}) =
+f(\mathbf{P})
 \begin{cases}
 < 0 & \text{if } \mathbf{P} \text{ is inside the object}, \\
 = 0 & \text{if } \mathbf{P} \text{ lies on the surface}, \\
@@ -727,7 +727,7 @@ The overall objective of the training process is to minimize a weighted sum of s
 
     \item \textbf{Eikonal Loss:}
     \begin{equation}
-    \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \left\| \nabla f(\mathbf{P}_i) \right\|_2 - 1 \right)^2
+    \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \left\| \nabla_\mathbf{P} f(\mathbf{P}_i) \right\|_2 - 1 \right)^2
     \end{equation}
     This regularization ensures the predicted signed distance function (SDF) $f$ has unit gradient norm almost everywhere, encouraging smooth and well-defined surfaces.
 

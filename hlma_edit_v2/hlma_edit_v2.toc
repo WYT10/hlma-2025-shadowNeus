@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Background}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Motivation}{2}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Fundamentals of 3D Reconstruction from 2D Images}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}3D Reconstruction in Computer Vision}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Information Encoded in a Single-View Image}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Forward Projection: Mapping from 3D to 2D}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}The Inverse Problem: From 2D Image to 3D World}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Ill-posedness and Ambiguity in Single-View Reconstruction}{5}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Shadows as Geometric Constraints}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Light Rays and Shadow Formation due to Blockage}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Surface Normals and Shadow Formation due to Orientation}{6}{subsection.3.2}%
+\contentsline {section}{\numberline {4}ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}{7}{section.4}%
+\contentsline {section}{\numberline {5}Experimental Demonstration}{7}{section.5}%
+\contentsline {section}{\numberline {6}Discussion and Analysis}{7}{section.6}%
+\contentsline {section}{\numberline {7}Conclusion}{7}{section.7}%
