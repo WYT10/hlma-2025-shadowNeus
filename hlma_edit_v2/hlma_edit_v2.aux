@@ -15,27 +15,39 @@
 \newlabel{eq:forward}{{3}{3}{Forward Projection: Mapping from 3D to 2D}{equation.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}The Inverse Problem: From 2D Image to 3D World}{4}{subsection.2.4}\protected@file@percent }
 \newlabel{sec:inverse_problem}{{2.4}{4}{The Inverse Problem: From 2D Image to 3D World}{subsection.2.4}{}}
-\newlabel{lem:camera_ray}{{2.4.1}{4}{Camera Ray Parametrization}{lemma.2.4.1}{}}
+\newlabel{eq:camera_ray}{{2.4.1}{4}{Camera Ray Parametrization}{lemma.2.4.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Ill-posedness and Ambiguity in Single-View Reconstruction}{5}{subsection.2.5}\protected@file@percent }
 \newlabel{sec: illposed}{{2.5}{5}{Ill-posedness and Ambiguity in Single-View Reconstruction}{subsection.2.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Shadows as Geometric Constraints}{5}{section.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Light Rays and Shadow Formation due to Blockage}{5}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Light Rays, Surface Normals, and Shadow Formation}{5}{subsection.3.1}\protected@file@percent }
 \newlabel{def:light_ray}{{3.1.1}{5}{Light Ray}{definition.3.1.1}{}}
-\newlabel{eq:light_ray}{{6}{5}{Light Ray}{equation.6}{}}
+\newlabel{eq:light_ray}{{3.1.1}{5}{Light Ray}{definition.3.1.1}{}}
 \newlabel{def:shadow_occlusion}{{3.1.2}{5}{Shadow Occlusion Test}{definition.3.1.2}{}}
 \newlabel{rmk:occlusion_physics}{{3.1.1}{5}{Physical Interpretation}{remark.3.1.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Surface Normals and Shadow Formation due to Orientation}{6}{subsection.3.2}\protected@file@percent }
-\newlabel{thm:tangency}{{3.2.1}{6}{Tangency Condition}{theorem.3.2.1}{}}
-\newlabel{eq:tangency}{{8}{6}{Tangency Condition}{equation.8}{}}
-\newlabel{def:boundary_set}{{3.2.1}{6}{Shadow Boundary Set}{definition.3.2.1}{}}
-\newlabel{eq:boundary_set}{{9}{6}{Shadow Boundary Set}{equation.9}{}}
-\newlabel{prop:illumination_partition}{{3.2.1}{6}{Surface Illumination Partition}{proposition.3.2.1}{}}
-\newlabel{eq:lit_region}{{10}{6}{Surface Illumination Partition}{equation.10}{}}
-\newlabel{eq:shadow_region}{{11}{6}{Surface Illumination Partition}{equation.11}{}}
-\newlabel{eq:boundary_region}{{12}{6}{Surface Illumination Partition}{equation.12}{}}
-\newlabel{rmk:illum_sign}{{3.2.1}{6}{Geometric Interpretation}{remark.3.2.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}{7}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Demonstration}{7}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Discussion and Analysis}{7}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{7}{section.7}\protected@file@percent }
-\gdef \@abspage@last{8}
+\newlabel{prop: Surface Normal Illumination Test}{{3.1.1}{5}{Surface Normal Illumination Test}{proposition.3.1.1}{}}
+\newlabel{rmk:illum_sign}{{3.1.2}{6}{Geometric Interpretation}{remark.3.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Depth Recovery with Shadow Constraints}{6}{subsection.3.2}\protected@file@percent }
+\newlabel{eq:lambda_solution}{{7}{6}{Depth Recovery with Shadow Constraints}{equation.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Limitations and Challenges}{6}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}ShadowNeuS: Neural Shadow-Based 3D Reconstruction}{7}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Classical vs Neural Approaches: Method Comparison}{7}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:method_comparison}{{4.1}{7}{Classical vs Neural Approaches: Method Comparison}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}ShadowNeuS Pipeline}{8}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:classical_to_neural}{{4.2}{8}{ShadowNeuS Pipeline}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Neural Signed Distance Fields (SDF)}{8}{subsubsection.4.2.1}\protected@file@percent }
+\newlabel{sec:neural_sdf}{{4.2.1}{8}{Neural Signed Distance Fields (SDF)}{subsubsection.4.2.1}{}}
+\newlabel{def:neural_sdf}{{4.2.1}{8}{Neural Signed Distance Field}{definition.4.2.1}{}}
+\newlabel{rmk:gradient_properties}{{4.2.1}{8}{Key Properties of Neural SDF}{remark.4.2.1}{}}
+\newlabel{eq:eikonal_constraint}{{8}{9}{Key Properties of Neural SDF}{equation.8}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Epoch 1: Neural SDF Initialization and MLP Design}{9}{subsubsection.4.2.2}\protected@file@percent }
+\newlabel{sec:epoch1_neural_sdf}{{4.2.2}{9}{Epoch 1: Neural SDF Initialization and MLP Design}{subsubsection.4.2.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{10}{subsubsection.4.2.3}\protected@file@percent }
+\newlabel{sec:epoch2_ray_sampling}{{4.2.3}{10}{Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{subsubsection.4.2.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.4}Converge: Loss Functions}{11}{subsubsection.4.2.4}\protected@file@percent }
+\newlabel{sec:loss_functions}{{4.2.4}{11}{Converge: Loss Functions}{subsubsection.4.2.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent and Adam Optimizer}{13}{subsubsection.4.2.5}\protected@file@percent }
+\newlabel{sec:adam_optimizer}{{4.2.5}{13}{Gradient Descent and Adam Optimizer}{subsubsection.4.2.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Demonstration}{14}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Discussion and Analysis}{14}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{14}{section.7}\protected@file@percent }
+\gdef \@abspage@last{15}

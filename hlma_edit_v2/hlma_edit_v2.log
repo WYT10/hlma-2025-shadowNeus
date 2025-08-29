@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  13 AUG 2025 02:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  30 AUG 2025 03:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/wongy/Desktop/shadow/hlma_edit_v2/hlma_edit_v2.tex
-(c:/Users/wongy/Desktop/shadow/hlma_edit_v2/hlma_edit_v2.tex
+**c:/Users/wongy/Desktop/shadow/hlma-2025-shadowNeus/hlma_edit_v2/hlma_edit_v2.tex
+(c:/Users/wongy/Desktop/shadow/hlma-2025-shadowNeus/hlma_edit_v2/hlma_edit_v2.tex
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
 (c:/texlive/2024/texmf-dist/tex/latex/base/article.cls
@@ -819,7 +819,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
                    \relax 
 l.79 \newpage
               [1]
-<SfM.png, id=127, 697.60625pt x 517.935pt>
+<SfM.png, id=168, 697.60625pt x 517.935pt>
 File: SfM.png Graphic file (type png)
 <use SfM.png>
 Package pdftex.def Info: SfM.png  used on input line 101.
@@ -836,17 +836,17 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 11
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-<pixel_position.png, id=138, 752.8125pt x 508.90125pt>
+<pixel_position.png, id=180, 752.8125pt x 508.90125pt>
 File: pixel_position.png Graphic file (type png)
 <use pixel_position.png>
 Package pdftex.def Info: pixel_position.png  used on input line 119.
 (pdftex.def)             Requested size: 168.65935pt x 114.00862pt.
-<color_intensity.jpg, id=140, 361.35pt x 451.6875pt>
+<color_intensity.jpg, id=182, 361.35pt x 451.6875pt>
 File: color_intensity.jpg Graphic file (type jpg)
 <use color_intensity.jpg>
 Package pdftex.def Info: color_intensity.jpg  used on input line 125.
 (pdftex.def)             Requested size: 96.37361pt x 120.46854pt.
-<embedded_features.jpg, id=142, 1927.2pt x 1084.05pt>
+<embedded_features.jpg, id=184, 1927.2pt x 1084.05pt>
 File: embedded_features.jpg Graphic file (type jpg)
 <use embedded_features.jpg>
 Package pdftex.def Info: embedded_features.jpg  used on input line 131.
@@ -860,43 +860,108 @@ Package microtype Info: Loading generic protrusion settings for font family
 [3 <./pixel_position.png> <./color_intensity.jpg> <./embedded_features.jpg>]
 
 [4]
-<shadow-of-object-vector.jpg, id=174, 1229.59375pt x 983.675pt>
-File: shadow-of-object-vector.jpg Graphic file (type jpg)
-<use shadow-of-object-vector.jpg>
-Package pdftex.def Info: shadow-of-object-vector.jpg  used on input line 265.
-(pdftex.def)             Requested size: 240.93773pt x 192.73894pt.
+
+[5]
+
+[6]
+Overfull \hbox (23.76372pt too wide) in paragraph at lines 390--392
+ [] 
+ []
 
 
-[5 <./shadow-of-object-vector.jpg>]
-Overfull \hbox (23.99998pt too wide) in paragraph at lines 344--353
+Overfull \hbox (40.69711pt too wide) in paragraph at lines 433--435
+ [] 
+ []
+
+
+
+[7]
+Overfull \hbox (17.52812pt too wide) detected at line 479
+[]
+ []
+
+<sdf_region.png, id=250, 444.15938pt x 444.15938pt>
+File: sdf_region.png Graphic file (type png)
+<use sdf_region.png>
+Package pdftex.def Info: sdf_region.png  used on input line 484.
+(pdftex.def)             Requested size: 123.99779pt x 123.99911pt.
+
+Overfull \hbox (10.18488pt too wide) in paragraph at lines 469--488
+[]$[]$   $[]$ 
+ []
+
+<sdf_vec.png, id=251, 438.8897pt x 438.8897pt>
+File: sdf_vec.png Graphic file (type png)
+<use sdf_vec.png>
+Package pdftex.def Info: sdf_vec.png  used on input line 521.
+(pdftex.def)             Requested size: 123.99995pt x 123.99911pt.
+
+
+[8 <./sdf_region.png> <./sdf_vec.png>]
+
+[9]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 609.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\to' on input line 609.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 609.
+
+
+
+[10]
+
+[11]
+
+[12]
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 757--758
+[]\T1/ptm/m/n/12 (+20) S. Savarese, H. Rush-meier, F. Bernar-dini, P. Per-ona. \T1/ptm/m/it/12 (+20) Shadow Carv-ing
+ []
+
+
+Overfull \hbox (23.99998pt too wide) in paragraph at lines 749--761
 [] 
  []
 
 
 
-[6]
-
-[7] (./hlma_edit_v2.aux)
+[14] (./hlma_edit_v2.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
  ***********
 Package rerunfilecheck Info: File `hlma_edit_v2.out' has not changed.
-(rerunfilecheck)             Checksum: 3A39AD959A81A1C67EB9221F63E118B5;3794.
+(rerunfilecheck)             Checksum: 2E7FA6FD770EDC1EEEB1F7329CEFB7F9;5641.
  ) 
 Here is how much of TeX's memory you used:
- 27312 strings out of 473207
- 521211 string characters out of 5720461
- 964047 words of memory out of 5000000
- 49773 multiletter control sequences out of 15000+600000
- 634826 words of font info for 270 fonts, out of 8000000 for 9000
+ 27656 strings out of 473207
+ 526759 string characters out of 5720461
+ 976608 words of memory out of 5000000
+ 49962 multiletter control sequences out of 15000+600000
+ 647214 words of font info for 356 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,14n,87p,1052b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on hlma_edit_v2.pdf (8 pages, 436049 bytes).
+ 84i,14n,87p,1073b,880s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{[KB14]} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{[MST20]} has been referenced but does not exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{[TSS20]} has been referenced but does not exist, replaced by a fixed one
+
+<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on hlma_edit_v2.pdf (15 pages, 477068 bytes).
 PDF statistics:
- 282 PDF objects out of 1000 (max. 8388607)
- 225 compressed objects within 3 object streams
- 60 named destinations out of 1000 (max. 500000)
- 85254 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 391 PDF objects out of 1000 (max. 8388607)
+ 321 compressed objects within 4 object streams
+ 88 named destinations out of 1000 (max. 500000)
+ 97611 words of extra memory for PDF output out of 106986 (max. 10000000)
 

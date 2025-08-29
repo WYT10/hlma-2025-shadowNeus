@@ -8,9 +8,17 @@
 \contentsline {subsection}{\numberline {2.4}The Inverse Problem: From 2D Image to 3D World}{4}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Ill-posedness and Ambiguity in Single-View Reconstruction}{5}{subsection.2.5}%
 \contentsline {section}{\numberline {3}Shadows as Geometric Constraints}{5}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Light Rays and Shadow Formation due to Blockage}{5}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Surface Normals and Shadow Formation due to Orientation}{6}{subsection.3.2}%
-\contentsline {section}{\numberline {4}ShadowNeuS: Neural SDF Reconstruction by Shadow Ray Supervision}{7}{section.4}%
-\contentsline {section}{\numberline {5}Experimental Demonstration}{7}{section.5}%
-\contentsline {section}{\numberline {6}Discussion and Analysis}{7}{section.6}%
-\contentsline {section}{\numberline {7}Conclusion}{7}{section.7}%
+\contentsline {subsection}{\numberline {3.1}Light Rays, Surface Normals, and Shadow Formation}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Depth Recovery with Shadow Constraints}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Limitations and Challenges}{6}{subsection.3.3}%
+\contentsline {section}{\numberline {4}ShadowNeuS: Neural Shadow-Based 3D Reconstruction}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Classical vs Neural Approaches: Method Comparison}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}ShadowNeuS Pipeline}{8}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Neural Signed Distance Fields (SDF)}{8}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Epoch 1: Neural SDF Initialization and MLP Design}{9}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{10}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.4}Converge: Loss Functions}{11}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent and Adam Optimizer}{13}{subsubsection.4.2.5}%
+\contentsline {section}{\numberline {5}Experimental Demonstration}{14}{section.5}%
+\contentsline {section}{\numberline {6}Discussion and Analysis}{14}{section.6}%
+\contentsline {section}{\numberline {7}Conclusion}{14}{section.7}%

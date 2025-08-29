@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1755022913.02677 "c:/Users/wongy/Desktop/shadow/hlma_edit_v2/hlma_edit_v2.tex" "hlma_edit_v2.pdf" "hlma_edit_v2" 1755022915.24786 0
+["pdflatex"] 1756495167.96746 "c:/Users/wongy/Desktop/shadow/hlma-2025-shadowNeus/hlma_edit_v2/hlma_edit_v2.tex" "hlma_edit_v2.pdf" "hlma_edit_v2" 1756495170.59879 0
   "SfM.png" 1754823258 68489 d963f28fdb7756b4a0f372214b6e988c ""
-  "c:/Users/wongy/Desktop/shadow/hlma_edit_v2/hlma_edit_v2.tex" 1755022909 17334 094f378536d936164eca0a23a93586b0 ""
+  "c:/Users/wongy/Desktop/shadow/hlma-2025-shadowNeus/hlma_edit_v2/hlma_edit_v2.tex" 1756495166 39403 0e0eebb816e8c43152287748123119d0 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1737636124 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1737636387 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/adobe/symbol/psyr.tfm" 1737638195 1408 5937f58aa508ea2cea4901c07d10f5fe ""
@@ -43,6 +43,7 @@
   "c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1737638415 44729 fea0975e20ec51c992338362f05f1146 ""
   "c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1737638415 46026 687528a208fbfc1f00832bb96cccebbb ""
   "c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb" 1737638415 45458 504e2b06fa82109d168c7a0afb09e145 ""
+  "c:/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf" 1737638415 1372 788387fea833ef5963f4c5bffe33eb89 ""
   "c:/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmb8t.vf" 1737638415 2340 df9c920cc5688ebbf16a93f45ce7bdd3 ""
   "c:/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf" 1737638415 3556 8a9a6dcbcd146ef985683f677f4758a6 ""
   "c:/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf" 1737638415 2348 91706c542228501c410c266421fbe30c ""
@@ -216,12 +217,13 @@
   "c:/texlive/2024/texmf.cnf" 1737638840 713 e69b156964470283e0530f5060668171 ""
   "color_intensity.jpg" 1754999956 21980 99acafa06f6db7c661fa5e02fc20ed22 ""
   "embedded_features.jpg" 1755003337 197478 91f0b309a9418164d11ca88994423cee ""
-  "hlma_edit_v2.aux" 1755022914 4054 108c5c8b05d65585c881dc512c306cd2 "pdflatex"
-  "hlma_edit_v2.out" 1755022914 3794 3a39ad959a81a1c67eb9221f63e118b5 "pdflatex"
-  "hlma_edit_v2.tex" 1755022909 17334 094f378536d936164eca0a23a93586b0 ""
-  "hlma_edit_v2.toc" 1755022914 1544 cfe0bdaffdf43f821dd290ab278efb36 "pdflatex"
+  "hlma_edit_v2.aux" 1756495170 5794 b248bb4eecbdc4a1342b644f5ef86e77 "pdflatex"
+  "hlma_edit_v2.out" 1756495170 5641 2e7fa6fd770edc1eeeb1f7329cefb7f9 "pdflatex"
+  "hlma_edit_v2.tex" 1756495166 39403 0e0eebb816e8c43152287748123119d0 ""
+  "hlma_edit_v2.toc" 1756495170 2385 b3e879b0ec80dc7401da85c642bc8ce2 "pdflatex"
   "pixel_position.png" 1754999484 30597 41cb68e7e22df1b337683bee65bb3694 ""
-  "shadow-of-object-vector.jpg" 1755019048 25838 41d3c24bfa757943c0fc1a5ed0201b88 ""
+  "sdf_region.png" 1756491251 23063 47c7b9e5da55fea9e8f234ce9e6daff1 ""
+  "sdf_vec.png" 1756491199 17207 0f6b5dd23241456f610160990f5cd9df ""
   (generated)
   "hlma_edit_v2.aux"
   "hlma_edit_v2.log"
