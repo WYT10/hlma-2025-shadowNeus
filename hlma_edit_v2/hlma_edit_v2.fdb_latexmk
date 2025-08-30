@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1756536673.5743 "c:/Users/wongy/Desktop/shadow/hlma-2025-shadowNeus/hlma_edit_v2/hlma_edit_v2.tex" "hlma_edit_v2.pdf" "hlma_edit_v2" 1756536676.38311 0
+["pdflatex"] 1756552282.85501 "c:/Users/wongy/Desktop/shadow/hlma-2025-shadowNeus/hlma_edit_v2/hlma_edit_v2.tex" "hlma_edit_v2.pdf" "hlma_edit_v2" 1756552285.65164 0
   "SfM.png" 1754823258 68489 d963f28fdb7756b4a0f372214b6e988c ""
-  "c:/Users/wongy/Desktop/shadow/hlma-2025-shadowNeus/hlma_edit_v2/hlma_edit_v2.tex" 1756536672 46313 e5efcbb89e97c960c576ebfdaf2f52eb ""
+  "c:/Users/wongy/Desktop/shadow/hlma-2025-shadowNeus/hlma_edit_v2/hlma_edit_v2.tex" 1756552281 41242 ecfe7dd600503a00bfc8892a5a211e00 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1737636124 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1737636387 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/adobe/symbol/psyr.tfm" 1737638195 1408 5937f58aa508ea2cea4901c07d10f5fe ""
@@ -217,10 +217,10 @@
   "c:/texlive/2024/texmf.cnf" 1737638840 713 e69b156964470283e0530f5060668171 ""
   "color_intensity.jpg" 1754999956 21980 99acafa06f6db7c661fa5e02fc20ed22 ""
   "embedded_features.jpg" 1755003337 197478 91f0b309a9418164d11ca88994423cee ""
-  "hlma_edit_v2.aux" 1756536676 5800 c5ece53eedc8c3ac9d1e14ccbe593474 "pdflatex"
-  "hlma_edit_v2.out" 1756536676 5656 a5f3d80322fa3e15dad32ea6075d362c "pdflatex"
-  "hlma_edit_v2.tex" 1756536672 46313 e5efcbb89e97c960c576ebfdaf2f52eb ""
-  "hlma_edit_v2.toc" 1756536676 2388 a740317950ec49262859c1367398ce6c "pdflatex"
+  "hlma_edit_v2.aux" 1756552285 6310 68f0cffeabe56abc9559d7f765a7970f "pdflatex"
+  "hlma_edit_v2.out" 1756552285 6299 753e7afddf4ff2849f4f468d644d8b7a "pdflatex"
+  "hlma_edit_v2.tex" 1756552281 41242 ecfe7dd600503a00bfc8892a5a211e00 ""
+  "hlma_edit_v2.toc" 1756552285 2734 eeb44d34ac47a3a6d939593b3a67757b "pdflatex"
   "pixel_position.png" 1754999484 30597 41cb68e7e22df1b337683bee65bb3694 ""
   "sdf_region.png" 1756491251 23063 47c7b9e5da55fea9e8f234ce9e6daff1 ""
   "sdf_vec.png" 1756491199 17207 0f6b5dd23241456f610160990f5cd9df ""

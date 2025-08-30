@@ -594,123 +594,6 @@ The training begins by constructing a neural signed distance field (SDF), modele
     \item \textbf{Random Initialization}: The MLP weights $\theta$ are initialized using standard techniques such as Xavier initialization, ensuring well-scaled activations in early epochs.
 \end{itemize}
 
-% \subsubsection{Epoch 2$\to$N: Ray Sampling and Shadow Rendering} \label{sec:epoch2_ray_sampling}
-
-% From the second epoch onward, ShadowNeuS iteratively performs \textbf{ray sampling} to locate surface points and \textbf{shadow rendering} to predict shadow values at image pixels. The procedure proceeds as follows:
-
-% \begin{itemize}
-
-%     \item \textbf{Camera Ray Sampling}: \\
-%     For each pixel $\mathbf{p}$, a camera ray is constructed:
-%     \[
-%     \mathbf{r}(t) = \mathbf{C} + t \mathbf{d}, \quad \mathbf{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}.
-%     \]
-%     The intersection point $\mathbf{P}$ is found by sphere tracing along $\mathbf{r}(t)$ to locate $t^*$ satisfying
-%     \[
-%     f_\theta(\mathbf{r}(t^*)) = 0, \quad \mathbf{P} = \mathbf{r}(t^*).
-%     \]
-
-%     \item \textbf{Light Ray Sampling and Visibility Estimation}: \\
-%     For each $\mathbf{P}$, a light ray towards the light source $\mathbf{L}$ is defined:
-%     \[
-%     \mathbf{l}(s) = \mathbf{P} + s (\mathbf{L} - \mathbf{P}), \quad s \in [0, 1].
-%     \]
-%     The \textbf{opacity} along $\mathbf{l}(s)$ is computed at discrete points $\mathbf{l}(s_j)$ using:
-%     \[
-%     a_j = \max\left( 1 - \frac{ \phi(f_\theta(\mathbf{l}(s_{j+1})) ) }{ \phi(f_\theta(\mathbf{l}(s_j))) }, 0 \right)
-%     \]
-%     where $\phi(\cdot)$ is an active function, and $a_j \in [0,1]$ represents the \textbf{local opacity} between adjacent samples.
-
-%     The accumulated transmittance (incoming light intensity) is then:
-%     \[
-%     C_{\mathrm{in}}(\mathbf{P}) = \prod_{j=1}^N (1 - a_j)
-%     \]
-%     This idea is inspired by Neural Radiance Fields (NeRF) C, which uses volume rendering to synthesize views from radiance fields.
-% \end{itemize}
-
-% \subsubsection{Converge: Loss Functions} \label{sec:loss_functions}
-
-% The overall objective of the training process is to minimize a weighted sum of several loss terms that enforce both geometric and appearance-based constraints. The total loss function is defined as:
-% \begin{equation}
-% \mathcal{L}_{\text{total}} = w_{\text{shadow}} \cdot \mathcal{L}_{\text{shadow}} + w_{\text{eik}} \cdot \mathcal{L}_{\text{eik}} + w_{\text{app}} \cdot \mathcal{L}_{\text{appearance}} + \ldots
-% \end{equation}
-
-% \begin{itemize}
-%     \item \textbf{Shadow Supervision Loss:}
-%     \begin{equation}
-%     \mathcal{L}_{\text{shadow}} = \sum_{\mathbf{p}} \left| C_{\mathrm{in}}(\mathbf{p}) - S(\mathbf{p}) \right|
-%     \end{equation}
-%     This term measures the difference between the predicted incoming light intensity $C_{\mathrm{in}}(\mathbf{p})$ and the observed shadow value $S(\mathbf{p})$ over all valid image pixels $\mathbf{p}$.
-
-%     \item \textbf{Eikonal Loss:}
-%     \begin{equation}
-%     \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \left\| \nabla_\mathbf{P} f(\mathbf{P}_i) \right\|_2 - 1 \right)^2
-%     \end{equation}
-%     This regularization ensures the predicted signed distance function (SDF) $f$ has unit gradient norm almost everywhere, encouraging smooth and well-defined surfaces.
-
-%     \item \textbf{Appearance or Consistency Loss:}
-%     \begin{equation}
-%     \mathcal{L}_{\text{appearance}} = \sum_{\mathbf{p}} \left\| C_{\text{pred}}(\mathbf{p}) - C_{\text{gt}}(\mathbf{p}) \right\|_2^2
-%     \end{equation}
-%     This term enforces color or texture consistency by minimizing the error between predicted colors $C_{\text{pred}}$ and ground-truth colors $C_{\text{gt}}$ at pixel locations $\mathbf{p}$. Depending on the dataset, it can also include feature or texture-based losses.
-
-%     \item \textbf{Other Loss Terms (optional):}
-    
-%     Additional loss terms such as normal supervision, depth alignment, or regularization losses can be added when extra supervision signals are available.
-% \end{itemize}
-
-% \subsubsection{Epoch 2$\to$N: Ray Sampling and Shadow Rendering} \label{sec:epoch2_ray_sampling}
-
-% From the second epoch onward, ShadowNeuS performs \textbf{ray sampling} to locate surface points and \textbf{shadow rendering} to estimate shadow values at image pixels. The process has two stages:
-
-% \begin{itemize}[noitemsep, topsep=0pt]
-
-%     \item \textbf{Camera Ray Sampling}: \\
-%     For each pixel $\mathbf{p}$, a camera ray is constructed:
-%     \[
-%     \mathbf{r}(t) = \mathbf{C} + t \mathbf{d}, \quad \mathbf{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix},
-%     \]
-%     where $K$ and $R$ are the intrinsic and extrinsic parameters of the camera. The intersection point $\mathbf{P}$ with the implicit surface is found by sphere tracing to locate $t^*$ such that
-%     % \[
-%     % f_\theta(\mathbf{r}(t^*)) \approx 0, \quad \mathbf{P} = \mathbf{r}(t^*).
-%     % \]
-
-%     \begin{minipage}{0.4\textwidth}
-%     \[
-%     \scalebox{1}{$
-%     f_\theta(\mathbf{r}(t^*)) \approx 0, \quad \mathbf{P} = \mathbf{r}(t^*).
-%     $}
-%     \]
-%     \end{minipage}
-%     \hspace{-1em}
-%     \begin{minipage}{0.5\textwidth}
-%         \begin{center}
-%         \includegraphics[height=0.16\textheight]{shadowneus_rays.png} \\
-%         \textbf{Figure 9.} Comparision between \\ Camera ray and Shadow ray \hyperlink{[LWX23]}{[LWX23]} \\
-%         \end{center}
-%     \end{minipage}
-
-% \newpage
-
-%     \item \textbf{Light Ray Sampling and Visibility Estimation}: \\
-%     For each surface point $\mathbf{P}$, a light ray toward the light source $\mathbf{L}$ is defined:
-%     \[
-%     \mathbf{l}(s) = \mathbf{P} + s (\mathbf{L} - \mathbf{P}), \quad s \in [0, 1].
-%     \]
-%     Along this ray, discrete samples $\mathbf{l}(s_j)$ are taken to evaluate visibility. A local opacity between samples is computed as
-%     \[
-%     a_j = \max\left( 1 - \frac{ \phi(f_\theta(\mathbf{l}(s_{j+1})) ) }{ \phi(f_\theta(\mathbf{l}(s_j))) }, 0 \right),
-%     \]
-%     where $\phi(\cdot)$ is a smooth mapping from signed distance to positive density (e.g., softplus). Each $a_j \in [0,1]$ represents the \textbf{local opacity} between adjacent points.
-
-%     The accumulated transmittance, representing the incoming light at $\mathbf{P}$, is then
-%     \[
-%     C_{\mathrm{in}}(\mathbf{P}) = \prod_{j=1}^N (1 - a_j).
-%     \]
-%     This multiplicative accumulation is analogous to volume rendering used in NeRF \hyperlink{[MST20]}{[MST20]}, where densities are integrated along rays to estimate visibility in a differentiable way.
-% \end{itemize}
-
-
 \subsubsection{Epoch 2$\to$N: Ray Sampling and Shadow Rendering} \label{sec:epoch2_ray_sampling}
 
 From the second epoch onward, ShadowNeuS performs \textbf{ray sampling} to locate surface points and \textbf{shadow rendering} to estimate shadow values at image pixels. The process has two stages:
@@ -781,67 +664,98 @@ Training minimizes a weighted sum of several loss terms that enforce geometric r
 
 \subsubsection{Gradient Descent and Adam Optimizer} \label{sec:adam_optimizer}
 
-To minimize the total loss $\mathcal{L}_{\text{total}}(\theta)$, neural networks typically rely on gradient-based optimization methods. Below, we summarize both the basic gradient descent method and the more advanced Adam optimizer used in our implementation. Details of Adam optimizer are refered to paper \hyperlink{[KB14]}{[KB14]}.
+To minimize the total loss $\mathcal{L}_{\text{total}}(\theta)$, neural networks typically rely on gradient-based optimization methods. Below, we summarize both the basic gradient descent method and the Adam optimizer used in our implementation. Details of Adam optimizer are refered to paper \hyperlink{[KB14]}{[KB14]}.
 
-\begin{itemize}
+\begin{itemize}[noitemsep, topsep=0pt]
 
-    \item \textbf{Gradient Descent}: The simplest optimization method updates the parameters $\theta$ along the direction of steepest descent, defined by the negative gradient of the loss:
+    \item \textbf{Gradient Descent}: 
+    The simplest method updates parameters $\theta$ along the direction of steepest descent:
     \[
     \theta_{t+1} = \theta_t - \alpha \, \nabla_\theta \mathcal{L}_{\text{total}}(\theta_t),
     \]
-    where $\theta_t$ denotes the parameters at iteration $t$, $\alpha > 0$ is the \textbf{learning rate}, and $\nabla_\theta \mathcal{L}_{\text{total}}$ is the gradient of the total loss with respect to $\theta$.
+    where $\alpha > 0$ is the learning rate. Here, $\nabla_\theta \mathcal{L}_{\text{total}}$ points in the direction of fastest increase of the loss, so subtracting it reduces the loss.
 
-    \begin{remark}[Limitations of Simple Gradient Descent]
-    Despite its simplicity, basic gradient descent exhibits several limitations:
-    \begin{itemize}
-        \item \textbf{Learning Rate Sensitivity}: A fixed $\alpha$ may result in slow convergence (if too small) or divergence (if too large).
-        \item \textbf{Oscillation}: In regions with steep or curved loss landscapes, updates can oscillate and hinder convergence.
-        \item \textbf{Uniform Step Size}: All parameters are updated using the same learning rate, without accounting for variations in gradient magnitude.
+    \begin{remark}[Limitations] ~\\
+    Basic gradient descent has several drawbacks:
+    \begin{itemize}[noitemsep]
+        \item \textbf{Learning Rate Sensitivity}: Too small $\alpha$ slows convergence; too large may cause divergence.
+        \item \textbf{Oscillation}: In steep or curved regions, updates can overshoot or oscillate.
+        \item \textbf{Uniform Step Size}: All parameters use the same $\alpha$, ignoring variations in gradient magnitude.
     \end{itemize}
     \end{remark}
 
-    \item \textbf{Adam Optimizer}: Adaptive Moment Estimation (Adam) addresses these issues by combining:
-    \begin{itemize}
-        \item \textbf{Momentum (First Moment Estimate)}: Adam maintains an exponentially decaying average of past gradients:
-        \[
-        m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t, \quad g_t = \nabla_\theta \mathcal{L}_{\text{total}}(\theta_t),
-        \]
-        where $0 < \beta_1 < 1$ controls the momentum decay. This term reduces oscillations and stabilizes updates.
+    \item \textbf{Adam Optimizer}: 
+    Adam (\textit{Adaptive Moment Estimation}) improves convergence by combining momentum and adaptive learning rates:
 
-        \item \textbf{Adaptive Scaling (Second Moment Estimate)}: Adam also tracks the exponentially decaying average of squared gradients:
+    \begin{itemize}[noitemsep]
+        \item \textbf{Momentum (First Moment)}: Maintains an exponential moving average of past gradients:
         \[
-        v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2,
+        m_t = \beta_1 m_{t-1} + (1-\beta_1) g_t, \quad g_t = \nabla_\theta \mathcal{L}_{\text{total}}(\theta_t),
         \]
-        where $0 < \beta_2 < 1$ governs the decay rate for squared gradients. This adjusts learning rates per parameter based on historical gradient magnitudes.
+        reducing oscillations and smoothing updates.
 
-        \item \textbf{Bias Correction}: To correct for initialization bias (since $m_0, v_0 = 0$), Adam computes bias-corrected estimates:
+        \item \textbf{Adaptive Scaling (Second Moment)}: Tracks the moving average of squared gradients:
         \[
-        \hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1 - \beta_2^t}.
+        v_t = \beta_2 v_{t-1} + (1-\beta_2) g_t^2,
+        \]
+        allowing per-parameter learning rate adjustments based on gradient magnitude.
+
+        \item \textbf{Bias Correction}: Corrects for initialization bias ($m_0, v_0 = 0$):
+        \[
+        \hat{m}_t = \frac{m_t}{1-\beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1-\beta_2^t}.
         \]
     \end{itemize}
 
-    \item \textbf{Adam Update Rule}: The final parameter update rule is given by:
+    \item \textbf{Parameter Update}: 
+    The final Adam update combines these elements:
     \[
-    \theta_{t+1} = \theta_t - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon},
+    \theta_{t+1} = \theta_t - \alpha \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon},
     \]
-    where:
-    \begin{itemize}
-        \item $\alpha$ is the learning rate (e.g., $\alpha = 10^{-3}$),
-        \item $\beta_1$ is the first moment decay rate (typically $\beta_1 = 0.9$),
-        \item $\beta_2$ is the second moment decay rate (typically $\beta_2 = 0.999$),
-        \item $\epsilon$ is a small constant (e.g., $\epsilon = 10^{-8}$) to ensure numerical stability and prevent division by zero.
-    \end{itemize}
-
+    where typical values are:
+    \[
+    \alpha = 10^{-3},\quad \beta_1 = 0.9,\quad \beta_2 = 0.999,\quad \epsilon = 10^{-8}.
+    \]
+    This update ensures stable, efficient learning by smoothing updates (momentum) and scaling steps according to gradient history (adaptive rate).
 \end{itemize}
 
+\vspace{-1em}
+
+\subsection{Summary}
+After analyzing and exploring the ShadowNeuS pipeline, we want to validate our understanding through experiments, following the scientific principle of repeating phenomena to test hypotheses. While full 3D reconstruction is computationally intensive and challenging, we propose to reduce the dimensionality and perform a simplified reconstruction—from 1D shadows to 2D geometry—to gain insight into the underlying mechanisms.
+
+\vspace{-1em}
+
+\section{Experimental Setup: 1D-to-2D Shadow Reconstruction}
+
+\vspace{-1em}
+
+\subsection{Scene Definition}
+
+We consider a simplified 2D environment designed as a toy model of the shadow-based reconstruction problem. The setting is defined as follows:
+\begin{itemize}[noitemsep, topsep=0pt]
+    \item \textbf{Space:} A two-dimensional plane $(x,y)$ with a horizontal baseline (ground) onto which shadows are projected.
+    \item \textbf{Object:} A simple, convex, enclosed 2D shape, fixed and static, that serves as the occluder.
+    \item \textbf{Light source:} A single fixed point light, positioned differently for each measurement, generating a cast shadow of the object.
+    \item \textbf{Camera:} A single-view sensor that records the shadow along the ground as a one-dimensional binary/intensity array, producing barcode-like measurements.
+\end{itemize}
+
+\vspace{-1em}
+
+\subsection{Goal and Hypothesis}
+
+The experiment aims to test whether shadow-based cues can enable shape recovery even in reduced dimensionality.
+\begin{itemize}[noitemsep, topsep=0pt]
+    \item \textbf{Goal:} To reconstruct the 2D shape of the object from only its 1D shadow projections.
+    \item \textbf{Hypothesis:} Despite the dimensional reduction, approximate shape recovery is possible by enforcing geometric consistency between the 2D object and its observed 1D shadows, mirroring the principle exploited in ShadowNeuS.
+\end{itemize}
+
+\newpage
+
+\subsection{Neural Model}
 
 
 
 
-
-
-\section{Experimental Demonstration}
-% ...
 
 \section{Discussion and Analysis}
 % ...

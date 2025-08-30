@@ -19,6 +19,10 @@
 \contentsline {subsubsection}{\numberline {4.2.3}Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{10}{subsubsection.4.2.3}%
 \contentsline {subsubsection}{\numberline {4.2.4}Convergence: Loss Functions}{11}{subsubsection.4.2.4}%
 \contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent and Adam Optimizer}{12}{subsubsection.4.2.5}%
-\contentsline {section}{\numberline {5}Experimental Demonstration}{14}{section.5}%
+\contentsline {subsection}{\numberline {4.3}Summary}{13}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Experimental Setup: 1D-to-2D Shadow Reconstruction}{13}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Scene Definition}{13}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Goal and Hypothesis}{13}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Neural Model}{14}{subsection.5.3}%
 \contentsline {section}{\numberline {6}Discussion and Analysis}{14}{section.6}%
 \contentsline {section}{\numberline {7}Conclusion}{14}{section.7}%

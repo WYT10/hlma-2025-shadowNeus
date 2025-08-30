@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  30 AUG 2025 14:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  30 AUG 2025 19:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -819,7 +819,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
                    \relax 
 l.79 \newpage
               [1]
-<SfM.png, id=168, 697.60625pt x 517.935pt>
+<SfM.png, id=188, 697.60625pt x 517.935pt>
 File: SfM.png Graphic file (type png)
 <use SfM.png>
 Package pdftex.def Info: SfM.png  used on input line 101.
@@ -836,17 +836,17 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 11
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-<pixel_position.png, id=180, 752.8125pt x 508.90125pt>
+<pixel_position.png, id=200, 752.8125pt x 508.90125pt>
 File: pixel_position.png Graphic file (type png)
 <use pixel_position.png>
 Package pdftex.def Info: pixel_position.png  used on input line 119.
 (pdftex.def)             Requested size: 168.65935pt x 114.00862pt.
-<color_intensity.jpg, id=182, 361.35pt x 451.6875pt>
+<color_intensity.jpg, id=202, 361.35pt x 451.6875pt>
 File: color_intensity.jpg Graphic file (type jpg)
 <use color_intensity.jpg>
 Package pdftex.def Info: color_intensity.jpg  used on input line 125.
 (pdftex.def)             Requested size: 96.37361pt x 120.46854pt.
-<embedded_features.jpg, id=184, 1927.2pt x 1084.05pt>
+<embedded_features.jpg, id=204, 1927.2pt x 1084.05pt>
 File: embedded_features.jpg Graphic file (type jpg)
 <use embedded_features.jpg>
 Package pdftex.def Info: embedded_features.jpg  used on input line 131.
@@ -880,7 +880,7 @@ Overfull \hbox (17.52812pt too wide) detected at line 479
 []
  []
 
-<sdf_region.png, id=250, 444.15938pt x 444.15938pt>
+<sdf_region.png, id=270, 444.15938pt x 444.15938pt>
 File: sdf_region.png Graphic file (type png)
 <use sdf_region.png>
 Package pdftex.def Info: sdf_region.png  used on input line 484.
@@ -890,7 +890,7 @@ Overfull \hbox (10.18488pt too wide) in paragraph at lines 469--488
 []$[]$   $[]$ 
  []
 
-<sdf_vec.png, id=251, 438.8897pt x 438.8897pt>
+<sdf_vec.png, id=271, 438.8897pt x 438.8897pt>
 File: sdf_vec.png Graphic file (type png)
 <use sdf_vec.png>
 Package pdftex.def Info: sdf_vec.png  used on input line 521.
@@ -902,41 +902,41 @@ Package pdftex.def Info: sdf_vec.png  used on input line 521.
 [9]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 714.
+(hyperref)                removing `math shift' on input line 597.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\to' on input line 714.
+(hyperref)                removing `\to' on input line 597.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 714.
+(hyperref)                removing `math shift' on input line 597.
 
 
 
 [10]
-<shadowneus_rays.png, id=278, 1480.78218pt x 612.78937pt>
+<shadowneus_rays.png, id=298, 1480.78218pt x 612.78937pt>
 File: shadowneus_rays.png Graphic file (type png)
 <use shadowneus_rays.png>
-Package pdftex.def Info: shadowneus_rays.png  used on input line 746.
+Package pdftex.def Info: shadowneus_rays.png  used on input line 629.
 (pdftex.def)             Requested size: 337.31134pt x 139.58278pt.
 
 
 [11 <./shadowneus_rays.png>]
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 863--864
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 777--778
 []\T1/ptm/m/n/12 (+20) S. Savarese, H. Rush-meier, F. Bernar-dini, P. Per-ona. \T1/ptm/m/it/12 (+20) Shadow Carv-ing
  []
 
 
-Overfull \hbox (23.99998pt too wide) in paragraph at lines 855--870
+Overfull \hbox (23.99998pt too wide) in paragraph at lines 769--784
 [] 
  []
 
 
-
-[13]
 
 [14] (./hlma_edit_v2.aux)
  ***********
@@ -944,21 +944,21 @@ LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
  ***********
 Package rerunfilecheck Info: File `hlma_edit_v2.out' has not changed.
-(rerunfilecheck)             Checksum: A5F3D80322FA3E15DAD32EA6075D362C;5656.
+(rerunfilecheck)             Checksum: 753E7AFDDF4FF2849F4F468D644D8B7A;6299.
  ) 
 Here is how much of TeX's memory you used:
- 27659 strings out of 473207
- 526902 string characters out of 5720461
- 976612 words of memory out of 5000000
- 49969 multiletter control sequences out of 15000+600000
- 647407 words of font info for 356 fonts, out of 8000000 for 9000
+ 27679 strings out of 473207
+ 527124 string characters out of 5720461
+ 976615 words of memory out of 5000000
+ 49973 multiletter control sequences out of 15000+600000
+ 648016 words of font info for 364 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,14n,87p,1073b,880s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on hlma_edit_v2.pdf (15 pages, 1044764 bytes).
+Output written on hlma_edit_v2.pdf (15 pages, 1046270 bytes).
 PDF statistics:
- 392 PDF objects out of 1000 (max. 8388607)
- 320 compressed objects within 4 object streams
- 84 named destinations out of 1000 (max. 500000)
- 97616 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 413 PDF objects out of 1000 (max. 8388607)
+ 341 compressed objects within 4 object streams
+ 88 named destinations out of 1000 (max. 500000)
+ 97648 words of extra memory for PDF output out of 106986 (max. 10000000)
 
