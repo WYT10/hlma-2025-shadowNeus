@@ -17,8 +17,8 @@
 \contentsline {subsubsection}{\numberline {4.2.1}Neural Signed Distance Fields (SDF)}{8}{subsubsection.4.2.1}%
 \contentsline {subsubsection}{\numberline {4.2.2}Epoch 1: Neural SDF Initialization and MLP Design}{9}{subsubsection.4.2.2}%
 \contentsline {subsubsection}{\numberline {4.2.3}Epoch 2$\to $N: Ray Sampling and Shadow Rendering}{10}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4}Converge: Loss Functions}{11}{subsubsection.4.2.4}%
-\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent and Adam Optimizer}{13}{subsubsection.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.4}Convergence: Loss Functions}{11}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.5}Gradient Descent and Adam Optimizer}{12}{subsubsection.4.2.5}%
 \contentsline {section}{\numberline {5}Experimental Demonstration}{14}{section.5}%
 \contentsline {section}{\numberline {6}Discussion and Analysis}{14}{section.6}%
 \contentsline {section}{\numberline {7}Conclusion}{14}{section.7}%

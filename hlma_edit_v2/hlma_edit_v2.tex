@@ -531,35 +531,23 @@ Neural SDFs encode useful geometric details for 3D reconstruction:
     \begin{equation}
     \|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 = 1, \quad \forall \mathbf{P} \in \mathbb{R}^3. \label{eq:eikonal_constraint}
     \end{equation}
-    % A first-order Taylor approximation confirms this property:
-    % \begin{equation}
-    % f(\mathbf{P} + \sigma \mathbf{u}) \approx f(\mathbf{P}) + \sigma \cdot \left( \nabla_{\mathbf{P}} f(\mathbf{P}) \cdot \mathbf{u} \right), \quad \|\mathbf{u}\|_2 = 1, |\sigma| \ll 1. \label{eq:taylor_sdf_property}
-    % \end{equation}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
     \subsubsection*{Proof of Eikonal Regularization}
 
-    Let $\mathbf{P} \in \mathbb{R}^3$ and $\mathbf{u}$ a unit vector, $\|\mathbf{u}\|_2 = 1$. By first-order Taylor expansion:
+    Let $\mathbf{P} \in \mathbb{R}^3$ and $\mathbf{u}$ a unit vector, $\|\mathbf{u}\|_2 = 1$ and $|\sigma| \ll 1$. By first-order Taylor expansion:
     \[
     f(\mathbf{P} + \sigma \mathbf{u}) \approx f(\mathbf{P}) + \sigma \, \nabla_{\mathbf{P}} f(\mathbf{P}) \cdot \mathbf{u}.
     \]
 
     Let $\theta$ be the angle between $\nabla_{\mathbf{P}} f(\mathbf{P})$ and $\mathbf{u}$. Then
     \[
-    |\Delta f| = |f(\mathbf{P} + \sigma \mathbf{u}) - f(\mathbf{P})| \approx |\sigma| \, \|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 |\cos \theta|.
+    \Delta f = f(\mathbf{P} + \sigma \mathbf{u}) - f(\mathbf{P}) \approx \sigma \, \nabla_{\mathbf{P}} f(\mathbf{P}) \cdot \mathbf{u} \approx \sigma \, \|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 \cos \theta.
     \]
 
     For $f$ to be a valid signed distance function, the change along any direction must equal the displacement:
     \[
-    |\Delta f| = |\sigma| \quad \implies \quad \|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 = 1.
+    \Delta f = \sigma \cos \theta \quad \implies \quad \boxed{\|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 = 1}.
     \]
-
-    This recovers the Eikonal equation:
-    \[
-    \boxed{\|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 = 1}.
-    \]
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     \item \textbf{Geometric Stability}: Deviations from $\|\nabla_{\mathbf{P}} f(\mathbf{P})\|_2 = 1$ indicate distortion:
     \[
@@ -606,23 +594,139 @@ The training begins by constructing a neural signed distance field (SDF), modele
     \item \textbf{Random Initialization}: The MLP weights $\theta$ are initialized using standard techniques such as Xavier initialization, ensuring well-scaled activations in early epochs.
 \end{itemize}
 
+% \subsubsection{Epoch 2$\to$N: Ray Sampling and Shadow Rendering} \label{sec:epoch2_ray_sampling}
+
+% From the second epoch onward, ShadowNeuS iteratively performs \textbf{ray sampling} to locate surface points and \textbf{shadow rendering} to predict shadow values at image pixels. The procedure proceeds as follows:
+
+% \begin{itemize}
+
+%     \item \textbf{Camera Ray Sampling}: \\
+%     For each pixel $\mathbf{p}$, a camera ray is constructed:
+%     \[
+%     \mathbf{r}(t) = \mathbf{C} + t \mathbf{d}, \quad \mathbf{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}.
+%     \]
+%     The intersection point $\mathbf{P}$ is found by sphere tracing along $\mathbf{r}(t)$ to locate $t^*$ satisfying
+%     \[
+%     f_\theta(\mathbf{r}(t^*)) = 0, \quad \mathbf{P} = \mathbf{r}(t^*).
+%     \]
+
+%     \item \textbf{Light Ray Sampling and Visibility Estimation}: \\
+%     For each $\mathbf{P}$, a light ray towards the light source $\mathbf{L}$ is defined:
+%     \[
+%     \mathbf{l}(s) = \mathbf{P} + s (\mathbf{L} - \mathbf{P}), \quad s \in [0, 1].
+%     \]
+%     The \textbf{opacity} along $\mathbf{l}(s)$ is computed at discrete points $\mathbf{l}(s_j)$ using:
+%     \[
+%     a_j = \max\left( 1 - \frac{ \phi(f_\theta(\mathbf{l}(s_{j+1})) ) }{ \phi(f_\theta(\mathbf{l}(s_j))) }, 0 \right)
+%     \]
+%     where $\phi(\cdot)$ is an active function, and $a_j \in [0,1]$ represents the \textbf{local opacity} between adjacent samples.
+
+%     The accumulated transmittance (incoming light intensity) is then:
+%     \[
+%     C_{\mathrm{in}}(\mathbf{P}) = \prod_{j=1}^N (1 - a_j)
+%     \]
+%     This idea is inspired by Neural Radiance Fields (NeRF) C, which uses volume rendering to synthesize views from radiance fields.
+% \end{itemize}
+
+% \subsubsection{Converge: Loss Functions} \label{sec:loss_functions}
+
+% The overall objective of the training process is to minimize a weighted sum of several loss terms that enforce both geometric and appearance-based constraints. The total loss function is defined as:
+% \begin{equation}
+% \mathcal{L}_{\text{total}} = w_{\text{shadow}} \cdot \mathcal{L}_{\text{shadow}} + w_{\text{eik}} \cdot \mathcal{L}_{\text{eik}} + w_{\text{app}} \cdot \mathcal{L}_{\text{appearance}} + \ldots
+% \end{equation}
+
+% \begin{itemize}
+%     \item \textbf{Shadow Supervision Loss:}
+%     \begin{equation}
+%     \mathcal{L}_{\text{shadow}} = \sum_{\mathbf{p}} \left| C_{\mathrm{in}}(\mathbf{p}) - S(\mathbf{p}) \right|
+%     \end{equation}
+%     This term measures the difference between the predicted incoming light intensity $C_{\mathrm{in}}(\mathbf{p})$ and the observed shadow value $S(\mathbf{p})$ over all valid image pixels $\mathbf{p}$.
+
+%     \item \textbf{Eikonal Loss:}
+%     \begin{equation}
+%     \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \left\| \nabla_\mathbf{P} f(\mathbf{P}_i) \right\|_2 - 1 \right)^2
+%     \end{equation}
+%     This regularization ensures the predicted signed distance function (SDF) $f$ has unit gradient norm almost everywhere, encouraging smooth and well-defined surfaces.
+
+%     \item \textbf{Appearance or Consistency Loss:}
+%     \begin{equation}
+%     \mathcal{L}_{\text{appearance}} = \sum_{\mathbf{p}} \left\| C_{\text{pred}}(\mathbf{p}) - C_{\text{gt}}(\mathbf{p}) \right\|_2^2
+%     \end{equation}
+%     This term enforces color or texture consistency by minimizing the error between predicted colors $C_{\text{pred}}$ and ground-truth colors $C_{\text{gt}}$ at pixel locations $\mathbf{p}$. Depending on the dataset, it can also include feature or texture-based losses.
+
+%     \item \textbf{Other Loss Terms (optional):}
+    
+%     Additional loss terms such as normal supervision, depth alignment, or regularization losses can be added when extra supervision signals are available.
+% \end{itemize}
+
+% \subsubsection{Epoch 2$\to$N: Ray Sampling and Shadow Rendering} \label{sec:epoch2_ray_sampling}
+
+% From the second epoch onward, ShadowNeuS performs \textbf{ray sampling} to locate surface points and \textbf{shadow rendering} to estimate shadow values at image pixels. The process has two stages:
+
+% \begin{itemize}[noitemsep, topsep=0pt]
+
+%     \item \textbf{Camera Ray Sampling}: \\
+%     For each pixel $\mathbf{p}$, a camera ray is constructed:
+%     \[
+%     \mathbf{r}(t) = \mathbf{C} + t \mathbf{d}, \quad \mathbf{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix},
+%     \]
+%     where $K$ and $R$ are the intrinsic and extrinsic parameters of the camera. The intersection point $\mathbf{P}$ with the implicit surface is found by sphere tracing to locate $t^*$ such that
+%     % \[
+%     % f_\theta(\mathbf{r}(t^*)) \approx 0, \quad \mathbf{P} = \mathbf{r}(t^*).
+%     % \]
+
+%     \begin{minipage}{0.4\textwidth}
+%     \[
+%     \scalebox{1}{$
+%     f_\theta(\mathbf{r}(t^*)) \approx 0, \quad \mathbf{P} = \mathbf{r}(t^*).
+%     $}
+%     \]
+%     \end{minipage}
+%     \hspace{-1em}
+%     \begin{minipage}{0.5\textwidth}
+%         \begin{center}
+%         \includegraphics[height=0.16\textheight]{shadowneus_rays.png} \\
+%         \textbf{Figure 9.} Comparision between \\ Camera ray and Shadow ray \hyperlink{[LWX23]}{[LWX23]} \\
+%         \end{center}
+%     \end{minipage}
+
+% \newpage
+
+%     \item \textbf{Light Ray Sampling and Visibility Estimation}: \\
+%     For each surface point $\mathbf{P}$, a light ray toward the light source $\mathbf{L}$ is defined:
+%     \[
+%     \mathbf{l}(s) = \mathbf{P} + s (\mathbf{L} - \mathbf{P}), \quad s \in [0, 1].
+%     \]
+%     Along this ray, discrete samples $\mathbf{l}(s_j)$ are taken to evaluate visibility. A local opacity between samples is computed as
+%     \[
+%     a_j = \max\left( 1 - \frac{ \phi(f_\theta(\mathbf{l}(s_{j+1})) ) }{ \phi(f_\theta(\mathbf{l}(s_j))) }, 0 \right),
+%     \]
+%     where $\phi(\cdot)$ is a smooth mapping from signed distance to positive density (e.g., softplus). Each $a_j \in [0,1]$ represents the \textbf{local opacity} between adjacent points.
+
+%     The accumulated transmittance, representing the incoming light at $\mathbf{P}$, is then
+%     \[
+%     C_{\mathrm{in}}(\mathbf{P}) = \prod_{j=1}^N (1 - a_j).
+%     \]
+%     This multiplicative accumulation is analogous to volume rendering used in NeRF \hyperlink{[MST20]}{[MST20]}, where densities are integrated along rays to estimate visibility in a differentiable way.
+% \end{itemize}
+
+
 \subsubsection{Epoch 2$\to$N: Ray Sampling and Shadow Rendering} \label{sec:epoch2_ray_sampling}
 
-From the second epoch onward, ShadowNeuS iteratively performs \textbf{ray sampling} to locate surface points and \textbf{shadow rendering} to predict shadow values at image pixels. The procedure proceeds as follows:
+From the second epoch onward, ShadowNeuS performs \textbf{ray sampling} to locate surface points and \textbf{shadow rendering} to estimate shadow values at image pixels. The process has two stages:
 
-\begin{itemize}
-
+\begin{itemize}[noitemsep, topsep=0pt]
     \item \textbf{Camera Ray Sampling}: \\
     For each pixel $\mathbf{p}$, a camera ray is constructed:
     \[
-    \mathbf{r}(t) = \mathbf{C} + t \mathbf{d}, \quad \mathbf{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix}.
+    \mathbf{r}(t) = \mathbf{C} + t \mathbf{d}, \quad \mathbf{d} = R^{-1} K^{-1} \begin{bmatrix} p_x \\ p_y \\ 1 \end{bmatrix},
     \]
-    The intersection point $\mathbf{P}$ is found by sphere tracing along $\mathbf{r}(t)$ to locate $t^*$ satisfying
+    where $K$ and $R$ are the intrinsic and extrinsic parameters of the camera. The intersection point $\mathbf{P}$ with the implicit surface is found by sphere tracing to locate $t^*$ such that
     \[
-    f_\theta(\mathbf{r}(t^*)) = 0, \quad \mathbf{P} = \mathbf{r}(t^*).
+    f_\theta(\mathbf{r}(t^*)) \approx 0, \quad \mathbf{P} = \mathbf{r}(t^*).
     \]
 
-    \item \textbf{Light Ray Sampling and Visibility Estimation}: \\
+    \item \textbf{Shadow Ray Sampling and Visibility Estimation}: \\ 
     For each $\mathbf{P}$, a light ray towards the light source $\mathbf{L}$ is defined:
     \[
     \mathbf{l}(s) = \mathbf{P} + s (\mathbf{L} - \mathbf{P}), \quad s \in [0, 1].
@@ -637,41 +741,43 @@ From the second epoch onward, ShadowNeuS iteratively performs \textbf{ray sampli
     \[
     C_{\mathrm{in}}(\mathbf{P}) = \prod_{j=1}^N (1 - a_j)
     \]
-    This idea is inspired by Neural Radiance Fields (NeRF) \hyperlink{[MST20]}{[MST20]}, which uses volume rendering to synthesize views from radiance fields.
+    This multiplicative accumulation is analogous to volume rendering used in NeRF \hyperlink{[MST20]}{[MST20]}, where densities are integrated along rays to estimate visibility in a differentiable way.
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{shadowneus_rays.png} \\
+        \textbf{Figure 9.} Comparision between Camera ray and Shadow ray \hyperlink{[LWX23]}{[LWX23]}
+    \end{center}
+
 \end{itemize}
 
-\subsubsection{Converge: Loss Functions} \label{sec:loss_functions}
+\subsubsection{Convergence: Loss Functions} \label{sec:loss_functions}
 
-The overall objective of the training process is to minimize a weighted sum of several loss terms that enforce both geometric and appearance-based constraints. The total loss function is defined as:
-\begin{equation}
+Training minimizes a weighted sum of several loss terms that enforce geometric regularity and appearance consistency:
+\begin{equation*}
 \mathcal{L}_{\text{total}} = w_{\text{shadow}} \cdot \mathcal{L}_{\text{shadow}} + w_{\text{eik}} \cdot \mathcal{L}_{\text{eik}} + w_{\text{app}} \cdot \mathcal{L}_{\text{appearance}} + \ldots
-\end{equation}
+\end{equation*}
 
 \begin{itemize}
     \item \textbf{Shadow Supervision Loss:}
-    \begin{equation}
+    \begin{equation*}
     \mathcal{L}_{\text{shadow}} = \sum_{\mathbf{p}} \left| C_{\mathrm{in}}(\mathbf{p}) - S(\mathbf{p}) \right|
-    \end{equation}
-    This term measures the difference between the predicted incoming light intensity $C_{\mathrm{in}}(\mathbf{p})$ and the observed shadow value $S(\mathbf{p})$ over all valid image pixels $\mathbf{p}$.
+    \end{equation*}
+    compares predicted light transmittance $C_{\mathrm{in}}(\mathbf{p})$ with observed shadow labels $S(\mathbf{p})$.
 
     \item \textbf{Eikonal Loss:}
-    \begin{equation}
-    \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \left\| \nabla_\mathbf{P} f(\mathbf{P}_i) \right\|_2 - 1 \right)^2
-    \end{equation}
-    This regularization ensures the predicted signed distance function (SDF) $f$ has unit gradient norm almost everywhere, encouraging smooth and well-defined surfaces.
+    \begin{equation*}
+    \mathcal{L}_{\text{eik}} = \frac{1}{M} \sum_{i=1}^M \left( \left\| \nabla_\mathbf{P} f_\theta(\mathbf{P}_i) \right\|_2 - 1 \right)^2
+    \end{equation*}
+    encourages $f_\theta$ to approximate a signed distance function by enforcing unit-norm gradients almost everywhere, leading to stable and smooth surfaces.
 
     \item \textbf{Appearance or Consistency Loss:}
-    \begin{equation}
+    \begin{equation*}
     \mathcal{L}_{\text{appearance}} = \sum_{\mathbf{p}} \left\| C_{\text{pred}}(\mathbf{p}) - C_{\text{gt}}(\mathbf{p}) \right\|_2^2
-    \end{equation}
-    This term enforces color or texture consistency by minimizing the error between predicted colors $C_{\text{pred}}$ and ground-truth colors $C_{\text{gt}}$ at pixel locations $\mathbf{p}$. Depending on the dataset, it can also include feature or texture-based losses.
+    \end{equation*}
+    enforces consistency between predicted and ground-truth colors (or features) at each pixel. Depending on the dataset, this may include texture or feature-based terms.
 
-    \item \textbf{Other Loss Terms (optional):}
-    
-    Additional loss terms such as normal supervision, depth alignment, or regularization losses can be added when extra supervision signals are available.
+    \item \textbf{Other Loss Terms (optional):} \\
+    When additional supervision is available, terms such as normal alignment, depth consistency, or regularization losses can be added.
 \end{itemize}
-
-\newpage
 
 \subsubsection{Gradient Descent and Adam Optimizer} \label{sec:adam_optimizer}
 
@@ -756,7 +862,10 @@ To minimize the total loss $\mathcal{L}_{\text{total}}(\theta)$, neural networks
 {[\textbf{Figure 5.}]}  & Sandip Neogi. \href{https://www.vecteezy.com/vector-art/42399612-shadow-of-object}{shadow of object Pro Vector}, n.d. \hypertarget{[Fig 5]}{}  \\
 {[\textbf{SHFP01}]}     & S. Savarese, H. Rushmeier, F. Bernardini, P. Perona. \textit{Shadow Carving} IEEE:\href{https://ieeexplore.ieee.org/document/937517}{10.1109/ICCV.2001.937517}, 2001. \hypertarget{[SHFP01]}{}  \\
 {[\textbf{M51}]}        & Gaspard Monge. \textit{An Elementary Treatise on Descriptive Geometry, with a Theory of Shadows and of Perspective Extracted from the French of G. Monge by J. F. Heather} Google book id: \href{https://archive.org/details/bub_gb_8KZ0SKUCVXQC/page/n17/mode/2up}{8KZ0SKUCVXQC}, 1851. \hypertarget{[M51]}{}  \\
-{\textbf{[PFS19]}}      & Jeong Joon Park, Peter Florence, Julian Straub, Richard Newcombe, Steven Lovegrove. \textit{DeepSDF: Learning Continuous Signed Distance Functions for Shape Representation}. arXiv: \href{https://arxiv.org/abs/1901.05103}{1901.05103}, 2019. \hypertarget{[PFS19]}{}\\
+{[\textbf{PFS19}]}      & Jeong Joon Park, Peter Florence, Julian Straub, Richard Newcombe, Steven Lovegrove. \textit{DeepSDF: Learning Continuous Signed Distance Functions for Shape Representation}. arXiv: \href{https://arxiv.org/abs/1901.05103}{1901.05103}, 2019. \hypertarget{[PFS19]}{}\\
+{[\textbf{TSS20}]}      & Matthew Tancik, Pratul P. Srinivasan, Ben Mildenhall, Sara Fridovich-Keil, Nithin Raghavan, Utkarsh Singhal, Ravi Ramamoorthi, Jonathan T. Barron, Ren Ng. \textit{Fourier Features Let Networks Learn High Frequency Functions in Low Dimensional Domains}. arXiv: \href{https://arxiv.org/abs/2006.10739}{2006.10739}, 2020. \hypertarget{[TSS20]}{}\\
+{[\textbf{MST20}]}      & Ben Mildenhall, Pratul P. Srinivasan, Matthew Tancik, Jonathan T. Barron, Ravi Ramamoorthi, Ren Ng. \textit{NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis}. arXiv: \href{https://arxiv.org/abs/2003.08934}{2003.08934}, 2020. \hypertarget{[MST20]}{}\\
+{[\textbf{KB14}]}       & Diederik P. Kingma, Jimmy Ba. \textit{Adam: A Method for Stochastic Optimization}. arXiv: \href{https://arxiv.org/abs/1412.6980}{1412.6980}, 2014. \hypertarget{[KB14]}{}\\
 \end{tabular}
 
 

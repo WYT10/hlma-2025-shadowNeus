@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  30 AUG 2025 03:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.23)  30 AUG 2025 14:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -902,35 +902,41 @@ Package pdftex.def Info: sdf_vec.png  used on input line 521.
 [9]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 609.
+(hyperref)                removing `math shift' on input line 714.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\to' on input line 609.
+(hyperref)                removing `\to' on input line 714.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 609.
+(hyperref)                removing `math shift' on input line 714.
 
 
 
 [10]
+<shadowneus_rays.png, id=278, 1480.78218pt x 612.78937pt>
+File: shadowneus_rays.png Graphic file (type png)
+<use shadowneus_rays.png>
+Package pdftex.def Info: shadowneus_rays.png  used on input line 746.
+(pdftex.def)             Requested size: 337.31134pt x 139.58278pt.
 
-[11]
+
+[11 <./shadowneus_rays.png>]
 
 [12]
-
-[13]
-Underfull \hbox (badness 10000) in paragraph at lines 757--758
+Underfull \hbox (badness 10000) in paragraph at lines 863--864
 []\T1/ptm/m/n/12 (+20) S. Savarese, H. Rush-meier, F. Bernar-dini, P. Per-ona. \T1/ptm/m/it/12 (+20) Shadow Carv-ing
  []
 
 
-Overfull \hbox (23.99998pt too wide) in paragraph at lines 749--761
+Overfull \hbox (23.99998pt too wide) in paragraph at lines 855--870
 [] 
  []
 
 
+
+[13]
 
 [14] (./hlma_edit_v2.aux)
  ***********
@@ -938,30 +944,21 @@ LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
  ***********
 Package rerunfilecheck Info: File `hlma_edit_v2.out' has not changed.
-(rerunfilecheck)             Checksum: 2E7FA6FD770EDC1EEEB1F7329CEFB7F9;5641.
+(rerunfilecheck)             Checksum: A5F3D80322FA3E15DAD32EA6075D362C;5656.
  ) 
 Here is how much of TeX's memory you used:
- 27656 strings out of 473207
- 526759 string characters out of 5720461
- 976608 words of memory out of 5000000
- 49962 multiletter control sequences out of 15000+600000
- 647214 words of font info for 356 fonts, out of 8000000 for 9000
+ 27659 strings out of 473207
+ 526902 string characters out of 5720461
+ 976612 words of memory out of 5000000
+ 49969 multiletter control sequences out of 15000+600000
+ 647407 words of font info for 356 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,14n,87p,1073b,880s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{[KB14]} has been referenced but does not exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{[MST20]} has been referenced but does not exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{[TSS20]} has been referenced but does not exist, replaced by a fixed one
-
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on hlma_edit_v2.pdf (15 pages, 477068 bytes).
+Output written on hlma_edit_v2.pdf (15 pages, 1044764 bytes).
 PDF statistics:
- 391 PDF objects out of 1000 (max. 8388607)
- 321 compressed objects within 4 object streams
- 88 named destinations out of 1000 (max. 500000)
- 97611 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 392 PDF objects out of 1000 (max. 8388607)
+ 320 compressed objects within 4 object streams
+ 84 named destinations out of 1000 (max. 500000)
+ 97616 words of extra memory for PDF output out of 106986 (max. 10000000)
 
